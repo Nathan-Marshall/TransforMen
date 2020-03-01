@@ -1,0 +1,9 @@
+*.meta
+/TransforMen Unity Project/.vs
+/TransforMen Unity Project/Library
+/TransforMen Unity Project/Logs
+/TransforMen Unity Project/obj
+/TransforMen Unity Project/UIElementsSchema
+/TransforMen Unity Project/Assembly-CSharp.csproj
+/TransforMen Unity Project/TransforMen Unity Project.sln
+/TransforMen Unity Project/TransforMen.sln
