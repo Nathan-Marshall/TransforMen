@@ -124,8 +124,7 @@ public class IsoCameraControl : MonoBehaviour
         Zoom = 1;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnGUI()
     {
         // Handle translations
         if (Input.GetMouseButtonDown(2)) {
@@ -144,6 +143,10 @@ public class IsoCameraControl : MonoBehaviour
             CamPos = middleClickCamPos + new Vector3(projectedDiff.x, 0, projectedDiff.y); // change depending on orientation
         } else {
             // Not dragging
+
+            if (Input.GetKeyDown(KeyCode.R) && Event.current.type == EventType.KeyDown && Event.current.modifiers == EventModifiers.Control) {
+                CamRY += Mathf.PI * 0.5f;
+            }
 
             if (Input.mousePosition.x < ScreenEdgeThreshold || Input.GetKey(KeyCode.LeftArrow)) {
                 cam.transform.position += MoveSpeed / Zoom * Time.deltaTime * Left;
