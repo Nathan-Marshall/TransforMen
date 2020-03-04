@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitMovement : MonoBehaviour
+public class UnitController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,7 +17,7 @@ public class UnitMovement : MonoBehaviour
         List<GameObject> selectedUnits;
         UnitSelect selectScript = GameObject.Find("Game Control").GetComponent<UnitSelect>();
         selectedUnits = selectScript.selectedUnits;
-        
+
         if (Input.GetMouseButtonDown(1) && selectedUnits.Count > 0)
         {
             Vector3 worldPos = new Vector3(-99999, -99999, -99999);
@@ -29,21 +29,31 @@ public class UnitMovement : MonoBehaviour
 
             RaycastHit hit;
 
-            if (selectionPlaneCollider.Raycast(ray, out hit, 1000.0f))
+            string collidedWithName = "none";
+
+            if (Physics.Raycast(ray, out hit))
             {
-                worldPos = hit.point;
+                collidedWithName = hit.collider.name;
             }
 
-            if (worldPos.x != -99999)
+            if (collidedWithName == "Selection Plane")
             {
-                // Set the destination for the selected units
-                foreach (GameObject unit in selectedUnits)
+                worldPos = hit.point;
+
+                if (worldPos.x != -99999)
                 {
-                    unit.GetComponent<IndividualMovement>().moving = true;
-                    unit.GetComponent<IndividualMovement>().destination = worldPos;
+                    // Set the destination for the selected units
+                    foreach (GameObject unit in selectedUnits)
+                    {
+                        unit.GetComponent<IndividualMovement>().moving = true;
+                        unit.GetComponent<IndividualMovement>().destination = worldPos;
+                    }
                 }
+            }
+            else if (collidedWithName == "Ruin")
+            {
+
             }
         }
     }
-    
 }

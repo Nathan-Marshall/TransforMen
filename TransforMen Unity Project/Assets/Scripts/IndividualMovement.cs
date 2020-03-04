@@ -6,7 +6,7 @@ public class IndividualMovement : MonoBehaviour
 {
     public Vector3 destination;
     public bool moving;
-
+    
     private float speed = 40.0f;
 
     // Start is called before the first frame update
