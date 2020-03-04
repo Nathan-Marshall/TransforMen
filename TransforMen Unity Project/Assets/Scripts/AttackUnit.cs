@@ -10,9 +10,9 @@ public class AttackUnit : DynamicUnit
 {
     //Collaborators: Dynamic Unit, Attack Target, Weapon 
 
-    Weapon weapon; //the weapon this attacker has 
-    bool canAttack; //whether or not the unit can attack 
-    AttackTarget target = null; //the current target to attack 
+    protected Weapon weapon; //the weapon this attacker has 
+    protected bool canAttack; //whether or not the unit can attack 
+    protected AttackTarget target = null; //the current target to attack 
 
     // Start is called before the first frame update
     void Start()

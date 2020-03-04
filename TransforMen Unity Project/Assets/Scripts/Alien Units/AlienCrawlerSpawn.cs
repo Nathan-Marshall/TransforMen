@@ -18,7 +18,7 @@ public class AlienCrawlerSpawn : AttackUnit
     void Start()
     {
         SetToAlienTeam();
-        SetSelectable(false); //this is a maybe? 
+        SetSelectable(false);
         SetDescription(desc);
         SetTransportable(true);
         SetMoveSpeed(5);

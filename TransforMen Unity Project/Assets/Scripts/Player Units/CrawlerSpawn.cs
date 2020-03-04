@@ -8,7 +8,7 @@ using UnityEngine;
 //    can attack and be attacked 
 //-------------------------------------------------------------
 
-public class CrawlerSpawn : MonoBehaviour
+public class CrawlerSpawn : AttackUnit
 {
     //Collaborators: Unit, Dynamic Unit, Attack Target, Attacker, Crawler Host 
 
@@ -18,7 +18,8 @@ public class CrawlerSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetToPlayerTeam();
+        SetSelectable(false);
     }
 
     // Update is called once per frame

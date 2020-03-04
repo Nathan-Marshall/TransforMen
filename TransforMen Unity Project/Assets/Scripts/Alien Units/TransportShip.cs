@@ -16,7 +16,8 @@ public class TransportShip : Vehicle
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetToAlienTeam();
+        SetSelectable(false);
     }
 
     // Update is called once per frame

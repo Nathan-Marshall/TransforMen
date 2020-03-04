@@ -18,6 +18,7 @@ public class AlienMothership : StaticUnit
     void Start()
     {
         SetToAlienTeam();
+        SetSelectable(false);
     }
 
     // Update is called once per frame

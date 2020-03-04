@@ -12,6 +12,7 @@ public class HumanInfantry : AttackUnit
     private string desc = "A basic person fighting for their planet";
 
     //Collaborators: Dynamic Unit, Attack Target, Attack Unit 
+    //COST: 5 scrap 
 
     // Start is called before the first frame update
     void Start()
@@ -32,5 +33,13 @@ public class HumanInfantry : AttackUnit
     void Update()
     {
         
+    }
+
+    public void Scavenge()
+    {
+        if (canScavenge) //check, since upgraded units (spike dudes and crawlers) lose the ability to scavenge 
+        {
+
+        }
     }
 }

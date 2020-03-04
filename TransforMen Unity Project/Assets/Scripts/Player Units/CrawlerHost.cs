@@ -12,6 +12,7 @@ public class CrawlerHost : HumanInfantry
 {
     private string desc = "A genetically upgraded person fighting for their planet";
     //Collaborators: Dynamic Unit, Attack Target, Attack Unit, Crawler Spawn 
+    //COST: 1
 
     //On-death action
     bool upgradeable; //whether or not current can be upgraded
