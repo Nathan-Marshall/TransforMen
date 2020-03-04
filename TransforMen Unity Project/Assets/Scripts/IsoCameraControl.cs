@@ -45,11 +45,10 @@ public class IsoCameraControl : MonoBehaviour
         set { cam.orthographicSize = value * 0.5f; }
     }
 
-    // Note: zoom level is 1 when the camera width is equal to the X dimension of the map. This means it will not
-    // necessarily be 1 when the camera is facing East or West and its width is equal to the Y dimension.
+    // Note: zoom level is 1 when the camera fits the entire width or height of the map, whichever dimension is smaller
     float Zoom {
-        get { return MapSize.x / CamW; }
-        set { CamW = MapSize.x / value; }
+        get { return Mathf.Min(MapSize.x / CamW, MapSize.y / ProjectedHeight); } // change depending on orientation
+        set { CamH = Mathf.Min(MapSize.x / cam.aspect, MapSize.y * Mathf.Sin(CamRX)) / value; } // change depending on orientation
     }
 
     Vector2 ProjectedCenter {
@@ -62,45 +61,25 @@ public class IsoCameraControl : MonoBehaviour
             CamPos = new Vector3(value.x, CamPos.y, value.y - cDist); // change depending on orientation
         }
     }
+    float ProjectedHeight {
+        get { return CamH / Mathf.Sin(CamRX); }
+        set { CamH = value * Mathf.Sin(CamRX); }
+    }
     float ProjectedLeft {
-        get {
-            float hAdjust = CamW * 0.5f;
-            return ProjectedCenter.x - hAdjust; // change depending on orientation
-        }
-        set {
-            float hAdjust = CamW * 0.5f;
-            ProjectedCenter = new Vector2(value + hAdjust, ProjectedCenter.y); // change depending on orientation
-        }
+        get { return ProjectedCenter.x - CamW * 0.5f; } // change depending on orientation
+        set { ProjectedCenter = new Vector2(value + CamW * 0.5f, ProjectedCenter.y); } // change depending on orientation
     }
     float ProjectedRight {
-        get {
-            float hAdjust = CamW * 0.5f;
-            return ProjectedCenter.x + hAdjust; // change depending on orientation
-        }
-        set {
-            float hAdjust = CamW * 0.5f;
-            ProjectedCenter = new Vector2(value - hAdjust, ProjectedCenter.y); // change depending on orientation
-        }
+        get {  return ProjectedCenter.x + CamW * 0.5f; } // change depending on orientation
+        set { ProjectedCenter = new Vector2(value - CamW * 0.5f, ProjectedCenter.y); } // change depending on orientation
     }
     float ProjectedBottom {
-        get {
-            float vAdjust = CamH * 0.5f / Mathf.Sin(CamRX);
-            return ProjectedCenter.y - vAdjust; // change depending on orientation
-        }
-        set {
-            float vAdjust = CamH * 0.5f / Mathf.Sin(CamRX);
-            ProjectedCenter = new Vector2(ProjectedCenter.x, value + vAdjust); // change depending on orientation
-        }
+        get { return ProjectedCenter.y - ProjectedHeight * 0.5f; } // change depending on orientation
+        set { ProjectedCenter = new Vector2(ProjectedCenter.x, value + ProjectedHeight * 0.5f); } // change depending on orientation
     }
     float ProjectedTop {
-        get {
-            float vAdjust = CamH * 0.5f / Mathf.Sin(CamRX);
-            return ProjectedCenter.y + vAdjust; // change depending on orientation
-        }
-        set {
-            float vAdjust = CamH * 0.5f / Mathf.Sin(CamRX);
-            ProjectedCenter = new Vector2(ProjectedCenter.x, value - vAdjust); // change depending on orientation
-        }
+        get { return ProjectedCenter.y + ProjectedHeight * 0.5f; } // change depending on orientation
+        set { ProjectedCenter = new Vector2(ProjectedCenter.x, value - ProjectedHeight * 0.5f); } // change depending on orientation
     }
 
     Vector2 ProjectedMouse {
@@ -176,14 +155,9 @@ public class IsoCameraControl : MonoBehaviour
             ProjectedCenter += fromCenter * (1 - oldZoom / Zoom);
 
             // Max zoom (adjust center to check new bounds, then adjust back if needed)
-            if (ProjectedRight - ProjectedLeft > MapSize.x) { // change depending on orientation
+            if (CamW > MapSize.x || ProjectedHeight > MapSize.y) { // change depending on orientation
                 ProjectedCenter -= fromCenter * (1 - oldZoom / Zoom);
-                Zoom = 1; // change depending on orientation
-                ProjectedCenter += fromCenter * (1 - oldZoom / Zoom);
-            }
-            if (ProjectedTop - ProjectedBottom > MapSize.y) {
-                ProjectedCenter -= fromCenter * (1 - oldZoom / Zoom);
-                Zoom = MapSize.x / MapSize.y * Mathf.Sin(CamRX); // change depending on orientation
+                Zoom = 1;
                 ProjectedCenter += fromCenter * (1 - oldZoom / Zoom);
             }
         }
