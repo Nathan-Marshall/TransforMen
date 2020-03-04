@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UnitSelect : MonoBehaviour
 {
+    public List<GameObject> selectedUnits;
+
     private Vector3 startPoint;
     private bool selecting = false;
     private Pivot currentPivot;
@@ -93,7 +95,7 @@ public class UnitSelect : MonoBehaviour
         }
 
         GameObject[] units;
-        List<GameObject> selectedUnits = new List<GameObject>();
+        List<GameObject> tempSelectedUnits = new List<GameObject>();
         
         units = GameObject.FindGameObjectsWithTag("Ally");
 
@@ -114,12 +116,14 @@ public class UnitSelect : MonoBehaviour
 
             if (in_x && in_z)
             {
-                selectedUnits.Add(unit);
+                tempSelectedUnits.Add(unit);
             }
             
             in_x = false;
             in_z = false;
         }
+
+        selectedUnits = tempSelectedUnits;
     }
 
     // Check to see if the player is currently selecting
