@@ -8,13 +8,13 @@ using UnityEngine;
 //    be influenced by enemies FOR NOW (subject to change) 
 //-------------------------------------------------------------
 
-public class RuinsUnit : StaticUnit
+public class Ruin : StaticUnit
 {
     //Collaborators: Human Infantry 
 
     private string desc = "A ruined city. Can be scavanged by human infantry in search for scrap and survivors";
 
-    List<Resource> resources; 
+    List<Resource> resources = new List<Resource>(); 
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +28,8 @@ public class RuinsUnit : StaticUnit
         // currently set statically for 1st prototype. 
         resources.Add(new PopulationResource());
         resources.Add(new ScrapResource());
+
+        GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.RUIN);
     }
 
     // Update is called once per frame
