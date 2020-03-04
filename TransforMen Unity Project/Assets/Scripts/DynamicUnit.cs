@@ -10,10 +10,10 @@ public class DynamicUnit : Unit
 {
     //Collaborators: Unit, Static Unit, Dynamic Unit (others), Attack Targets 
 
-    bool transportable; //whether or not the unit can be transported via vehicle 
-    float moveSpeed; //how quickly the unit travels 
-    bool canScavenge; //whether or not the unit can scavenge
-    bool controllable; //whether or not the unit can be directly controlled 
+    protected bool transportable; //whether or not the unit can be transported via vehicle 
+    protected float moveSpeed; //how quickly the unit travels 
+    protected bool canScavenge; //whether or not the unit can scavenge
+    protected bool controllable; //whether or not the unit can be directly controlled 
 
     // Start is called before the first frame update
     void Start()

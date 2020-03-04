@@ -12,6 +12,7 @@ public class SpikeDude : HumanInfantry
 {
     private string desc = "A genetically upgraded human who attacks with spikes";
     //Collaborators: Dynamic Unit, Attack Target, Attacker, Human Infantry(?)
+    //COST: 1 spike
 
     //On-hit action (dmg attacker)
     bool upgradeable; //whether or not current can be upgraded

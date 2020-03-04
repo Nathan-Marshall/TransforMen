@@ -10,11 +10,15 @@ using UnityEngine;
 public class TransportTruck : Vehicle
 {
     //Collaborators: Dynamic Unit, Attack Target, Vehicle 
+    private string desc = "Truck for transporting resistance soldiers ";
+    //CURRENT COST: 5 scrap
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetToPlayerTeam();
+        SetSelectable(true);
+        SetDescription(desc);
     }
 
     // Update is called once per frame

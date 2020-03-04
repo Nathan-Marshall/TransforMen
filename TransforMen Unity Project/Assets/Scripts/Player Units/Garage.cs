@@ -10,6 +10,8 @@ using UnityEngine;
 public class Garage : StaticUnit
 {
     //Collaborators: Static Unit, Attack Target 
+    private string desc = "Garage where trucks are built";
+    //COST: 5 scrap 
 
     //Can create trucks
     //Consumes resources 
@@ -17,7 +19,9 @@ public class Garage : StaticUnit
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetToPlayerTeam();
+        SetSelectable(true);
+        SetDescription(desc);
     }
 
     // Update is called once per frame
