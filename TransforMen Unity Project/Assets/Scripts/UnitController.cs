@@ -6,8 +6,8 @@ public class UnitController : MonoBehaviour
 {
     public enum TargetType
     {
-        RUIN,
-        INFANTRY
+        Ruin,
+        Ally
     }
 
     // Start is called before the first frame update
@@ -42,7 +42,7 @@ public class UnitController : MonoBehaviour
                 collidedWithName = hit.collider.name;
             }
 
-            if (collidedWithName != "none")
+            if (collidedWithName != "none" && collidedWithName != "Terrain")
             {
                 if (collidedWithName == "Selection Plane")
                 {
