@@ -37,90 +37,33 @@ public class UnitSelect : MonoBehaviour
 
     void selectUnits(Vector3 p1, Vector3 p2)
     {
-        Vector3 worldP1 = new Vector3(-99999, -99999, -99999);
-        Vector3 worldP2 = new Vector3(-99999, -99999, -99999);
-
         GameObject selectionPlane = GameObject.Find("Selection Plane");
         Collider selectionPlaneCollider = selectionPlane.GetComponent<MeshCollider>();
 
         Ray p1Ray = Camera.main.ScreenPointToRay(p1);
         Ray p2Ray = Camera.main.ScreenPointToRay(p2);
 
-        RaycastHit p1Hit, p2Hit;
-
-        if (selectionPlaneCollider.Raycast(p1Ray, out p1Hit, 1000.0f))
-        {
-            worldP1 = p1Hit.point;
-        }
-
-        if (selectionPlaneCollider.Raycast(p2Ray, out p2Hit, 1000.0f))
-        {
-            worldP2 = p2Hit.point;
-        }
-
-        Vector3 leftPoint = new Vector3(-99999, -99999, -99999);
-        Vector3 rightPoint = new Vector3(-99999, -99999, -99999);
-        Vector3 topPoint = new Vector3(-99999, -99999, -99999);
-        Vector3 bottomPoint = new Vector3(-99999, -99999, -99999);
-
-        GameObject sphere1 = GameObject.Find("Sphere1");
-        GameObject sphere2 = GameObject.Find("Sphere2");
-        GameObject sphere3 = GameObject.Find("Sphere3");
-        GameObject sphere4 = GameObject.Find("Sphere4");
-
-        
-        if (worldP1.x != 99999 && worldP2.x != 99999)
-        {
-            if (p1.x > p2.x)
-            {
-                rightPoint = worldP1;
-                leftPoint = worldP2;
-            }
-            else
-            {
-                rightPoint = worldP2;
-                leftPoint = worldP1;
-            }
-
-            if (p1.y > p2.y)
-            {
-                topPoint = worldP1;
-                bottomPoint = worldP2;
-            }
-            else
-            {
-                topPoint = worldP2;
-                bottomPoint = worldP1;
-            }
-        }
+        selectionPlaneCollider.Raycast(p1Ray, out RaycastHit p1Hit, 1000.0f);
+        selectionPlaneCollider.Raycast(p2Ray, out RaycastHit p2Hit, 1000.0f);
 
         GameObject[] units;
         List<GameObject> tempSelectedUnits = new List<GameObject>();
         
         units = GameObject.FindGameObjectsWithTag("Ally");
 
-        bool in_x = false;
-        bool in_z = false;
-        
-        foreach (GameObject unit in units)
-        {
-            if (unit.transform.position.x < rightPoint.x && unit.transform.position.x > leftPoint.x)
-            {
-                in_x = true;
-            }
+        // If both hits exist
+        if (p1Hit.transform && p2Hit.transform) {
+            float left = Mathf.Min(p1Hit.point.x, p2Hit.point.x);
+            float right = Mathf.Max(p1Hit.point.x, p2Hit.point.x);
+            float bottom = Mathf.Min(p1Hit.point.z, p2Hit.point.z);
+            float top = Mathf.Max(p1Hit.point.z, p2Hit.point.z);
 
-            if (unit.transform.position.z < topPoint.z && unit.transform.position.z > bottomPoint.z)
-            {
-                in_z = true;
+            foreach (GameObject unit in units) {
+                Vector3 pos = unit.transform.position;
+                if (pos.x > left && pos.x < right && pos.z > bottom && pos.z < top) {
+                    tempSelectedUnits.Add(unit);
+                }
             }
-
-            if (in_x && in_z)
-            {
-                tempSelectedUnits.Add(unit);
-            }
-            
-            in_x = false;
-            in_z = false;
         }
 
         selectedUnits = tempSelectedUnits;
