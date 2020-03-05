@@ -25,7 +25,7 @@ public class TransformBehaviour : BaseBehaviour
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
 
         //REQUIREMENTS FOR AN UPGRADE ARE DIFFERENT THAN THIS, THIS IS FOR TESTING
-        if (resourceControl.GetScrapResource().GetQuantity() >= 5)
+        if (resourceControl.GetScrapResource() >= 5)
         {
 
             //Here we need to check which type we are and what we want to upgrade to
