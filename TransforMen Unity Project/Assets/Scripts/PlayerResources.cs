@@ -7,7 +7,7 @@ using UnityEngine;
 //    currently has 
 //-------------------------------------------------------------
 
-public class PlayerResources
+public class PlayerResources : MonoBehaviour
 {
     CrawlbitResource crawlbits;
     PopulationResource population;
@@ -17,7 +17,11 @@ public class PlayerResources
     // Start is called before the first frame update
     void Start()
     {
-        
+        crawlbits = new CrawlbitResource(0);
+        population = new PopulationResource(0);
+        scrap = new ScrapResource(0);
+        spikes = new SpikeResource(0);
+
     }
 
     // Update is called once per frame
@@ -35,6 +39,10 @@ public class PlayerResources
     {
         crawlbits.LoseResource(toLose);
     }
+    public CrawlbitResource GetCrawlbitResource()
+    {
+        return crawlbits;
+    }
 
     //Population
     public void AddPopulation(PopulationResource toAdd)
@@ -44,6 +52,10 @@ public class PlayerResources
     public void LosePopulation(int toLose)
     {
         population.LoseResource(toLose);
+    }
+    public PopulationResource GetPopulationResource()
+    {
+        return population;
     }
 
     //Scrap
@@ -55,6 +67,10 @@ public class PlayerResources
     {
         scrap.LoseResource(toLose);
     }
+    public ScrapResource GetScrapResource()
+    {
+        return scrap;
+    }
 
     //Spikes 
     public void AddSpikes(SpikeResource toAdd)
@@ -64,6 +80,10 @@ public class PlayerResources
     public void LoseSpikes(int toLose)
     {
         spikes.AddResource(toLose);
+    }
+    public SpikeResource GetSpikeResource()
+    {
+        return spikes;
     }
 
 }

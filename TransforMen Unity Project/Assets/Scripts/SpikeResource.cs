@@ -11,13 +11,18 @@ public class SpikeResource : Resource
 {
     private string desc = "Dropped by spike alien";
 
-    // Start is called before the first frame update
-    void Start()
+    public SpikeResource(int quantity)
     {
         SetResourceSpike();
         //TO BE UPDATED FOR FUTURE PROTOTYPE: quantity of resource should be dynamically determined 
-        SetQuantity(5);
+        SetQuantity(quantity);
         SetCanBeHarvested(false);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame

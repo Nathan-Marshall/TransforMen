@@ -11,13 +11,18 @@ public class CrawlbitResource : Resource
 {
     private string desc = "Dropped by alien crawler";
 
-    // Start is called before the first frame update
-    void Start()
+    public CrawlbitResource(int quantity)
     {
         SetResourceCrawlbit();
         //TO BE UPDATED FOR FUTURE PROTOTYPE: quantity of resource should be dynamically determined 
-        SetQuantity(5);
-        SetCanBeHarvested(false); 
+        SetQuantity(quantity);
+        SetCanBeHarvested(false);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+       
     }
 
     // Update is called once per frame

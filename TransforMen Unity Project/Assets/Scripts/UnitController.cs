@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
+    public enum TargetType
+    {
+        Ruin,
+        Ally
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,23 +42,40 @@ public class UnitController : MonoBehaviour
                 collidedWithName = hit.collider.name;
             }
 
-            if (collidedWithName == "Selection Plane")
+            if (collidedWithName != "none" && collidedWithName != "Terrain")
             {
-                worldPos = hit.point;
-
-                if (worldPos.x != -99999)
+                if (collidedWithName == "Selection Plane")
                 {
-                    // Set the destination for the selected units
-                    foreach (GameObject unit in selectedUnits)
+                    worldPos = hit.point;
+
+                    if (worldPos.x != -99999)
                     {
-                        unit.GetComponent<IndividualMovement>().moving = true;
-                        unit.GetComponent<IndividualMovement>().destination = worldPos;
+                        // Set the destination for the selected units
+                        foreach (GameObject unit in selectedUnits)
+                        {
+                            unit.GetComponent<IndividualMovement>().moving = true;
+                            unit.GetComponent<IndividualMovement>().destination = worldPos;
+                        }
                     }
                 }
-            }
-            else if (collidedWithName == "Ruin")
-            {
+                else
+                {
+                    foreach (GameObject unit in selectedUnits)
+                    {
+                        Dictionary<TargetType, System.Type> behaviourMap = unit.GetComponent<BehaviourMap>().behaviourMap;
+                        List<TargetType> targetTypes = hit.collider.gameObject.GetComponent<BehaviourMap>().targetTypes;
 
+                        foreach (TargetType type in targetTypes)
+                        {
+                            if (behaviourMap.ContainsKey(type))
+                            {
+                                BaseBehaviour behaviourComponent = (BaseBehaviour)unit.GetComponent(behaviourMap[type]);
+
+                                behaviourComponent.PerformAction(unit, hit.collider.gameObject);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
