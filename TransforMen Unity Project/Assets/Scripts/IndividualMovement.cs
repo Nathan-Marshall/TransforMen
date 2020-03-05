@@ -28,13 +28,16 @@ public class IndividualMovement : MonoBehaviour
 
             unitRB.MovePosition(transform.position + dir * speed * Time.deltaTime);
 
-            print((transform.position - destination).magnitude);
-
-            if ((GetComponent<Collider>().ClosestPointOnBounds(destination) - destination).magnitude < 1)
+            if ((GetComponent<Collider>().ClosestPointOnBounds(destination) - destination).magnitude == 0)
             {
                 destination = transform.position;
                 moving = false;
-                actionOnArrival();
+
+                if (actionOnArrival != null)
+                {
+                    actionOnArrival();
+                    actionOnArrival = null;
+                }
             }
         }
     }
