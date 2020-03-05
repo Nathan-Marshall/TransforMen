@@ -34,12 +34,4 @@ public class HumanInfantry : AttackUnit
     {
         
     }
-
-    public void Scavenge()
-    {
-        if (canScavenge) //check, since upgraded units (spike dudes and crawlers) lose the ability to scavenge 
-        {
-
-        }
-    }
 }
