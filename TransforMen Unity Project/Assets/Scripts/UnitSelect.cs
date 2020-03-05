@@ -31,6 +31,7 @@ public class UnitSelect : MonoBehaviour
         
         if (selecting)
         {
+            selectUnits(startPoint, Input.mousePosition);
             setSelectionPanel();
         }
     }

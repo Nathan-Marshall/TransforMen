@@ -15,6 +15,8 @@ public class DynamicUnit : Unit
     protected bool canScavenge; //whether or not the unit can scavenge
     protected bool controllable; //whether or not the unit can be directly controlled 
 
+    public bool isSelected = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +26,15 @@ public class DynamicUnit : Unit
     // Update is called once per frame
     void Update()
     {
-        
+        print("Here");
+        if (GameObject.Find("Game Control").GetComponent<UnitSelect>().selectedUnits.Contains(gameObject))
+        {
+            gameObject.transform.Find("SelProjector").GetComponent<Projector>().enabled = true;
+        }
+        else
+        {
+            gameObject.transform.Find("SelProjector").GetComponent<Projector>().enabled = false;
+        }
     }
 
     //Get & Set Transportable

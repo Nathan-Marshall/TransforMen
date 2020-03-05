@@ -673,6 +673,7 @@
     <Compile Include="Assets\Scripts\Player Units\TransportTruck.cs" />
     <Compile Include="Assets\Scripts\PlayerResources.cs" />
     <Compile Include="Assets\Scripts\Projectile.cs" />
+    <Compile Include="Assets\Scripts\ResourcePanel.cs" />
     <Compile Include="Assets\Scripts\SpikeShooter.cs" />
     <Compile Include="Assets\Scripts\Static Unit Scripts\Ruin.cs" />
     <Compile Include="Assets\Scripts\Static Unit Scripts\TransformStation.cs" />
@@ -684,6 +685,9 @@
     <Compile Include="Assets\Scripts\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Standard Assets\Effects\Projectors\Guidelines.txt" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorLight.shader" />
+    <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
