@@ -23,11 +23,10 @@ public class ScavengeBehaviour : BaseBehaviour
     {
         GameObject controller = GameObject.Find("Game Control");
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
-        
         Ruin ruin = target.GetComponent<Ruin>();
 
-        PopulationResource pop = ruin.GetPopulation();
-        ScrapResource scrap = ruin.GetScrap();
+        int pop = ruin.GetPopulation();
+        int scrap = ruin.GetScrap();
 
         resourceControl.AddPopulation(pop);
         resourceControl.AddScrap(scrap);

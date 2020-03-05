@@ -9,18 +9,23 @@ using UnityEngine;
 
 public class PlayerResources : MonoBehaviour
 {
-    CrawlbitResource crawlbits;
-    PopulationResource population;
-    ScrapResource scrap;
-    SpikeResource spikes; 
+    //private string desc = "Scrap metal that can be used for many purposes";
+    //private string desc = "Dropped by spike alien";
+    //private string desc = "Human survivors";
+    //private string desc = "Dropped by alien crawler";
+
+    int crawlbits;
+    int population;
+    int scrap;
+    int spikes;
 
     // Start is called before the first frame update
     void Start()
     {
-        crawlbits = new CrawlbitResource(0);
-        population = new PopulationResource(0);
-        scrap = new ScrapResource(0);
-        spikes = new SpikeResource(0);
+        crawlbits = 0;
+        population = 5;
+        scrap = 25;
+        spikes = 0;
 
     }
 
@@ -31,59 +36,104 @@ public class PlayerResources : MonoBehaviour
     }
 
     //Crawlbits
-    public void AddCrawlbits(CrawlbitResource toAdd)
-    {
-        crawlbits.AddResource(toAdd.GetQuantity());
+    public void AddCrawlbits(int toAdd) {
+        if (toAdd >= 0) {
+            crawlbits += toAdd;
+        } else {
+            Debug.LogError("Failed to add "+toAdd+" crawlbits.");
+        }
     }
-    public void LoseCrawlbits(int toLose)
-    {
-        crawlbits.LoseResource(toLose);
+    public bool SpendCrawlbits(int cost) {
+        if (cost >= 0) {
+            if (crawlbits < cost) {
+                return false;
+            } else {
+                crawlbits -= cost;
+                return true;
+            }
+        } else {
+            Debug.LogError("Failed to spend " + cost + " crawlbits.");
+            return false;
+        }
     }
-    public CrawlbitResource GetCrawlbitResource()
-    {
-        return crawlbits;
-    }
+    public int GetCrawlbitResource() { return crawlbits; }
 
     //Population
-    public void AddPopulation(PopulationResource toAdd)
-    {
-        population.AddResource(toAdd.GetQuantity());
+    public void AddPopulation(int toAdd) {
+        if (toAdd >= 0) {
+            population += toAdd;
+        }
+        else {
+            Debug.LogError("Failed to add " + toAdd + " population.");
+        }
     }
-    public void LosePopulation(int toLose)
-    {
-        population.LoseResource(toLose);
+    public bool SpendPopulation(int cost) {
+        if (cost >= 0) {
+            if (population < cost) {
+                return false;
+            }
+            else {
+                population -= cost;
+                return true;
+            }
+        }
+        else {
+            Debug.LogError("Failed to spend " + cost + " population.");
+            return false;
+        }
     }
-    public PopulationResource GetPopulationResource()
-    {
-        return population;
-    }
+    public int GetPopulationResource() { return population; }
 
     //Scrap
-    public void AddScrap(ScrapResource toAdd)
-    {
-        scrap.AddResource(toAdd.GetQuantity());
+    public void AddScrap(int toAdd) {
+        if (toAdd >= 0) {
+            scrap += toAdd;
+        }
+        else {
+            Debug.LogError("Failed to add " + toAdd + " scrap.");
+        }
     }
-    public void LoseScrap(int toLose)
-    {
-        scrap.LoseResource(toLose);
+    public bool SpendScrap(int cost) {
+        if (cost >= 0) {
+            if (scrap < cost) {
+                return false;
+            }
+            else {
+                scrap -= cost;
+                return true;
+            }
+        }
+        else {
+            Debug.LogError("Failed to spend " + cost + " scrap.");
+            return false;
+        }
     }
-    public ScrapResource GetScrapResource()
-    {
-        return scrap;
-    }
+    public int GetScrapResource() { return scrap; }
 
     //Spikes 
-    public void AddSpikes(SpikeResource toAdd)
-    {
-        spikes.AddResource(toAdd.GetQuantity());
+    public void AddSpikes(int toAdd) {
+        if (toAdd >= 0) {
+            spikes += toAdd;
+        }
+        else {
+            Debug.LogError("Failed to add " + toAdd + " spikes.");
+        }
     }
-    public void LoseSpikes(int toLose)
-    {
-        spikes.AddResource(toLose);
+    public bool SpendSpikes(int cost) {
+        if (spikes >= 0) {
+            if (spikes < cost) {
+                return false;
+            }
+            else {
+                spikes -= cost;
+                return true;
+            }
+        }
+        else {
+            Debug.LogError("Failed to spend " + cost + " spikes.");
+            return false;
+        }
     }
-    public SpikeResource GetSpikeResource()
-    {
-        return spikes;
-    }
+    public int GetSpikeResource() { return spikes; }
 
 }
