@@ -12,13 +12,17 @@ public class PopulationResource : Resource
 {
     private string desc = "Human survivors";
 
+    public PopulationResource(int quantity)
+    {
+        SetResourcePopulation();
+        SetQuantity(quantity);
+        SetCanBeHarvested(true);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        SetResourcePopulation();
-        //TO BE UPDATED FOR FUTURE PROTOTYPE: quantity of resource should be dynamically determined 
-        SetQuantity(5);
-        SetCanBeHarvested(true);
+        
     }
 
     // Update is called once per frame
