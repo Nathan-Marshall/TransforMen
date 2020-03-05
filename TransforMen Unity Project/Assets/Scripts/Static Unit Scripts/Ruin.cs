@@ -14,8 +14,8 @@ public class Ruin : StaticUnit
 
     private string desc = "A ruined city. Can be scavanged by human infantry in search for scrap and survivors";
 
-    PopulationResource pop;
-    ScrapResource scrap;
+    int pop;
+    int scrap;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +27,8 @@ public class Ruin : StaticUnit
         //TO UPDATE IN FUTURE:
         // the survivor and scrap count should be set in a more dynamic way
         // currently set statically for 1st prototype. 
-        pop = new PopulationResource(5);
-        scrap = new ScrapResource(5);
+        pop = 5;
+        scrap = 5;
 
         GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.Ruin);
     }
@@ -39,12 +39,6 @@ public class Ruin : StaticUnit
         
     }
 
-    public PopulationResource GetPopulation()
-    {
-        return pop;
-    }
-    public ScrapResource GetScrap()
-    {
-        return scrap;
-    }
+    public int GetPopulation() { return pop; }
+    public int GetScrap() { return scrap; }
 }

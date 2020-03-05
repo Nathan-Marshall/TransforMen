@@ -26,19 +26,19 @@ public class ScavengeBehaviour : BaseBehaviour
         GameObject controller = GameObject.Find("Game Control");
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
 
-        print("Population: " + resourceControl.GetPopulationResource().GetQuantity());
-        print("Scrap: " + resourceControl.GetScrapResource().GetQuantity());
+        print("Population: " + resourceControl.GetPopulationResource());
+        print("Scrap: " + resourceControl.GetScrapResource());
 
         Ruin ruin = target.GetComponent<Ruin>();
 
-        PopulationResource pop = ruin.GetPopulation();
-        ScrapResource scrap = ruin.GetScrap();
+        int pop = ruin.GetPopulation();
+        int scrap = ruin.GetScrap();
 
         resourceControl.AddPopulation(pop);
         resourceControl.AddScrap(scrap);
 
-        print("Population: " + resourceControl.GetPopulationResource().GetQuantity());
-        print("Scrap: " + resourceControl.GetScrapResource().GetQuantity());
+        print("Population: " + resourceControl.GetPopulationResource());
+        print("Scrap: " + resourceControl.GetScrapResource());
 
         Destroy(target);
     }
