@@ -11,8 +11,6 @@ public class ScavengeBehaviour : BaseBehaviour
     {
         BehaviourMap mapping = GetComponent<BehaviourMap>();
         mapping.behaviourMap.Add(UnitController.TargetType.Ruin, GetType());
-
-        print(mapping.behaviourMap);
     }
 
     // Update is called once per frame
@@ -25,10 +23,6 @@ public class ScavengeBehaviour : BaseBehaviour
     {
         GameObject controller = GameObject.Find("Game Control");
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
-
-        print("Population: " + resourceControl.GetPopulationResource());
-        print("Scrap: " + resourceControl.GetScrapResource());
-
         Ruin ruin = target.GetComponent<Ruin>();
 
         int pop = ruin.GetPopulation();
@@ -36,9 +30,6 @@ public class ScavengeBehaviour : BaseBehaviour
 
         resourceControl.AddPopulation(pop);
         resourceControl.AddScrap(scrap);
-
-        print("Population: " + resourceControl.GetPopulationResource());
-        print("Scrap: " + resourceControl.GetScrapResource());
 
         Destroy(target);
     }
@@ -49,7 +40,7 @@ public class ScavengeBehaviour : BaseBehaviour
         unit.GetComponent<IndividualMovement>().moving = true;
 
         Collider moveCollider = target.GetComponent<Collider>();
-        Vector3 destination = moveCollider.ClosestPointOnBounds(unit.transform.position);
+        Vector3 destination = moveCollider.ClosestPoint(unit.transform.position);
         unit.GetComponent<IndividualMovement>().destination = destination;
         unit.GetComponent<IndividualMovement>().actionOnArrival = () => Scavenge(unit, target);
     }

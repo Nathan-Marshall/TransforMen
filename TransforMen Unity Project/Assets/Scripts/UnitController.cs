@@ -7,7 +7,8 @@ public class UnitController : MonoBehaviour
     public enum TargetType
     {
         Ruin,
-        Ally
+        Ally,
+        TransformStation
     }
 
     // Start is called before the first frame update
@@ -70,7 +71,7 @@ public class UnitController : MonoBehaviour
                             if (behaviourMap.ContainsKey(type))
                             {
                                 BaseBehaviour behaviourComponent = (BaseBehaviour)unit.GetComponent(behaviourMap[type]);
-
+                                
                                 behaviourComponent.PerformAction(unit, hit.collider.gameObject);
                             }
                         }
