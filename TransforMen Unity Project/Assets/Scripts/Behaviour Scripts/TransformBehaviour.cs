@@ -31,6 +31,7 @@ public class TransformBehaviour : BaseBehaviour
             //Here we need to check which type we are and what we want to upgrade to
             //For now, default to an infantry upgrading to a spike dude
             TransformStation.Upgrades upgradeToType = TransformStation.Upgrades.Spike;
+            resourceControl.SpendScrap(5);
 
             target.GetComponent<TransformStation>().Upgrade(unit, upgradeToType);
         }
