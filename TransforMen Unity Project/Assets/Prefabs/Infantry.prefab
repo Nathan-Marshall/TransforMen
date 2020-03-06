@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 7843086406924753335}
   - component: {fileID: 7843086406924753332}
   - component: {fileID: 714224723}
-  - component: {fileID: -1749779322918800047}
+  - component: {fileID: 412897704295667240}
   m_Layer: 0
   m_Name: Infantry
   m_TagString: Ally
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a82ff86d5dcab2349ad18bd4e1180450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-1749779322918800047
+--- !u!114 &412897704295667240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -242,7 +242,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7843086406924753338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f59048ad4f7e2d3419ad376d0179ac2b, type: 3}
+  m_Script: {fileID: 11500000, guid: c6fe17e0db421c0429b1d3dbc59b7673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0

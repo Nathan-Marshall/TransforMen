@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3656664217113321577
+--- !u!1 &2402843388815798581
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 352491761198502522}
-  - component: {fileID: 8772814010403924044}
-  - component: {fileID: 3063506267046270133}
-  - component: {fileID: 4728491181336766467}
-  - component: {fileID: 4728491181336766717}
-  - component: {fileID: 4728491181336766716}
+  - component: {fileID: 3414100071215445379}
+  - component: {fileID: 2675579524999700816}
+  - component: {fileID: 6630199905878478240}
   m_Layer: 0
-  m_Name: UpgradeStation
+  m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &352491761198502522
+--- !u!4 &3414100071215445379
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3656664217113321577}
-  m_LocalRotation: {x: -0.64749354, y: -0.28416917, z: -0.28416917, w: 0.64749354}
-  m_LocalPosition: {x: 80.9, y: 22.6, z: 172.08446}
-  m_LocalScale: {x: 11.792, y: 11.792, z: 5.9611297}
+  m_GameObject: {fileID: 2402843388815798581}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 40.9, y: 0, z: 8.4}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 352491761198502522}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -47.391003}
---- !u!33 &8772814010403924044
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2675579524999700816
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3656664217113321577}
-  m_Mesh: {fileID: 5690457630391089362, guid: a23998f5880b08541bb490c2cd0e0905, type: 3}
---- !u!23 &3063506267046270133
+  m_GameObject: {fileID: 2402843388815798581}
+  m_Mesh: {fileID: -2432090755550338912, guid: bb06637eb8fe8cd409c0e40c6e1c5514, type: 3}
+--- !u!23 &6630199905878478240
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3656664217113321577}
+  m_GameObject: {fileID: 2402843388815798581}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -62,8 +59,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 588ac4f96b9073d4096a278feb92f546, type: 2}
-  - {fileID: 2100000, guid: f3330fe889869f7448dbeae3798abbd4, type: 2}
-  - {fileID: 2100000, guid: 815c39f663947a64eb0840fc7ac4af01, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,6 +79,40 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &3656664217113321577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 352491761198502522}
+  - component: {fileID: 4728491181336766467}
+  - component: {fileID: 4728491181336766717}
+  - component: {fileID: 4728491181336766716}
+  m_Layer: 0
+  m_Name: UpgradeStation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &352491761198502522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3656664217113321577}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3414100071215445379}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
 --- !u!65 &4728491181336766467
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -95,8 +124,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.3768206, y: 5.2466254, z: 7.770623}
-  m_Center: {x: -0.000000022530287, y: 0.0040664407, z: 1.0740002}
+  m_Size: {x: 40, y: 40, z: 50}
+  m_Center: {x: 0, y: 20, z: 0}
 --- !u!114 &4728491181336766717
 MonoBehaviour:
   m_ObjectHideFlags: 0

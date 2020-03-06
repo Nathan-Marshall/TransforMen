@@ -18,15 +18,14 @@ public class DynamicUnit : Unit
     public bool isSelected = false;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        print("Here");
         if (GameObject.Find("Game Control").GetComponent<UnitSelect>().selectedUnits.Contains(gameObject))
         {
             gameObject.transform.Find("SelProjector").GetComponent<Projector>().enabled = true;

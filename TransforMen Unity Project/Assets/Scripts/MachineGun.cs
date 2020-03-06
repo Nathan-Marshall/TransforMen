@@ -8,18 +8,11 @@ using UnityEngine;
 
 public class MachineGun : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
+    public MachineGun()
     {
         SetRange(15);
         SetSpeed(15);
-        SetDamage(15);
+        SetDamage(10);
         SetFiringRate(15.0f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

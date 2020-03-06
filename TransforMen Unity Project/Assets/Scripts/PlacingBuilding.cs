@@ -46,7 +46,7 @@ public class PlacingBuilding : MonoBehaviour
         if (cam.pixelRect.Contains(Input.mousePosition)) {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             terrainCollider.Raycast(ray, out RaycastHit hit, 1000.0f);
-            transform.position = hit.point + new Vector3(0, GetComponent<Collider>().bounds.size.y * 0.5f, 0);
+            transform.position = hit.point;
         }
 
         if (Input.GetMouseButtonDown(0)) {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScavengeBehaviour : BaseBehaviour
+public class ScavengeBehaviour : MonoBehaviour, UnitAction
 {
 
 
@@ -19,7 +19,7 @@ public class ScavengeBehaviour : BaseBehaviour
         
     }
     
-    public void Scavenge(GameObject unit, GameObject target)
+    public void Scavenge(GameObject target)
     {
         GameObject controller = GameObject.Find("Game Control");
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
@@ -35,13 +35,13 @@ public class ScavengeBehaviour : BaseBehaviour
     }
 
 
-    public override void PerformAction(GameObject unit, GameObject target)
+    public void PerformAction(GameObject target)
     {
-        unit.GetComponent<IndividualMovement>().moving = true;
+        GetComponent<IndividualMovement>().moving = true;
 
         Collider moveCollider = target.GetComponent<Collider>();
-        Vector3 destination = moveCollider.ClosestPoint(unit.transform.position);
-        unit.GetComponent<IndividualMovement>().destination = destination;
-        unit.GetComponent<IndividualMovement>().actionOnArrival = () => Scavenge(unit, target);
+        Vector3 destination = moveCollider.ClosestPoint(transform.position);
+        GetComponent<IndividualMovement>().destination = destination;
+        GetComponent<IndividualMovement>().actionOnArrival = () => Scavenge(target);
     }
 }
