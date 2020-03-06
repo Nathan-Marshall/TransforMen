@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 8772814010403924044}
   - component: {fileID: 3063506267046270133}
   - component: {fileID: 4728491181336766467}
-  - component: {fileID: 4728491181336766717}
-  - component: {fileID: 4728491181336766716}
+  - component: {fileID: 6059192953129075417}
+  - component: {fileID: 991295115120372002}
   m_Layer: 0
-  m_Name: UpgradeStation
+  m_Name: UpgradeStation Placement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3656664217113321577}
-  m_Mesh: {fileID: 5690457630391089362, guid: a23998f5880b08541bb490c2cd0e0905, type: 3}
+  m_Mesh: {fileID: 4347741461634159950, guid: a23998f5880b08541bb490c2cd0e0905, type: 3}
 --- !u!23 &3063506267046270133
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61,8 +61,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 9034969532700075305, guid: a23998f5880b08541bb490c2cd0e0905, type: 3}
-  - {fileID: 681754367880470762, guid: a23998f5880b08541bb490c2cd0e0905, type: 3}
+  - {fileID: 6601109668948656206, guid: a23998f5880b08541bb490c2cd0e0905, type: 3}
+  - {fileID: 7778484480856096894, guid: a23998f5880b08541bb490c2cd0e0905, type: 3}
   - {fileID: -5893160060819351940, guid: a23998f5880b08541bb490c2cd0e0905, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -92,12 +92,12 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3656664217113321577}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.3768206, y: 5.2466254, z: 7.770623}
   m_Center: {x: -0.000000022530287, y: 0.0040664407, z: 1.0740002}
---- !u!114 &4728491181336766717
+--- !u!114 &6059192953129075417
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,21 +106,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 3656664217113321577}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aead729fdd588314896768e63fecddb3, type: 3}
+  m_Script: {fileID: 11500000, guid: df82951b63669334f975f5bd66dec502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpikeDude: {fileID: 2081312366423147876, guid: 2d7e0255097b2574ab45334310203a53,
+  validMaterial: {fileID: 2100000, guid: d8eba9bfa980c69418b5483293c6a148, type: 2}
+  invalidMaterial: {fileID: 2100000, guid: 8823c853ad7dfee4d9e94e66cddcedf6, type: 2}
+  buildingPrefab: {fileID: 3656664217113321577, guid: af7a59022a6fe574ba13a67d8f1e694a,
     type: 3}
---- !u!114 &4728491181336766716
-MonoBehaviour:
+  populationCost: 0
+  scrapCost: 25
+  spikesCost: 0
+  crawlbitsCost: 0
+--- !u!54 &991295115120372002
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3656664217113321577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e783d47b03077384eb2a18fa4b9c677a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTypes: 
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
