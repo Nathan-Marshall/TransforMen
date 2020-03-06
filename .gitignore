@@ -4,6 +4,6 @@
 /TransforMen Unity Project/obj
 /TransforMen Unity Project/Temp
 /TransforMen Unity Project/UIElementsSchema
-/TransforMen Unity Project/Assembly-CSharp.csproj
 /TransforMen Unity Project/TransforMen Unity Project.sln
 /TransforMen Unity Project/TransforMen.sln
+*.csproj
