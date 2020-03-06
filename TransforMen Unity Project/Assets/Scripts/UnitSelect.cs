@@ -6,9 +6,22 @@ public class UnitSelect : MonoBehaviour
 {
     public List<GameObject> selectedUnits;
 
+    private Collider selectionPlaneCollider;
+    private Camera cam;
+    private RectTransform selectorPaneRect;
+
     private Vector3 startPoint;
     private bool selecting = false;
     private Pivot currentPivot;
+
+    private Vector3 ClampedMousePosition {
+        get {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.x = Mathf.Clamp(mousePos.x, cam.pixelRect.xMin, cam.pixelRect.xMax);
+            mousePos.y = Mathf.Clamp(mousePos.y, cam.pixelRect.yMin, cam.pixelRect.yMax);
+            return mousePos;
+        }
+    }
 
     enum Pivot
     {
@@ -19,9 +32,10 @@ public class UnitSelect : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-
+    void Start() {
+        selectionPlaneCollider = GameObject.Find("Selection Plane").GetComponent<MeshCollider>();
+        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        selectorPaneRect = GameObject.Find("Selector Pane").GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -37,9 +51,6 @@ public class UnitSelect : MonoBehaviour
 
     void selectUnits(Vector3 p1, Vector3 p2)
     {
-        GameObject selectionPlane = GameObject.Find("Selection Plane");
-        Collider selectionPlaneCollider = selectionPlane.GetComponent<MeshCollider>();
-
         Ray p1Ray = Camera.main.ScreenPointToRay(p1);
         Ray p2Ray = Camera.main.ScreenPointToRay(p2);
 
@@ -72,35 +83,24 @@ public class UnitSelect : MonoBehaviour
     // Check to see if the player is currently selecting
     void checkSelecting()
     {
-        GameObject selectorPane = GameObject.Find("Selector Pane");
-        RectTransform selectorPaneRect = selectorPane.GetComponent<RectTransform>();
-
         // LMB Down
-        if (Input.GetMouseButtonDown(0) && !selecting)
-        {
+        if (Input.GetMouseButtonDown(0) && !selecting && cam.pixelRect.Contains(Input.mousePosition)) {
+            startPoint = ClampedMousePosition;
             selecting = true;
-            startPoint = Input.mousePosition;
         }
-        // LMB Not down
 
-        if (Input.GetMouseButtonUp(0) && selecting)
-        {
-            selecting = false;
+        // LMB Up
+        if (Input.GetMouseButtonUp(0) && selecting) {
+            selectUnits(startPoint, ClampedMousePosition);
             selectorPaneRect.sizeDelta = new Vector2(0, 0);
-
-            selectUnits(startPoint, Input.mousePosition);
-
-            startPoint = new Vector3(0, 0, 0);
+            selecting = false;
         }
     }
 
     // Modify and move the unit selection panel with the mouse drag
     void setSelectionPanel()
     {
-        GameObject selectorPane = GameObject.Find("Selector Pane");
-        RectTransform selectorPaneRect = selectorPane.GetComponent<RectTransform>();
-
-        Vector3 mousePos = Input.mousePosition;
+        Vector3 mousePos = ClampedMousePosition;
 
         float xdiff = mousePos.x - startPoint.x;
         float ydiff = mousePos.y - startPoint.y;
