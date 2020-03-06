@@ -8,18 +8,10 @@ using UnityEngine;
 
 public class SpikeShooter : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    public SpikeShooter() {
         SetRange(20);
         SetSpeed(10);
         SetDamage(17);
         SetFiringRate(12.0f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

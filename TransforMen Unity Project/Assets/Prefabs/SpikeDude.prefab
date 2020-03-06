@@ -1390,7 +1390,7 @@ GameObject:
   - component: {fileID: 2081312366423147882}
   - component: {fileID: 2081312366423147881}
   - component: {fileID: 2081312366423147877}
-  - component: {fileID: 720761368}
+  - component: {fileID: 6647806829545080250}
   m_Layer: 0
   m_Name: SpikeDude
   m_TagString: Ally
@@ -1486,7 +1486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTypes: 
---- !u!114 &720761368
+--- !u!114 &6647806829545080250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1495,7 +1495,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2081312366423147880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f59048ad4f7e2d3419ad376d0179ac2b, type: 3}
+  m_Script: {fileID: 11500000, guid: ea57de15e4611f748b9eaa986ae013c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 // Attack Unit: a dynamic unit that is capable of attacking 
 //-------------------------------------------------------------
 
-public class AttackUnit : DynamicUnit
+public class AttackUnit : DynamicUnit, UnitAction
 {
     //Collaborators: Dynamic Unit, Attack Target, Weapon 
 
@@ -15,15 +15,16 @@ public class AttackUnit : DynamicUnit
     protected AttackTarget target = null; //the current target to attack 
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
+    protected override void Start() {
+        base.Start();
+        BehaviourMap mapping = GetComponent<BehaviourMap>();
+        mapping.behaviourMap.Add(UnitController.TargetType.Enemy, GetType());
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        
+        base.Update();
     }
 
     //Get & Set CanAttack
@@ -44,5 +45,21 @@ public class AttackUnit : DynamicUnit
     protected void SetAttackTarget(AttackTarget newTarget)
     {
         target = newTarget;
+    }
+
+    public void Attack(GameObject target) {
+        this.target = target.GetComponent<AttackTarget>();
+        target.GetComponent<AttackTarget>().TakeDamage(weapon.GetDamage());
+    }
+
+    public void PerformAction(GameObject target) {
+
+        GetComponent<IndividualMovement>().moving = true;
+
+        Collider moveCollider = target.GetComponent<Collider>();
+        Vector3 destination = moveCollider.ClosestPoint(transform.position);
+
+        GetComponent<IndividualMovement>().destination = destination;
+        GetComponent<IndividualMovement>().actionOnArrival = () => Attack(target);
     }
 }

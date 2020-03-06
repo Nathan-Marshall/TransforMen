@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransformBehaviour : BaseBehaviour
+public class TransformBehaviour : MonoBehaviour, UnitAction
 {
     // Start is called before the first frame update
     void Start()
@@ -18,7 +18,7 @@ public class TransformBehaviour : BaseBehaviour
     }
 
     //TODO: Add more logic in here for transformations
-    public void Transform(GameObject unit, GameObject target)
+    public void Transform(GameObject target)
     {
         //Check if we have enough resources to transform
         GameObject controller = GameObject.Find("Game Control");
@@ -33,18 +33,18 @@ public class TransformBehaviour : BaseBehaviour
             TransformStation.Upgrades upgradeToType = TransformStation.Upgrades.Spike;
             resourceControl.SpendScrap(5);
 
-            target.GetComponent<TransformStation>().Upgrade(unit, upgradeToType);
+            target.GetComponent<TransformStation>().Upgrade(gameObject, upgradeToType);
         }
     }
 
-    public override void PerformAction(GameObject unit, GameObject target)
+    public void PerformAction(GameObject target)
     {
-        unit.GetComponent<IndividualMovement>().moving = true;
+        GetComponent<IndividualMovement>().moving = true;
 
         Collider moveCollider = target.GetComponent<Collider>();
-        Vector3 destination = moveCollider.ClosestPoint(unit.transform.position);
+        Vector3 destination = moveCollider.ClosestPoint(transform.position);
 
-        unit.GetComponent<IndividualMovement>().destination = destination;
-        unit.GetComponent<IndividualMovement>().actionOnArrival = () => Transform(unit, target);
+        GetComponent<IndividualMovement>().destination = destination;
+        GetComponent<IndividualMovement>().actionOnArrival = () => Transform(target);
     }
 }

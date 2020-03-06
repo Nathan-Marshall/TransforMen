@@ -8,7 +8,7 @@ using UnityEngine;
 //     crawler units. Is upgradeable.
 //-------------------------------------------------------------
 
-public class CrawlerHost : HumanInfantry
+public class CrawlerHost : AttackUnit
 {
     private string desc = "A genetically upgraded person fighting for their planet";
     //Collaborators: Dynamic Unit, Attack Target, Attack Unit, Crawler Spawn 
@@ -20,6 +20,7 @@ public class CrawlerHost : HumanInfantry
     // Start is called before the first frame update
     void Start()
     {
+        base.Start();
         SetToPlayerTeam();
         SetSelectable(true);
         SetDescription(desc);
@@ -33,8 +34,7 @@ public class CrawlerHost : HumanInfantry
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+        base.Update();
     }
 }

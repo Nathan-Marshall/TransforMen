@@ -8,6 +8,7 @@ public class UnitController : MonoBehaviour
     {
         Ruin,
         Ally,
+        Enemy,
         TransformStation
     }
 
@@ -52,9 +53,9 @@ public class UnitController : MonoBehaviour
                         {
                             if (behaviourMap.ContainsKey(type))
                             {
-                                BaseBehaviour behaviourComponent = (BaseBehaviour)unit.GetComponent(behaviourMap[type]);
+                                UnitAction behaviourComponent = (UnitAction)unit.GetComponent(behaviourMap[type]);
                                 
-                                behaviourComponent.PerformAction(unit, hit.collider.gameObject);
+                                behaviourComponent.PerformAction(hit.collider.gameObject);
                             }
                         }
                     }

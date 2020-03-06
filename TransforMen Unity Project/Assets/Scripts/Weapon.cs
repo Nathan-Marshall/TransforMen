@@ -17,18 +17,6 @@ public class Weapon
     //Attack effects
     //Projectile Type 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     //Get & Set Range
     public float GetRange() { return range; }
     protected void SetRange(float newRange )

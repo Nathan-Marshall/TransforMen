@@ -8,7 +8,7 @@ using UnityEngine;
 //     its attacker. Upgradeable.
 //-------------------------------------------------------------
 
-public class SpikeDude : HumanInfantry
+public class SpikeDude : AttackUnit
 {
     private string desc = "A genetically upgraded human who attacks with spikes";
     //Collaborators: Dynamic Unit, Attack Target, Attacker, Human Infantry(?)
@@ -18,8 +18,8 @@ public class SpikeDude : HumanInfantry
     bool upgradeable; //whether or not current can be upgraded
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
+        base.Start();
         SetToPlayerTeam();
         SetSelectable(true);
         SetDescription(desc);
@@ -33,8 +33,7 @@ public class SpikeDude : HumanInfantry
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+        base.Update();
     }
 }
