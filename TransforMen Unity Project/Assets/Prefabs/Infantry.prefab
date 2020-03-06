@@ -884,6 +884,7 @@ GameObject:
   - component: {fileID: 7843086406924753335}
   - component: {fileID: 7843086406924753332}
   - component: {fileID: 714224723}
+  - component: {fileID: 2273066622924517189}
   m_Layer: 0
   m_Name: Infantry
   m_TagString: Ally
@@ -1000,6 +1001,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a82ff86d5dcab2349ad18bd4e1180450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2273066622924517189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843086406924753338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59048ad4f7e2d3419ad376d0179ac2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7843086407081435526
