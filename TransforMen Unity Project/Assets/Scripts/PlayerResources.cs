@@ -25,7 +25,7 @@ public class PlayerResources : MonoBehaviour
         crawlbits = 0;
         population = 5;
         scrap = 25;
-        spikes = 0;
+        spikes = 5;
 
     }
 
