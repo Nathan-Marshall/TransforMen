@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransformBehaviour : MonoBehaviour, UnitAction
+public class SpikeTransformBehaviour : MonoBehaviour, UnitAction
 {
     // Start is called before the first frame update
     void Start()
@@ -25,13 +25,13 @@ public class TransformBehaviour : MonoBehaviour, UnitAction
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
 
         //REQUIREMENTS FOR AN UPGRADE ARE DIFFERENT THAN THIS, THIS IS FOR TESTING
-        if (resourceControl.GetScrapResource() >= 5)
+        if (resourceControl.GetSpikeResource() >= 5)
         {
 
             //Here we need to check which type we are and what we want to upgrade to
             //For now, default to an infantry upgrading to a spike dude
             TransformStation.Upgrades upgradeToType = TransformStation.Upgrades.Spike;
-            resourceControl.SpendScrap(5);
+            resourceControl.SpendSpikes(5);
 
             target.GetComponent<TransformStation>().Upgrade(gameObject, upgradeToType);
         }
