@@ -48,6 +48,9 @@ public class AttackUnit : DynamicUnit, UnitAction
     }
 
     public void Attack(GameObject target) {
+        if (target == null) {
+            return;
+        }
         this.target = target.GetComponent<AttackTarget>();
         target.GetComponent<AttackTarget>().TakeDamage(weapon.GetDamage());
     }

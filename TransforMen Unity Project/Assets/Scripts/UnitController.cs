@@ -25,6 +25,12 @@ public class UnitController : MonoBehaviour
         List<GameObject> selectedUnits;
         UnitSelect selectScript = GameObject.Find("Game Control").GetComponent<UnitSelect>();
         selectedUnits = selectScript.selectedUnits;
+        for (int i = 0; i < selectedUnits.Count; i++) {
+            if (selectedUnits[i] == null) {
+                selectedUnits.RemoveAt(i);
+                i--;
+            }
+        }
 
         if (Input.GetMouseButtonDown(1) && selectedUnits.Count > 0)
         {
