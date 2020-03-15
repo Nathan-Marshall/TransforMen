@@ -54,7 +54,7 @@ public class AttackUnit : DynamicUnit, UnitAction
 
     public void PerformAction(GameObject target) {
 
-        GetComponent<IndividualMovement>().moving = true;
+        GetComponent<IndividualMovement>().toMove = true;
 
         Collider moveCollider = target.GetComponent<Collider>();
         Vector3 destination = moveCollider.ClosestPoint(transform.position);
