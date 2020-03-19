@@ -21,6 +21,10 @@ public class ScavengeBehaviour : MonoBehaviour, UnitAction
     
     public void Scavenge(GameObject target)
     {
+        if (target == null) {
+            return;
+        }
+
         GameObject controller = GameObject.Find("Game Control");
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
         Ruin ruin = target.GetComponent<Ruin>();
