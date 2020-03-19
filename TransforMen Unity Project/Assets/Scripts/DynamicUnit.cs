@@ -32,7 +32,10 @@ public class DynamicUnit : Unit
         }
         else
         {
-            gameObject.transform.Find("SelProjector").GetComponent<Projector>().enabled = false;
+            Transform projectorTf = gameObject.transform.Find("SelProjector");
+            if (projectorTf != null) {
+                projectorTf.GetComponent<Projector>().enabled = false;
+            }
         }
     }
 

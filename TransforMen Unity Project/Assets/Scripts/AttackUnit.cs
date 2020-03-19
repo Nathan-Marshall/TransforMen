@@ -48,18 +48,18 @@ public class AttackUnit : DynamicUnit, UnitAction
     }
 
     public void Attack(GameObject target) {
+        if (target == null) {
+            return;
+        }
         this.target = target.GetComponent<AttackTarget>();
         target.GetComponent<AttackTarget>().TakeDamage(weapon.GetDamage());
     }
 
     public void PerformAction(GameObject target) {
-
-        GetComponent<IndividualMovement>().moving = true;
-
         Collider moveCollider = target.GetComponent<Collider>();
         Vector3 destination = moveCollider.ClosestPoint(transform.position);
 
-        GetComponent<IndividualMovement>().destination = destination;
-        GetComponent<IndividualMovement>().actionOnArrival = () => Attack(target);
+        GetComponent<IndividualMovement>().MoveTo(destination, () => Attack(target));
+
     }
 }

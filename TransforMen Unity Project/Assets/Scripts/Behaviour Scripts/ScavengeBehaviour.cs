@@ -38,12 +38,10 @@ public class ScavengeBehaviour : MonoBehaviour, UnitAction
 
     public void PerformAction(GameObject target)
     {
-        GetComponent<IndividualMovement>().moving = true;
-
         Collider moveCollider = target.GetComponent<Collider>();
         Vector3 destination = moveCollider.ClosestPoint(transform.position);
-        GetComponent<IndividualMovement>().destination = destination;
-        GetComponent<IndividualMovement>().actionOnArrival = () => Scavenge(target);
+
+        GetComponent<IndividualMovement>().MoveTo(destination, () => Scavenge(target));
     }
 
     IEnumerator Animation(GameObject target)
