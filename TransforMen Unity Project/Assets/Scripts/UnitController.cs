@@ -43,9 +43,7 @@ public class UnitController : MonoBehaviour
                     // Set the destination for the selected units
                     foreach (GameObject unit in selectedUnits)
                     {
-                        unit.GetComponent<IndividualMovement>().moving = true;
-                        unit.GetComponent<IndividualMovement>().destination = hit.point;
-                        unit.GetComponent<IndividualMovement>().actionOnArrival = null;
+                        unit.GetComponent<IndividualMovement>().MoveTo(hit.point, null);
                     }
                 }
                 else
