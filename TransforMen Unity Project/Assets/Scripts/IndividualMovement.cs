@@ -98,7 +98,16 @@ public class IndividualMovement : MonoBehaviour
     }
 
     IEnumerator Move() {
-        for (float s = 0.0f; s < 1.0f; s += 0.01f) {
+
+        float total_dist = Vector3.Distance(initialPosition, destination);
+
+        float increment_factor = total_dist / 50;
+
+
+
+        //100 steps per second. 75.0f Seems to be a good speed.
+
+        for (float s = 0.0f; s < 1.0f; s += 0.01f / increment_factor) {
             Vector3 newPos = InterpPosition(s);
             this.transform.position = new Vector3(newPos.x, this.transform.position.y, newPos.z);
 
@@ -116,7 +125,7 @@ public class IndividualMovement : MonoBehaviour
             orient *= Quaternion.AngleAxis(270, Vector3.up);
 
             this.transform.rotation = orient;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
         }
 
         this.transform.position = new Vector3(destination.x, this.transform.position.y, destination.z);
