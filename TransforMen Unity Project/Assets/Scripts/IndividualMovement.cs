@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IndividualMovement : MonoBehaviour
 {
+    private Animator animator; 
     public Vector3 destination;
 
     private Vector3 initialPosition;
@@ -15,6 +16,7 @@ public class IndividualMovement : MonoBehaviour
     {
         actionOnArrival = null;
         destination = transform.position;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -69,6 +71,8 @@ public class IndividualMovement : MonoBehaviour
 
         this.transform.position = new Vector3(destination.x, this.transform.position.y, destination.z);
 
+        StopAnimation();
+
         if (actionOnArrival != null)
         {
             actionOnArrival();
@@ -83,6 +87,8 @@ public class IndividualMovement : MonoBehaviour
 
     public void MoveTo(Vector3 dest, System.Action action)
     {
+        MoveAnimation();
+
         if (moveRoutine != null)
         {
             StopCoroutine(moveRoutine);
@@ -95,5 +101,15 @@ public class IndividualMovement : MonoBehaviour
 
         moveRoutine = Move();
         StartCoroutine(moveRoutine);
+    }
+
+    void MoveAnimation()
+    {
+        animator.SetFloat("Speed", 1f);
+    }
+
+    void StopAnimation()
+    {
+        animator.SetFloat("Speed", 0f);
     }
 }
