@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ScavengeBehaviour : MonoBehaviour, UnitAction
 {
-
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         BehaviourMap mapping = GetComponent<BehaviourMap>();
         mapping.behaviourMap.Add(UnitController.TargetType.Ruin, GetType());
     }
@@ -16,11 +17,13 @@ public class ScavengeBehaviour : MonoBehaviour, UnitAction
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
+
     public void Scavenge(GameObject target)
     {
+        StartCoroutine(Animation(target));
+
         GameObject controller = GameObject.Find("Game Control");
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
         Ruin ruin = target.GetComponent<Ruin>();
@@ -30,8 +33,6 @@ public class ScavengeBehaviour : MonoBehaviour, UnitAction
 
         resourceControl.AddPopulation(pop);
         resourceControl.AddScrap(scrap);
-
-        Destroy(target);
     }
 
 
@@ -43,5 +44,27 @@ public class ScavengeBehaviour : MonoBehaviour, UnitAction
         Vector3 destination = moveCollider.ClosestPoint(transform.position);
         GetComponent<IndividualMovement>().destination = destination;
         GetComponent<IndividualMovement>().actionOnArrival = () => Scavenge(target);
+    }
+
+    IEnumerator Animation(GameObject target)
+    {
+        PlayAnimation();
+
+        yield return new WaitForSeconds(1.5f);
+
+        StopAnimation();
+
+        Destroy(target);
+    }
+
+    void PlayAnimation()
+    {
+        animator.SetBool("Scavenge", true);
+        animator.SetFloat("Speed", 0); 
+    }
+
+    void StopAnimation()
+    {
+        animator.SetBool("Scavenge", false);
     }
 }

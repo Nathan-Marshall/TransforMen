@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IndividualMovement : MonoBehaviour
 {
+    private Animator animator; 
     public Vector3 destination;
     public bool moving;
     public System.Action actionOnArrival;
@@ -15,6 +16,7 @@ public class IndividualMovement : MonoBehaviour
         moving = false;
         actionOnArrival = null;
         destination = transform.position;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -22,6 +24,8 @@ public class IndividualMovement : MonoBehaviour
     {
         if (moving)
         {
+            MoveAnimation(); 
+
             Rigidbody unitRB = GetComponent<Rigidbody>();
 
             Vector3 dir = (destination - transform.position).normalized;
@@ -32,6 +36,7 @@ public class IndividualMovement : MonoBehaviour
             {
                 destination = transform.position;
                 moving = false;
+                StopAnimation(); 
 
                 if (actionOnArrival != null)
                 {
@@ -40,6 +45,17 @@ public class IndividualMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    void MoveAnimation()
+    {
+        animator.SetFloat("Speed", 1f);
+        Debug.Log("speed:" + animator.GetFloat("Speed"));
+    }
+
+    void StopAnimation()
+    {
+        animator.SetFloat("Speed", 0f);
     }
 }
 
