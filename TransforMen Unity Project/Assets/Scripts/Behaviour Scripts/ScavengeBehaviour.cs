@@ -22,6 +22,10 @@ public class ScavengeBehaviour : MonoBehaviour, UnitAction
 
     public void Scavenge(GameObject target)
     {
+        if (target == null) {
+            return;
+        }
+
         StartCoroutine(Animation(target));
 
         GameObject controller = GameObject.Find("Game Control");
