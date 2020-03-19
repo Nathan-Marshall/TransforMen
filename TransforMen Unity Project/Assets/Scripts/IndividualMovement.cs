@@ -5,19 +5,14 @@ using UnityEngine;
 public class IndividualMovement : MonoBehaviour
 {
     public Vector3 destination;
-    public Transform initialTransform;
-    public Vector3 initialPosition;
 
-    IEnumerator moveRoutine = null;
-
-    public bool toMove;
-    public System.Action actionOnArrival;
-    private float speed = 40.0f;
+    private Vector3 initialPosition;
+    private IEnumerator moveRoutine = null;
+    private System.Action actionOnArrival;
 
     // Start is called before the first frame update
     void Start()
     {
-        toMove = false;
         actionOnArrival = null;
         destination = transform.position;
     }
@@ -25,31 +20,6 @@ public class IndividualMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //If we have received a command to move, and haven't yet done so, do that this frame
-        if (toMove)
-        {
-            Rigidbody unitRB = GetComponent<Rigidbody>();
-
-            Vector3 dir = (destination - transform.position).normalized;
-
-            // Start animation
-            initialTransform = transform;
-            initialPosition = transform.position;
-
-            if (moveRoutine == null)
-            {
-                moveRoutine = Move();
-                StartCoroutine(moveRoutine);
-            }
-            else
-            {
-                StopCoroutine(moveRoutine);
-                moveRoutine = Move();
-                StartCoroutine(moveRoutine);
-            }
-
-            toMove = false;
-        }
     }
 
     Vector3 InterpPosition(float t)
@@ -87,7 +57,6 @@ public class IndividualMovement : MonoBehaviour
                 curve_tan = new Vector3(0, 0, -1); ;
             }
 
-
             Quaternion orient = new Quaternion();
             orient.SetLookRotation(new Vector3(curve_tan.x, 0, curve_tan.z), Vector3.up);
             orient *= Quaternion.AngleAxis(180, Vector3.forward);
@@ -97,7 +66,7 @@ public class IndividualMovement : MonoBehaviour
             this.transform.rotation = orient;
             yield return new WaitForSeconds(0.05f);
         }
-        this.transform.position = destination;
+
         this.transform.position = new Vector3(destination.x, this.transform.position.y, destination.z);
 
         if (actionOnArrival != null)
@@ -109,5 +78,22 @@ public class IndividualMovement : MonoBehaviour
         destination = transform.position;
 
         yield return null;
+    }
+
+
+    public void MoveTo(Vector3 dest, System.Action action)
+    {
+        if (moveRoutine != null)
+        {
+            StopCoroutine(moveRoutine);
+        }
+
+        actionOnArrival = action;
+        destination = dest;
+
+        initialPosition = transform.position;
+
+        moveRoutine = Move();
+        StartCoroutine(moveRoutine);
     }
 }
