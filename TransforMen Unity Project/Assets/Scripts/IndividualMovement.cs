@@ -78,6 +78,20 @@ public class IndividualMovement : MonoBehaviour
         }
     }
 
+    public void MoveTo(Vector3 dest, System.Action action, bool individual)
+    {
+        if (individual)
+        {
+            MoveToIndividually(dest, action);
+        }
+        else
+        {
+            destination = dest;
+            actionOnArrival = action;
+            moving = true;
+        }
+    }
+
     Vector3 InterpPosition(float t) {
         if (t < 0.0f) { t = 0.0f; }
         if (t > 1.0f) { t = 1.0f; }
@@ -88,6 +102,8 @@ public class IndividualMovement : MonoBehaviour
             return destination;
         }
 
+        //Calculate the position along the spline.
+        //This should take into account easing as well
         float s2 = Mathf.Pow(t, 2);
         float s3 = Mathf.Pow(t, 3);
         Vector3 pos = (2 * s3 - 3 * s2 + 1) * initialPosition +
@@ -102,10 +118,6 @@ public class IndividualMovement : MonoBehaviour
         float total_dist = Vector3.Distance(initialPosition, destination);
 
         float increment_factor = total_dist / 50;
-
-
-
-        //100 steps per second. 75.0f Seems to be a good speed.
 
         for (float s = 0.0f; s < 1.0f; s += 0.01f / increment_factor) {
             Vector3 newPos = InterpPosition(s);
@@ -143,7 +155,7 @@ public class IndividualMovement : MonoBehaviour
     }
 
 
-    public void MoveTo(Vector3 dest, System.Action action) {
+    public void MoveToIndividually(Vector3 dest, System.Action action) {
         MoveAnimation();
 
         if (moveRoutine != null) {

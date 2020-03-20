@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface UnitAction
 {
-    void PerformAction(GameObject target);
+    System.Action GetAction(GameObject target);
 }

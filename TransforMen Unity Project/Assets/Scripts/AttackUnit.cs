@@ -55,11 +55,7 @@ public class AttackUnit : DynamicUnit, UnitAction
         target.GetComponent<AttackTarget>().TakeDamage(weapon.GetDamage());
     }
 
-    public void PerformAction(GameObject target) {
-        Collider moveCollider = target.GetComponent<Collider>();
-        Vector3 destination = moveCollider.ClosestPoint(transform.position);
-
-        GetComponent<IndividualMovement>().MoveTo(destination, () => Attack(target));
-
+    public System.Action GetAction(GameObject target) {
+        return (() => Attack(target));
     }
 }
