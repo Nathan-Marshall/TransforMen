@@ -74,6 +74,8 @@ public class IndividualMovement : MonoBehaviour
                     actionOnArrival();
                     actionOnArrival = null;
                 }
+
+                StopAnimation();
             }
         }
     }
@@ -86,6 +88,8 @@ public class IndividualMovement : MonoBehaviour
         }
         else
         {
+            MoveAnimation();
+
             destination = dest;
             actionOnArrival = action;
             moving = true;
