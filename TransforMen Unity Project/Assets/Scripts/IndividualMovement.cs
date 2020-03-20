@@ -74,6 +74,16 @@ public class IndividualMovement : MonoBehaviour
                     unitRB.velocity = unitRB.velocity.normalized * maxSpeed;
                 }
 
+                dir.Normalize();
+
+                Quaternion orient = new Quaternion();
+                orient.SetLookRotation(new Vector3(dir.x, 0, dir.z), Vector3.up);
+                orient *= Quaternion.AngleAxis(180, Vector3.forward);
+                orient *= Quaternion.AngleAxis(180, Vector3.right);
+                orient *= Quaternion.AngleAxis(270, Vector3.up);
+
+                this.transform.rotation = orient;
+
                 Vector3 closestToDest = GetComponent<Collider>().ClosestPoint(destination.Position);
                 closestToDest.y = 0;
                 Vector3 closestToThis = destination.ClosestPoint(transform.position);
