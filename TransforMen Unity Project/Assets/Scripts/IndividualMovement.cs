@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class IndividualMovement : MonoBehaviour
 {
+    const float InteractionRange = 15.0f;
+
     private Animator animator;
-    public Vector3 destination;
+    public Destination destination;
 
     public bool moving;
 
     private float movementForce = 30.0f;
     private float separationForce = 50.0f;
-    private float separationMinDistance = 30.0f;
+    private float separationMinDistance = 10.0f;
     private float cohesionForce = 10.0f;
     private float cohesionMaxDistance = 80.0f;
     private float maxSpeed = 40.0f;
@@ -23,64 +25,70 @@ public class IndividualMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         actionOnArrival = null;
-        destination = transform.position;
+        destination = null;
         animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update() {
+        Rigidbody unitRB = GetComponent<Rigidbody>();
+
         if (moving) {
-            Rigidbody unitRB = GetComponent<Rigidbody>();
+            if (destination == null || !destination.Exists()) {
+                ReachedDestination();
+            } else {
+                DynamicUnit[] otherUnits = FindObjectsOfType<DynamicUnit>();
+                Vector3 separationVec = new Vector3();
+                Vector3 cohesionVec = new Vector3();
+                foreach (DynamicUnit other in otherUnits) {
+                    if (other == null || other == GetComponent<DynamicUnit>()
+                            || other.GetComponent<IndividualMovement>() == null
+                            || !other.GetComponent<IndividualMovement>().moving) {
+                        continue;
+                    }
 
-            DynamicUnit[] otherUnits = FindObjectsOfType<DynamicUnit>();
-            Vector3 separationVec = new Vector3();
-            Vector3 cohesionVec = new Vector3();
-            foreach (DynamicUnit other in otherUnits) {
-                if (other == null || other == GetComponent<DynamicUnit>()) {
-                    continue;
+                    Vector3 dirToOther = (other.GetComponent<Collider>().ClosestPoint(transform.position)
+                        - GetComponent<Collider>().ClosestPoint(other.transform.position));
+                    dirToOther.y = 0;
+                    if (dirToOther.magnitude < separationMinDistance) {
+                        separationVec += -dirToOther;
+                    }
+                    else if (dirToOther.magnitude < cohesionMaxDistance) {
+                        cohesionVec += dirToOther;
+                    }
                 }
 
-                Vector3 dirToOther = (other.transform.position - transform.position);
-                dirToOther.y = 0;
-                if (dirToOther.magnitude < separationMinDistance) {
-                    separationVec += -dirToOther;
+                if (separationVec.magnitude > 1) {
+                    separationVec = separationVec.normalized;
                 }
-                else if (dirToOther.magnitude < cohesionMaxDistance) {
-                    cohesionVec += dirToOther;
-                }
-            }
-
-            if (separationVec.magnitude > 1) {
-                separationVec = separationVec.normalized;
-            }
-            if (cohesionVec.magnitude > 1) {
-                cohesionVec = cohesionVec.normalized;
-            }
-
-            Vector3 dir = (destination - transform.position).normalized;
-            unitRB.AddForce(dir * movementForce * Time.deltaTime, ForceMode.VelocityChange);
-            unitRB.AddForce(cohesionVec * cohesionForce * Time.deltaTime, ForceMode.VelocityChange);
-            unitRB.AddForce(separationVec * separationForce * Time.deltaTime, ForceMode.VelocityChange);
-
-            if (unitRB.velocity.magnitude > maxSpeed) {
-                unitRB.velocity = unitRB.velocity.normalized * maxSpeed;
-            }
-
-            if ((GetComponent<Collider>().ClosestPointOnBounds(destination) - destination).magnitude == 0) {
-                destination = transform.position;
-                moving = false;
-
-                if (actionOnArrival != null) {
-                    actionOnArrival();
-                    actionOnArrival = null;
+                if (cohesionVec.magnitude > 1) {
+                    cohesionVec = cohesionVec.normalized;
                 }
 
-                StopAnimation();
+                Vector3 dir = (destination.Position - transform.position).normalized;
+                unitRB.AddForce(dir * movementForce * Time.deltaTime, ForceMode.VelocityChange);
+                unitRB.AddForce(cohesionVec * cohesionForce * Time.deltaTime, ForceMode.VelocityChange);
+                unitRB.AddForce(separationVec * separationForce * Time.deltaTime, ForceMode.VelocityChange);
+
+                if (unitRB.velocity.magnitude > maxSpeed) {
+                    unitRB.velocity = unitRB.velocity.normalized * maxSpeed;
+                }
+
+                Vector3 closestToDest = GetComponent<Collider>().ClosestPoint(destination.Position);
+                closestToDest.y = 0;
+                Vector3 closestToThis = destination.ClosestPoint(transform.position);
+                closestToThis.y = 0;
+                Debug.Log(this + " p:" + transform.position + " ctd:" + closestToDest + " d:" + destination.Position + " ctt:" + closestToThis);
+                if ((closestToThis - closestToDest).magnitude < InteractionRange) {
+                    ReachedDestination();
+                }
             }
+        } else {
+            unitRB.velocity *= 0.99f;
         }
     }
 
-    public void MoveTo(Vector3 dest, System.Action action, bool individual)
+    public void MoveTo(Destination dest, System.Action action, bool individual)
     {
         if (individual)
         {
@@ -100,10 +108,10 @@ public class IndividualMovement : MonoBehaviour
         if (t < 0.0f) { t = 0.0f; }
         if (t > 1.0f) { t = 1.0f; }
 
-        float tlen = t * Vector3.Distance(initialPosition, destination);
+        float tlen = t * Vector3.Distance(initialPosition, destination.Position);
 
-        if (tlen > Vector3.Distance(initialPosition, destination)) {
-            return destination;
+        if (tlen > Vector3.Distance(initialPosition, destination.Position)) {
+            return destination.Position;
         }
 
         //Calculate the position along the spline.
@@ -112,14 +120,14 @@ public class IndividualMovement : MonoBehaviour
         float s3 = Mathf.Pow(t, 3);
         Vector3 pos = (2 * s3 - 3 * s2 + 1) * initialPosition +
                       (s3 - 2 * s2 + t) * new Vector3(0, 0, -1) +
-                      (-2 * s3 + 3 * s2) * destination +
+                      (-2 * s3 + 3 * s2) * destination.Position +
                       (s3 - s2) * new Vector3(0, 0, -1);
         return pos;
     }
 
     IEnumerator Move() {
 
-        float total_dist = Vector3.Distance(initialPosition, destination);
+        float total_dist = Vector3.Distance(initialPosition, destination.Position);
 
         float increment_factor = total_dist / 50;
 
@@ -144,22 +152,15 @@ public class IndividualMovement : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
-        this.transform.position = new Vector3(destination.x, this.transform.position.y, destination.z);
+        transform.position = new Vector3(destination.Position.x, transform.position.y, destination.Position.z);
 
-        StopAnimation();
-
-        if (actionOnArrival != null) {
-            actionOnArrival();
-            actionOnArrival = null;
-        }
-
-        destination = transform.position;
+        ReachedDestination();
 
         yield return null;
     }
 
 
-    public void MoveToIndividually(Vector3 dest, System.Action action) {
+    public void MoveToIndividually(Destination dest, System.Action action) {
         MoveAnimation();
 
         if (moveRoutine != null) {
@@ -181,5 +182,18 @@ public class IndividualMovement : MonoBehaviour
 
     void StopAnimation() {
         animator.SetFloat("Speed", 0f);
+    }
+
+    private void ReachedDestination() {
+        destination = null;
+        moving = false;
+        GetComponent<Rigidbody>().velocity *= 0.1f;
+
+        if (actionOnArrival != null) {
+            actionOnArrival();
+            actionOnArrival = null;
+        }
+
+        StopAnimation();
     }
 }
