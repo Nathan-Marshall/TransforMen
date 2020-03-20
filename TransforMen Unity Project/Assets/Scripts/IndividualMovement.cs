@@ -104,14 +104,14 @@ public class IndividualMovement : MonoBehaviour
         }
     }
 
-    Vector3 InterpPosition(float t) {
+    Vector3 InterpPosition(float t, Vector3 closestDestPoint) {
         if (t < 0.0f) { t = 0.0f; }
         if (t > 1.0f) { t = 1.0f; }
 
-        float tlen = t * Vector3.Distance(initialPosition, destination.Position);
+        float tlen = t * Vector3.Distance(initialPosition, closestDestPoint);
 
-        if (tlen > Vector3.Distance(initialPosition, destination.Position)) {
-            return destination.Position;
+        if (tlen > Vector3.Distance(initialPosition, closestDestPoint)) {
+            return closestDestPoint;
         }
 
         //Calculate the position along the spline.
@@ -120,22 +120,24 @@ public class IndividualMovement : MonoBehaviour
         float s3 = Mathf.Pow(t, 3);
         Vector3 pos = (2 * s3 - 3 * s2 + 1) * initialPosition +
                       (s3 - 2 * s2 + t) * new Vector3(0, 0, -1) +
-                      (-2 * s3 + 3 * s2) * destination.Position +
+                      (-2 * s3 + 3 * s2) * closestDestPoint +
                       (s3 - s2) * new Vector3(0, 0, -1);
         return pos;
     }
 
     IEnumerator Move() {
 
-        float total_dist = Vector3.Distance(initialPosition, destination.Position);
+        Vector3 closestDestPoint = destination.ClosestPoint(transform.position);
+
+        float total_dist = Vector3.Distance(initialPosition, closestDestPoint);
 
         float increment_factor = total_dist / 50;
 
         for (float s = 0.0f; s < 1.0f; s += 0.01f / increment_factor) {
-            Vector3 newPos = InterpPosition(s);
+            Vector3 newPos = InterpPosition(s, closestDestPoint);
             this.transform.position = new Vector3(newPos.x, this.transform.position.y, newPos.z);
 
-            Vector3 curve_tan = InterpPosition(s + 0.01f) - InterpPosition(s);
+            Vector3 curve_tan = InterpPosition(s + 0.01f, closestDestPoint) - InterpPosition(s, closestDestPoint);
             curve_tan.Normalize();
 
             if (s >= 0.99f) {
@@ -152,7 +154,7 @@ public class IndividualMovement : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
-        transform.position = new Vector3(destination.Position.x, transform.position.y, destination.Position.z);
+        transform.position = new Vector3(closestDestPoint.x, transform.position.y, closestDestPoint.z);
 
         ReachedDestination();
 
