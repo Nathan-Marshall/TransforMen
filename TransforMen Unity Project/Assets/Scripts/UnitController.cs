@@ -38,39 +38,33 @@ public class UnitController : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.name != "Terrain")
             {
-                bool solo = true;
-
-                if (selectedUnits.Count > 1)
-                {
-                    solo = false;
-                }
-
                 if (hit.collider.name == "Selection Plane")
                 {
                     // Set the destination for the selected units
                     foreach (GameObject unit in selectedUnits)
                     {
-                        unit.GetComponent<IndividualMovement>().MoveTo(hit.point, null, solo);
+                        unit.GetComponent<IndividualMovement>().MoveTo(new Destination(hit.point), null,
+                            selectedUnits.Count == 1);
                     }
                 }
                 else
                 {
-                    foreach (GameObject unit in selectedUnits)
+                    GameObject target = hit.collider.gameObject;
+
+                    foreach (GameObject selectedUnit in selectedUnits)
                     {
-                        Dictionary<TargetType, System.Type> behaviourMap = unit.GetComponent<BehaviourMap>().behaviourMap;
-                        List<TargetType> targetTypes = hit.collider.gameObject.GetComponent<BehaviourMap>().targetTypes;
+                        Dictionary<TargetType, System.Type> behaviourMap = selectedUnit.GetComponent<BehaviourMap>().behaviourMap;
+                        List<TargetType> targetTypes = target.GetComponent<BehaviourMap>().targetTypes;
 
                         foreach (TargetType type in targetTypes)
                         {
                             if (behaviourMap.ContainsKey(type))
                             {
-                                UnitAction behaviourComponent = (UnitAction)unit.GetComponent(behaviourMap[type]);
-                                System.Action action = behaviourComponent.GetAction(hit.collider.gameObject);
+                                UnitAction behaviourComponent = (UnitAction)selectedUnit.GetComponent(behaviourMap[type]);
+                                System.Action action = behaviourComponent.GetAction(target);
 
-                                Collider moveCollider = hit.collider.gameObject.GetComponent<Collider>();
-                                Vector3 destination = moveCollider.ClosestPoint(unit.transform.position);
-
-                                unit.GetComponent<IndividualMovement>().MoveTo(destination, action, solo);
+                                selectedUnit.GetComponent<IndividualMovement>().MoveTo(new Destination(target), action,
+                                    selectedUnits.Count == 1);
                             }
                         }
                     }
