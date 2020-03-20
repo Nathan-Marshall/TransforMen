@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 5629657419673447301}
   - component: {fileID: 4659550336122073678}
   m_Layer: 0
-  m_Name: AllySpike
+  m_Name: AllySpikeDude
   m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
