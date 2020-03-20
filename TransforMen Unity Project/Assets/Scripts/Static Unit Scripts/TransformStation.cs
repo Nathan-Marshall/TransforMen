@@ -27,11 +27,14 @@ public class TransformStation : StaticUnit
     //Upgrade a unit
     public void Upgrade(GameObject unit, Upgrades upgradeToType)
     {
-        Vector3 position = unit.transform.position;
+        Vector3 spacingVec = (transform.position - unit.transform.position).normalized;
+        Vector3 unitPosition = unit.transform.position;
 
         Destroy(unit);
 
-        Instantiate(SpikeDude, position, Quaternion.identity);
+        Vector3 newPos = new Vector3(unitPosition.x, SpikeDude.transform.position.y + 5, unitPosition.z) - (new Vector3(spacingVec.x, 0, spacingVec.z) * 5);
+
+        Instantiate(SpikeDude, newPos, Quaternion.identity);
     }
 
 }
