@@ -74,7 +74,25 @@ public class IndividualMovement : MonoBehaviour
                     actionOnArrival();
                     actionOnArrival = null;
                 }
+
+                StopAnimation();
             }
+        }
+    }
+
+    public void MoveTo(Vector3 dest, System.Action action, bool individual)
+    {
+        if (individual)
+        {
+            MoveToIndividually(dest, action);
+        }
+        else
+        {
+            MoveAnimation();
+
+            destination = dest;
+            actionOnArrival = action;
+            moving = true;
         }
     }
 
@@ -88,6 +106,8 @@ public class IndividualMovement : MonoBehaviour
             return destination;
         }
 
+        //Calculate the position along the spline.
+        //This should take into account easing as well
         float s2 = Mathf.Pow(t, 2);
         float s3 = Mathf.Pow(t, 3);
         Vector3 pos = (2 * s3 - 3 * s2 + 1) * initialPosition +
@@ -98,7 +118,12 @@ public class IndividualMovement : MonoBehaviour
     }
 
     IEnumerator Move() {
-        for (float s = 0.0f; s < 1.0f; s += 0.01f) {
+
+        float total_dist = Vector3.Distance(initialPosition, destination);
+
+        float increment_factor = total_dist / 50;
+
+        for (float s = 0.0f; s < 1.0f; s += 0.01f / increment_factor) {
             Vector3 newPos = InterpPosition(s);
             this.transform.position = new Vector3(newPos.x, this.transform.position.y, newPos.z);
 
@@ -116,7 +141,7 @@ public class IndividualMovement : MonoBehaviour
             orient *= Quaternion.AngleAxis(270, Vector3.up);
 
             this.transform.rotation = orient;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
         }
 
         this.transform.position = new Vector3(destination.x, this.transform.position.y, destination.z);
@@ -134,7 +159,7 @@ public class IndividualMovement : MonoBehaviour
     }
 
 
-    public void MoveTo(Vector3 dest, System.Action action) {
+    public void MoveToIndividually(Vector3 dest, System.Action action) {
         MoveAnimation();
 
         if (moveRoutine != null) {

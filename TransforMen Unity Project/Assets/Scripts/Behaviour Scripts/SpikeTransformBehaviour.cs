@@ -37,11 +37,8 @@ public class SpikeTransformBehaviour : MonoBehaviour, UnitAction
         }
     }
 
-    public void PerformAction(GameObject target)
+    public System.Action GetAction(GameObject target)
     {
-        Collider moveCollider = target.GetComponent<Collider>();
-        Vector3 destination = moveCollider.ClosestPoint(transform.position);
-
-        GetComponent<IndividualMovement>().MoveTo(destination, () => Transform(target));
+        return (() => Transform(target));
     }
 }
