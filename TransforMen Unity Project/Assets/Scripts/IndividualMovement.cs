@@ -12,6 +12,7 @@ public class IndividualMovement : MonoBehaviour
     public bool moving;
 
     private float movementForce = 30.0f;
+    private float wanderForce = 30.0f;
     private float separationForce = 50.0f;
     private float separationMinDistance = 10.0f;
     private float cohesionForce = 10.0f;
@@ -21,6 +22,10 @@ public class IndividualMovement : MonoBehaviour
     private Vector3 initialPosition;
     private IEnumerator moveRoutine = null;
     private System.Action actionOnArrival;
+
+    float wanderAngle = 10.0f;
+    float wanderRadius = 10.0f;
+    float wanderFutureDist = 10.0f;
 
     // Start is called before the first frame update
     void Start() {
@@ -66,13 +71,31 @@ public class IndividualMovement : MonoBehaviour
                 }
 
                 Vector3 dir = (destination.Position - transform.position).normalized;
+
+                UpdateWanderAngle();
+
+                Vector3 futurePos = transform.position + (dir * wanderFutureDist);
+                Vector3 target = futurePos + new Vector3(wanderRadius * Mathf.Cos(Mathf.Deg2Rad * wanderAngle), 0, wanderRadius * Mathf.Sin(Mathf.Deg2Rad * wanderAngle));
+                Vector3 wanderForceDir = (target - transform.position).normalized;
+
                 unitRB.AddForce(dir * movementForce * Time.deltaTime, ForceMode.VelocityChange);
+                unitRB.AddForce(wanderForceDir * wanderForce * Time.deltaTime, ForceMode.VelocityChange);
                 unitRB.AddForce(cohesionVec * cohesionForce * Time.deltaTime, ForceMode.VelocityChange);
                 unitRB.AddForce(separationVec * separationForce * Time.deltaTime, ForceMode.VelocityChange);
 
                 if (unitRB.velocity.magnitude > maxSpeed) {
                     unitRB.velocity = unitRB.velocity.normalized * maxSpeed;
                 }
+
+                dir.Normalize();
+
+                Quaternion orient = new Quaternion();
+                orient.SetLookRotation(new Vector3(dir.x, 0, dir.z), Vector3.up);
+                orient *= Quaternion.AngleAxis(180, Vector3.forward);
+                orient *= Quaternion.AngleAxis(180, Vector3.right);
+                orient *= Quaternion.AngleAxis(270, Vector3.up);
+
+                this.transform.rotation = orient;
 
                 Vector3 closestToDest = GetComponent<Collider>().ClosestPoint(destination.Position);
                 closestToDest.y = 0;
@@ -161,7 +184,6 @@ public class IndividualMovement : MonoBehaviour
         yield return null;
     }
 
-
     public void MoveToIndividually(Destination dest, System.Action action) {
         MoveAnimation();
 
@@ -197,5 +219,25 @@ public class IndividualMovement : MonoBehaviour
         }
 
         StopAnimation();
+    }
+
+    private void UpdateWanderAngle()
+    {
+        if (Random.value > 0.5)
+        {
+            wanderAngle += 5;
+            if (wanderAngle > 360)
+            {
+                wanderAngle -= 10;
+            }
+        }
+        else
+        {
+            wanderAngle -= 5;
+            if (wanderAngle < 0)
+            {
+                wanderAngle += 10;
+            }
+        }
     }
 }
