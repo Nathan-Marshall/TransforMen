@@ -21,8 +21,7 @@ public class AttackTarget : MonoBehaviour
     void Start() {
         animator = GetComponent<Animator>();
         GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.Enemy);
-        //TEMPORARILY OFF, SINCE NATHAN IS CHANGING THE PREFAB ATM 
-        animator.SetInteger("Health", 10); 
+        animator.SetInteger("Health", health); 
     }
 
     // Update is called once per frame

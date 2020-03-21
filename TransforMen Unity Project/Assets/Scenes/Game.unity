@@ -5429,6 +5429,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpgradeStation
       objectReference: {fileID: 0}
+    - target: {fileID: 4728491181336766467, guid: af7a59022a6fe574ba13a67d8f1e694a,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728491181336766467, guid: af7a59022a6fe574ba13a67d8f1e694a,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728491181336766717, guid: af7a59022a6fe574ba13a67d8f1e694a,
+        type: 3}
+      propertyPath: SpikeDude
+      value: 
+      objectReference: {fileID: 3677217010136190950, guid: 7759933490d4b564fa57e980673198dd,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af7a59022a6fe574ba13a67d8f1e694a, type: 3}
 --- !u!4 &7133785746452489871
