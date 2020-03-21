@@ -17,6 +17,8 @@ public class DynamicUnit : Unit
 
     public bool isSelected = false;
 
+    public System.Action stopAction = null;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {

@@ -41,4 +41,9 @@ public class SpikeTransformBehaviour : MonoBehaviour, UnitAction
     {
         return (() => Transform(target));
     }
+
+    public System.Action GetStopAction()
+    {
+        return null;
+    }
 }

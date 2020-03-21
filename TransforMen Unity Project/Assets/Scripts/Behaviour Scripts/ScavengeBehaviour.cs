@@ -45,6 +45,11 @@ public class ScavengeBehaviour : MonoBehaviour, UnitAction
         return (() => Scavenge(target));
     }
 
+    public System.Action GetStopAction()
+    {
+        return null;
+    }
+
     IEnumerator Animation(GameObject target)
     {
         PlayAnimation();

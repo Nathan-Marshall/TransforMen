@@ -10,9 +10,9 @@ public class MachineGun : Weapon
 {
     public MachineGun()
     {
-        SetRange(15);
+        SetRange(40);
         SetSpeed(15);
-        SetDamage(10);
+        SetDamage(1);
         SetFiringRate(15.0f);
     }
 }
