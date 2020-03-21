@@ -387,6 +387,7 @@ GameObject:
   - component: {fileID: 4270570708357879746}
   - component: {fileID: 7443021366285192389}
   - component: {fileID: 5254100618993162454}
+  - component: {fileID: 3425976103716073587}
   m_Layer: 0
   m_Name: CrawlerAlien
   m_TagString: Untagged
@@ -471,6 +472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moving: 0
+  isLeader: 0
 --- !u!114 &4270570708357879746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,8 +498,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45231ee50ab2ff54c90a36e0ce62e57e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  defense: 0
+  health: 20
+  defense: 2
 --- !u!114 &5254100618993162454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,6 +510,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f59048ad4f7e2d3419ad376d0179ac2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSelected: 0
+--- !u!114 &3425976103716073587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919012471076396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43ed06d6d5f77b547ad68b05d7d72eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0

@@ -14,6 +14,9 @@ public class AlienCrawlerMother : AttackUnit
 
     //AI-Controlled
 
+    float steerVelocity;
+    bool moves;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,17 +24,25 @@ public class AlienCrawlerMother : AttackUnit
         SetSelectable(false);
         SetDescription(desc);
         SetTransportable(true);
-        SetMoveSpeed(5);
+        SetMoveSpeed(30);
         SetCanScavenge(false);
         SetControllable(false);
         SetCanAttack(true);
         SetWeapon(new Melee());
         SetAttackTarget(null);
+
+        steerVelocity = Random.value * 0.5f - 0.25f;
+        transform.Rotate(0, Random.value * 360, 0);
+        moves = Random.value > 0.3f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (moves) {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            transform.Rotate(0, steerVelocity, 0);
+            rb.velocity = transform.rotation * new Vector3(moveSpeed, 0, 0);
+        }
     }
 }
