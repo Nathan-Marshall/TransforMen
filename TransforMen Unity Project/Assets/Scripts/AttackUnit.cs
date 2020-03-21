@@ -96,6 +96,13 @@ public class AttackUnit : DynamicUnit, UnitAction
                     animator.SetBool("Attacking", false);
                 }
 
+                Vector3 dir = (attackTarget.transform.position - transform.position).normalized;
+
+                Quaternion orient = new Quaternion();
+                orient.SetLookRotation(new Vector3(dir.x, 0, dir.z), Vector3.up);
+                orient *= Quaternion.AngleAxis(90, Vector3.up);
+                transform.rotation = orient;
+
                 yield return new WaitForSeconds(1.0f / weapon.GetFiringRate());
             }
         }
