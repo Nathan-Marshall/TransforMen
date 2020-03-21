@@ -12,7 +12,7 @@ public class Melee : Weapon
     {
         SetRange(5);
         SetSpeed(25);
-        SetDamage(28);
-        SetFiringRate(6.0f);
+        SetDamage(5);
+        SetFiringRate(1.0f);
     }
 }

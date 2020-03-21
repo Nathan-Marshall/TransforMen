@@ -32,7 +32,7 @@ public class TransformStation : StaticUnit
 
         Destroy(unit);
 
-        Vector3 newPos = new Vector3(unitPosition.x, SpikeDude.transform.position.y + 5, unitPosition.z) - (new Vector3(spacingVec.x, 0, spacingVec.z) * 5);
+        Vector3 newPos = new Vector3(unitPosition.x, 10, unitPosition.z) - (new Vector3(spacingVec.x, 0, spacingVec.z) * 5);
 
         Instantiate(SpikeDude, newPos, Quaternion.identity);
     }

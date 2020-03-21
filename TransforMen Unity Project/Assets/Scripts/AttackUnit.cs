@@ -14,11 +14,15 @@ public class AttackUnit : DynamicUnit, UnitAction
     protected bool canAttack; //whether or not the unit can attack 
     protected AttackTarget target = null; //the current target to attack 
 
+    private IEnumerator attackRoutine;
+    private Animator animator;
+
     // Start is called before the first frame update
     protected override void Start() {
         base.Start();
         BehaviourMap mapping = GetComponent<BehaviourMap>();
         mapping.behaviourMap.Add(UnitController.TargetType.Enemy, GetType());
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -51,11 +55,59 @@ public class AttackUnit : DynamicUnit, UnitAction
         if (target == null) {
             return;
         }
-        this.target = target.GetComponent<AttackTarget>();
-        target.GetComponent<AttackTarget>().TakeDamage(weapon.GetDamage());
+
+        if (attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+        }
+
+        attackRoutine = SeekAndDestroy(target);
+
+        StartCoroutine(attackRoutine);
+    }
+
+    IEnumerator SeekAndDestroy(GameObject attackTarget)
+    {
+        target = attackTarget.GetComponent<AttackTarget>();
+
+        while (target.GetHealth() > 0)
+        {
+            Vector3 closestToTarget = GetComponent<Collider>().ClosestPoint(attackTarget.transform.position);
+            Vector3 closestToThis = attackTarget.GetComponent<Collider>().ClosestPoint(transform.position);
+
+            if (Vector3.Distance(closestToThis, closestToTarget) > weapon.GetRange())
+            {
+                animator.SetBool("Attacking", false);
+
+                if (gameObject.GetComponent<IndividualMovement>().moving == false)
+                {
+                    GetComponent<IndividualMovement>().MoveTo(new Destination(attackTarget), null, null, false, false, true);
+                }
+
+                yield return new WaitForSeconds(0.05f);
+            }
+            else
+            {
+                animator.SetBool("Attacking", true);
+                target.TakeDamage(weapon.GetDamage());
+
+                if (target.GetHealth() <= 0)
+                {
+                    animator.SetBool("Attacking", false);
+                }
+
+                yield return new WaitForSeconds(1.0f / weapon.GetFiringRate());
+            }
+        }
+        animator.SetBool("Attacking", false);
+        yield return null;
     }
 
     public System.Action GetAction(GameObject target) {
         return (() => Attack(target));
+    }
+    public System.Action GetStopAction()
+    {
+        return (() => { StopCoroutine(attackRoutine); animator.SetBool("Attacking", false); });
     }
 }

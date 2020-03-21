@@ -57,6 +57,8 @@ public class UnitController : MonoBehaviour
                     // Set the destination for the selected units
                     foreach (GameObject unit in selectedUnits)
                     {
+                        unit.GetComponent<DynamicUnit>().stopAction?.Invoke();
+
                         if (unit == leaderObj)
                         {
                             unit.GetComponent<IndividualMovement>().MoveTo(new Destination(hit.point), null, null, selectedUnits.Count == 1, true);
@@ -80,16 +82,29 @@ public class UnitController : MonoBehaviour
                         {
                             if (behaviourMap.ContainsKey(type))
                             {
+                                unit.GetComponent<DynamicUnit>().stopAction?.Invoke();
+
                                 UnitAction behaviourComponent = (UnitAction)unit.GetComponent(behaviourMap[type]);
                                 System.Action action = behaviourComponent.GetAction(target);
+                                System.Action stopAction = behaviourComponent.GetStopAction();
 
-                                if (unit == leaderObj)
+                                unit.GetComponent<DynamicUnit>().stopAction = stopAction;
+
+                                //Enemy movement is handled by seek and destroy behaviour
+                                if (type == TargetType.Enemy)
                                 {
-                                    unit.GetComponent<IndividualMovement>().MoveTo(new Destination(target), null, action, selectedUnits.Count == 1, true);
+                                    action();
                                 }
-                                else
-                                {
-                                    unit.GetComponent<IndividualMovement>().MoveTo(new Destination(leaderObj), new Destination(target), action, selectedUnits.Count == 1);
+                                else 
+                                { 
+                                    if (unit == leaderObj)
+                                    {
+                                        unit.GetComponent<IndividualMovement>().MoveTo(new Destination(target), null, action, selectedUnits.Count == 1, true);
+                                    }
+                                    else
+                                    {
+                                        unit.GetComponent<IndividualMovement>().MoveTo(new Destination(leaderObj), new Destination(target), action, selectedUnits.Count == 1);
+                                    }
                                 }
                             }
                         }

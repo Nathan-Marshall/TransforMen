@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class IndividualMovement : MonoBehaviour
 {
-    const float InteractionRange = 15.0f;
+    public const float InteractionRange = 15.0f;
 
     private Animator animator;
     public Destination destination;
     public Destination actionDestination;
 
+    public bool flockMoving;
     public bool moving;
+    public bool attackMovement;
+
     public bool isLeader;
 
     private float movementForce = 30.0f;
@@ -40,7 +43,7 @@ public class IndividualMovement : MonoBehaviour
     void Update() {
         Rigidbody unitRB = GetComponent<Rigidbody>();
 
-        if (moving) {
+        if (flockMoving) {
             if (destination == null || !destination.Exists()) {
                 ReachedDestination();
             } else {
@@ -127,17 +130,38 @@ public class IndividualMovement : MonoBehaviour
                 closestToDest.y = 0;
                 closestToThis.y = 0;
 
-                if ((closestToThis - closestToDest).magnitude < InteractionRange) {
-                    ReachedDestination();
+                if (attackMovement)
+                {
+                    if ((closestToThis - closestToDest).magnitude < gameObject.GetComponent<AttackUnit>().GetWeapon().GetRange())
+                    {
+                        ReachedDestination();
+                    }
                 }
+                else
+                {
+                    if ((closestToThis - closestToDest).magnitude < InteractionRange)
+                    {
+                        ReachedDestination();
+                    }
+                }
+                
             }
         } else {
             unitRB.velocity *= 0.99f;
         }
     }
 
-    public void MoveTo(Destination dest, Destination actionDest, System.Action action, bool individual, bool isLeader = false)
+    public void MoveTo(Destination dest, Destination actionDest, System.Action action, bool individual, bool isLeader = false, bool isAttacking = false)
     {
+
+        if (moveRoutine != null)
+        {
+            StopCoroutine(moveRoutine);
+        }
+
+        moving = true;
+        attackMovement = isAttacking;
+
         if (individual)
         {
             MoveToIndividually(dest, action);
@@ -150,7 +174,7 @@ public class IndividualMovement : MonoBehaviour
             destination = dest;
             actionDestination = actionDest;
             actionOnArrival = action;
-            moving = true;
+            flockMoving = true;
         }
     }
 
@@ -190,17 +214,17 @@ public class IndividualMovement : MonoBehaviour
             Vector3 curve_tan = InterpPosition(s + 0.01f, closestDestPoint) - InterpPosition(s, closestDestPoint);
             curve_tan.Normalize();
 
-            if (s >= 0.99f) {
-                curve_tan = new Vector3(0, 0, -1);
+            if (s <= 0.99f)
+            {
+                Quaternion orient = new Quaternion();
+                orient.SetLookRotation(new Vector3(curve_tan.x, 0, curve_tan.z), Vector3.up);
+                orient *= Quaternion.AngleAxis(180, Vector3.forward);
+                orient *= Quaternion.AngleAxis(180, Vector3.right);
+                orient *= Quaternion.AngleAxis(270, Vector3.up);
+
+                this.transform.rotation = orient;
             }
-
-            Quaternion orient = new Quaternion();
-            orient.SetLookRotation(new Vector3(curve_tan.x, 0, curve_tan.z), Vector3.up);
-            orient *= Quaternion.AngleAxis(180, Vector3.forward);
-            orient *= Quaternion.AngleAxis(180, Vector3.right);
-            orient *= Quaternion.AngleAxis(270, Vector3.up);
-
-            this.transform.rotation = orient;
+            
             yield return new WaitForSeconds(0.01f);
         }
 
@@ -238,6 +262,7 @@ public class IndividualMovement : MonoBehaviour
     private void ReachedDestination() {
         destination = null;
         moving = false;
+        flockMoving = false;
         GetComponent<Rigidbody>().velocity *= 0.1f;
 
         if (actionOnArrival != null) {
