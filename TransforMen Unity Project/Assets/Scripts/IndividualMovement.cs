@@ -7,10 +7,10 @@ public class IndividualMovement : MonoBehaviour
     public const float InteractionRange = 15.0f;
 
     private Animator animator;
-    public Destination destination;
+    private Destination destination;
     public Destination actionDestination;
 
-    public bool flockMoving;
+    public bool flockMoving = false;
     public bool moving;
     public bool attackMovement;
 
@@ -49,6 +49,7 @@ public class IndividualMovement : MonoBehaviour
             } else {
 
                 if (!isLeader && destination.Type == Destination.DestinationType.UnitTarget
+                    && destination.UnitTarget.tag == "Ally"
                     && destination.UnitTarget.GetComponent<IndividualMovement>() != null
                     && !destination.UnitTarget.GetComponent<IndividualMovement>().moving)
                 {
