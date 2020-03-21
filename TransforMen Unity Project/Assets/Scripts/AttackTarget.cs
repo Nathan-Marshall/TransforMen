@@ -11,13 +11,18 @@ public class AttackTarget : MonoBehaviour
 {
     //Collaborators: Attack Unit, Dynamic Unit 
 
+    private Animator animator; 
+
     //On damaged event 
     public int health; //the amount of health this target has 
     public int defense; //the defense of this target 
 
     // Start is called before the first frame update
     void Start() {
+        animator = GetComponent<Animator>();
         GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.Enemy);
+        //TEMPORARILY OFF, SINCE NATHAN IS CHANGING THE PREFAB ATM 
+        animator.SetInteger("Health", 10); 
     }
 
     // Update is called once per frame
@@ -49,6 +54,17 @@ public class AttackTarget : MonoBehaviour
     }
 
     private void Die() {
+
+        StartCoroutine(AnimatedDeath()); 
+        //Destroy(gameObject);
+    }
+
+    IEnumerator AnimatedDeath()
+    {
+        animator.SetInteger("Health", health);
+
+        yield return new WaitForSeconds(1.5f);
+
         Destroy(gameObject);
     }
 }
