@@ -38,33 +38,59 @@ public class UnitController : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.name != "Terrain")
             {
+
+                GameObject leaderObj = selectedUnits[0];
+                float minDist = 99999999;
+
+                foreach (GameObject unit in selectedUnits)
+                {
+                    float dist = Vector3.Distance(unit.transform.position, hit.point);
+                    if (dist < minDist)
+                    {
+                        leaderObj = unit;
+                        minDist = dist;
+                    }
+                }
+
                 if (hit.collider.name == "Selection Plane")
                 {
                     // Set the destination for the selected units
                     foreach (GameObject unit in selectedUnits)
                     {
-                        unit.GetComponent<IndividualMovement>().MoveTo(new Destination(hit.point), null,
-                            selectedUnits.Count == 1);
+                        if (unit == leaderObj)
+                        {
+                            unit.GetComponent<IndividualMovement>().MoveTo(new Destination(hit.point), null, null, selectedUnits.Count == 1, true);
+                        }
+                        else
+                        {
+                            unit.GetComponent<IndividualMovement>().MoveTo(new Destination(leaderObj), new Destination(hit.point), null, selectedUnits.Count == 1);
+                        }
                     }
                 }
                 else
                 {
                     GameObject target = hit.collider.gameObject;
 
-                    foreach (GameObject selectedUnit in selectedUnits)
+                    foreach (GameObject unit in selectedUnits)
                     {
-                        Dictionary<TargetType, System.Type> behaviourMap = selectedUnit.GetComponent<BehaviourMap>().behaviourMap;
+                        Dictionary<TargetType, System.Type> behaviourMap = unit.GetComponent<BehaviourMap>().behaviourMap;
                         List<TargetType> targetTypes = target.GetComponent<BehaviourMap>().targetTypes;
 
                         foreach (TargetType type in targetTypes)
                         {
                             if (behaviourMap.ContainsKey(type))
                             {
-                                UnitAction behaviourComponent = (UnitAction)selectedUnit.GetComponent(behaviourMap[type]);
+                                UnitAction behaviourComponent = (UnitAction)unit.GetComponent(behaviourMap[type]);
                                 System.Action action = behaviourComponent.GetAction(target);
 
-                                selectedUnit.GetComponent<IndividualMovement>().MoveTo(new Destination(target), action,
-                                    selectedUnits.Count == 1);
+                                if (unit == leaderObj)
+                                {
+                                    unit.GetComponent<IndividualMovement>().MoveTo(new Destination(target), null, action, selectedUnits.Count == 1, true);
+                                }
+                                else
+                                {
+                                    unit.GetComponent<IndividualMovement>().MoveTo(new Destination(leaderObj), new Destination(target), action, selectedUnits.Count == 1);
+                                }
                             }
                         }
                     }

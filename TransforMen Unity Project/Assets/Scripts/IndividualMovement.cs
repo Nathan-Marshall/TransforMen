@@ -8,8 +8,10 @@ public class IndividualMovement : MonoBehaviour
 
     private Animator animator;
     public Destination destination;
+    public Destination actionDestination;
 
     public bool moving;
+    public bool isLeader;
 
     private float movementForce = 30.0f;
     private float wanderForce = 30.0f;
@@ -42,6 +44,14 @@ public class IndividualMovement : MonoBehaviour
             if (destination == null || !destination.Exists()) {
                 ReachedDestination();
             } else {
+
+                if (!isLeader && destination.Type == Destination.DestinationType.UnitTarget
+                    && destination.UnitTarget.GetComponent<IndividualMovement>() != null
+                    && !destination.UnitTarget.GetComponent<IndividualMovement>().moving)
+                {
+                    destination = actionDestination;
+                }
+                
                 DynamicUnit[] otherUnits = FindObjectsOfType<DynamicUnit>();
                 Vector3 separationVec = new Vector3();
                 Vector3 cohesionVec = new Vector3();
@@ -78,8 +88,12 @@ public class IndividualMovement : MonoBehaviour
                 Vector3 target = futurePos + new Vector3(wanderRadius * Mathf.Cos(Mathf.Deg2Rad * wanderAngle), 0, wanderRadius * Mathf.Sin(Mathf.Deg2Rad * wanderAngle));
                 Vector3 wanderForceDir = (target - transform.position).normalized;
 
+                if (isLeader)
+                {
+                    unitRB.AddForce(wanderForceDir * wanderForce * Time.deltaTime, ForceMode.VelocityChange);
+                }
+
                 unitRB.AddForce(dir * movementForce * Time.deltaTime, ForceMode.VelocityChange);
-                unitRB.AddForce(wanderForceDir * wanderForce * Time.deltaTime, ForceMode.VelocityChange);
                 unitRB.AddForce(cohesionVec * cohesionForce * Time.deltaTime, ForceMode.VelocityChange);
                 unitRB.AddForce(separationVec * separationForce * Time.deltaTime, ForceMode.VelocityChange);
 
@@ -95,13 +109,24 @@ public class IndividualMovement : MonoBehaviour
                 orient *= Quaternion.AngleAxis(180, Vector3.right);
                 orient *= Quaternion.AngleAxis(270, Vector3.up);
 
-                this.transform.rotation = orient;
+                transform.rotation = orient;
 
-                Vector3 closestToDest = GetComponent<Collider>().ClosestPoint(destination.Position);
+                Vector3 closestToDest, closestToThis;
+
+                if (actionDestination != null)
+                {
+                    closestToDest = GetComponent<Collider>().ClosestPoint(actionDestination.Position);
+                    closestToThis = actionDestination.ClosestPoint(transform.position);
+                }
+                else
+                {
+                    closestToDest = GetComponent<Collider>().ClosestPoint(destination.Position);
+                    closestToThis = destination.ClosestPoint(transform.position);
+                }
+
                 closestToDest.y = 0;
-                Vector3 closestToThis = destination.ClosestPoint(transform.position);
                 closestToThis.y = 0;
-                Debug.Log(this + " p:" + transform.position + " ctd:" + closestToDest + " d:" + destination.Position + " ctt:" + closestToThis);
+
                 if ((closestToThis - closestToDest).magnitude < InteractionRange) {
                     ReachedDestination();
                 }
@@ -111,7 +136,7 @@ public class IndividualMovement : MonoBehaviour
         }
     }
 
-    public void MoveTo(Destination dest, System.Action action, bool individual)
+    public void MoveTo(Destination dest, Destination actionDest, System.Action action, bool individual, bool isLeader = false)
     {
         if (individual)
         {
@@ -121,7 +146,9 @@ public class IndividualMovement : MonoBehaviour
         {
             MoveAnimation();
 
+            this.isLeader = isLeader;
             destination = dest;
+            actionDestination = actionDest;
             actionOnArrival = action;
             moving = true;
         }
