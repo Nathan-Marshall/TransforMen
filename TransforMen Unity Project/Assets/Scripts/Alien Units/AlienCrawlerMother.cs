@@ -42,7 +42,7 @@ public class AlienCrawlerMother : AttackUnit
         if (moves) {
             Rigidbody rb = GetComponent<Rigidbody>();
             transform.Rotate(0, steerVelocity, 0);
-            rb.velocity = transform.rotation * new Vector3(moveSpeed, 0, 0);
+            rb.velocity = transform.rotation * new Vector3(-moveSpeed, 0, 0);
         }
     }
 }
