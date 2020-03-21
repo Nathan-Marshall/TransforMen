@@ -867,6 +867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moving: 0
+  isLeader: 0
 --- !u!114 &5629657419673447301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1301,7 +1302,7 @@ Projector:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5603914515754193319}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_NearClipPlane: 0.1
   m_FarClipPlane: 20
