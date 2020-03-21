@@ -109,9 +109,7 @@ public class IndividualMovement : MonoBehaviour
 
                 Quaternion orient = new Quaternion();
                 orient.SetLookRotation(new Vector3(dir.x, 0, dir.z), Vector3.up);
-                orient *= Quaternion.AngleAxis(180, Vector3.forward);
-                orient *= Quaternion.AngleAxis(180, Vector3.right);
-                orient *= Quaternion.AngleAxis(270, Vector3.up);
+                orient *= Quaternion.AngleAxis(90, Vector3.up);
 
                 transform.rotation = orient;
 
