@@ -9,7 +9,6 @@ using UnityEngine;
 
 public class AlienCrawlerMother : AttackUnit
 {
-    private Animator animator; 
     private string desc = "Alien who spawns enemies";
     //Collaborators: Dynamic Unit, Attack Target, Attack Unit 
 
@@ -37,15 +36,16 @@ public class AlienCrawlerMother : AttackUnit
         moves = Random.value > 0.3f;
 
         animator = GetComponent<Animator>();
-        if (moves)
-        {
-            animator.SetFloat("Speed", 1.0f);
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (moves)
+        {
+            animator.SetFloat("Speed", 1.0f);
+        }
+
         if (moves && GetComponent<AttackTarget>().GetHealth() > 0) {
             Rigidbody rb = GetComponent<Rigidbody>();
             transform.Rotate(0, steerVelocity, 0);
