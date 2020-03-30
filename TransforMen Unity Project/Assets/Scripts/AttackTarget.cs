@@ -63,7 +63,6 @@ public class AttackTarget : MonoBehaviour
         if (animator)
         {
             animator.SetInteger("Health", health);
-
             yield return new WaitForSeconds(1.5f);
         }
         
