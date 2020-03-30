@@ -100,7 +100,7 @@ public class IsoCameraControl : MonoBehaviour
     {
         cam = GetComponent<Camera>();
 
-        Zoom = 1;
+        Zoom = 5;
     }
 
     // Update is called once per frame

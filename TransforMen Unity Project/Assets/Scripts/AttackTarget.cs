@@ -66,6 +66,12 @@ public class AttackTarget : MonoBehaviour
             yield return new WaitForSeconds(1.5f);
         }
         
+        //Check if we have a crawler mother, we will have to spawn units upon death
+        if (gameObject.GetComponent<AlienCrawlerMother>() != null)
+        {
+            gameObject.GetComponent<AlienCrawlerMother>().SpawnChildren();
+        }
+
         Destroy(gameObject);
     }
 }
