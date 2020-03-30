@@ -9,7 +9,8 @@ public class UnitController : MonoBehaviour
         Ruin,
         Ally,
         Enemy,
-        TransformStation
+        TransformStation,
+        Hive
     }
 
     // Start is called before the first frame update
