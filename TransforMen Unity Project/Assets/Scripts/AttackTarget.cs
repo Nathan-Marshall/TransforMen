@@ -60,9 +60,12 @@ public class AttackTarget : MonoBehaviour
 
     IEnumerator AnimatedDeath()
     {
-        animator.SetInteger("Health", health);
+        if (animator)
+        {
+            animator.SetInteger("Health", health);
 
-        yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.5f);
+        }
 
         Destroy(gameObject);
     }
