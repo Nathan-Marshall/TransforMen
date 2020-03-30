@@ -15,7 +15,7 @@ public class AttackUnit : DynamicUnit, UnitAction
     protected AttackTarget target = null; //the current target to attack 
 
     private IEnumerator attackRoutine;
-    private Animator animator;
+    protected Animator animator;
 
     // Start is called before the first frame update
     protected override void Start() {

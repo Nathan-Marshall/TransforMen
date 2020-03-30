@@ -471,7 +471,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 769e6ae32f9fd194dbe416d411c2f438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flockMoving: 0
   moving: 0
+  attackMovement: 0
   isLeader: 0
 --- !u!114 &4270570708357879746
 MonoBehaviour:
@@ -526,6 +528,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
+  childPrefab: {fileID: 385102572809162401, guid: ab1f5e70d82147741a0638431e625c89,
+    type: 3}
 --- !u!1 &1989916952965676
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,6 +27,8 @@ public class SpikeAlien : AttackUnit
         SetCanAttack(true);
         SetWeapon(new SpikeShooter());
         SetAttackTarget(null);
+
+        GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.Enemy);
     }
 
     // Update is called once per frame
