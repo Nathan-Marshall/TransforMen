@@ -782,6 +782,7 @@ GameObject:
   - component: {fileID: 5882835466254756037}
   - component: {fileID: 5629657419673447301}
   - component: {fileID: -7762705089280359221}
+  - component: {fileID: -8621494514772585289}
   m_Layer: 0
   m_Name: SpikeAlien
   m_TagString: Untagged
@@ -865,7 +866,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 769e6ae32f9fd194dbe416d411c2f438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flockMoving: 0
   moving: 0
+  attackMovement: 0
+  isLeader: 0
 --- !u!114 &5629657419673447301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,6 +896,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
+--- !u!114 &-8621494514772585289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3683726637548543286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45231ee50ab2ff54c90a36e0ce62e57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  defense: 0
 --- !u!1 &3683737300622563316
 GameObject:
   m_ObjectHideFlags: 0
