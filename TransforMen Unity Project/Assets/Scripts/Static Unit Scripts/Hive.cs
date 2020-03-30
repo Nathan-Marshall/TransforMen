@@ -24,14 +24,24 @@ public class Hive : StaticUnit
 
     IEnumerator Spawn()
     {
-        Transform spawnStart = transform.Find("SpawnStart");
-        Vector3 forceDir = new Vector3(0, 0, 1);
-
+        Transform spawnStart = transform.Find("SpawnPoint");
+        
         while (true)
         {
-            GameObject newSpawn = Instantiate(spawnedEnemy, spawnStart.position, Quaternion.identity);
+            Vector3 forceDir = (spawnStart.position - transform.position).normalized;
+            Vector3 forceModifier = Vector3.Cross(forceDir, Vector3.up).normalized;
 
-            newSpawn.GetComponent<Rigidbody>().AddForce(forceDir * 10000, ForceMode.Impulse);
+            float modifierStrength = Random.Range(0.0f, 2.0f);
+            if (Random.value > 0.5)
+            {
+                modifierStrength *= -1;
+            }
+
+            Vector3 spawnPos = transform.position + (forceDir * 5) + (forceModifier * modifierStrength);
+
+            GameObject newSpawn = Instantiate(spawnedEnemy, spawnPos, Quaternion.identity);
+
+            newSpawn.GetComponent<Rigidbody>().AddForce((spawnPos - transform.position).normalized * 10000, ForceMode.Impulse);
 
             yield return new WaitForSeconds(spawnRate);
         }
