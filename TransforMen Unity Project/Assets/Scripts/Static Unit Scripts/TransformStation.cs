@@ -10,7 +10,7 @@ public class TransformStation : StaticUnit
         Crawler
     }
 
-    public Transform SpikeDude;
+    public GameObject SpikeDude;
 
     // Start is called before the first frame update
     void Start()
