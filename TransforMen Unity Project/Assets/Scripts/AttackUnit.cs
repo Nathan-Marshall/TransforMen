@@ -81,7 +81,7 @@ public class AttackUnit : DynamicUnit, UnitAction
 
                 if (gameObject.GetComponent<IndividualMovement>().moving == false)
                 {
-                    GetComponent<IndividualMovement>().MoveTo(new Destination(attackTarget), null, null, false, false, true);
+                    GetComponent<IndividualMovement>().MoveTo(new Destination(attackTarget), null, true);
                 }
 
                 yield return new WaitForSeconds(0.05f);

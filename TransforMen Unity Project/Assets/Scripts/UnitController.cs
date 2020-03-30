@@ -38,35 +38,13 @@ public class UnitController : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.name != "Terrain")
             {
-
-                GameObject leaderObj = selectedUnits[0];
-                float minDist = 99999999;
-
-                foreach (GameObject unit in selectedUnits)
-                {
-                    float dist = Vector3.Distance(unit.transform.position, hit.point);
-                    if (dist < minDist)
-                    {
-                        leaderObj = unit;
-                        minDist = dist;
-                    }
-                }
-
                 if (hit.collider.name == "Selection Plane")
                 {
                     // Set the destination for the selected units
                     foreach (GameObject unit in selectedUnits)
                     {
                         unit.GetComponent<DynamicUnit>().stopAction?.Invoke();
-
-                        if (unit == leaderObj)
-                        {
-                            unit.GetComponent<IndividualMovement>().MoveTo(new Destination(hit.point), null, null, selectedUnits.Count == 1, true);
-                        }
-                        else
-                        {
-                            unit.GetComponent<IndividualMovement>().MoveTo(new Destination(leaderObj), new Destination(hit.point), null, selectedUnits.Count == 1);
-                        }
+                        unit.GetComponent<IndividualMovement>().MoveTo(new Destination(hit.point), null);
                     }
                 }
                 else
@@ -97,14 +75,7 @@ public class UnitController : MonoBehaviour
                                 }
                                 else 
                                 { 
-                                    if (unit == leaderObj)
-                                    {
-                                        unit.GetComponent<IndividualMovement>().MoveTo(new Destination(target), null, action, selectedUnits.Count == 1, true);
-                                    }
-                                    else
-                                    {
-                                        unit.GetComponent<IndividualMovement>().MoveTo(new Destination(leaderObj), new Destination(target), action, selectedUnits.Count == 1);
-                                    }
+                                    unit.GetComponent<IndividualMovement>().MoveTo(new Destination(target), action);
                                 }
                             }
                         }

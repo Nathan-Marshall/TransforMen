@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class AlienCrawlerMother : AttackUnit
 {
-    private Animator animator; 
+    private Animator alienAnimator; 
     private string desc = "Alien who spawns enemies";
     //Collaborators: Dynamic Unit, Attack Target, Attack Unit 
 
@@ -36,10 +36,10 @@ public class AlienCrawlerMother : AttackUnit
         transform.Rotate(0, Random.value * 360, 0);
         moves = Random.value > 0.3f;
 
-        animator = GetComponent<Animator>();
+        alienAnimator = GetComponent<Animator>();
         if (moves)
         {
-            animator.SetFloat("Speed", 1.0f);
+            alienAnimator.SetFloat("Speed", 1.0f);
         }
     }
 
