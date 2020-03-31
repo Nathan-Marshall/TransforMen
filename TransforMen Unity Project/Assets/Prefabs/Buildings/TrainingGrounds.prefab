@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3996227937529607446}
   - component: {fileID: 7410594443489857016}
-  - component: {fileID: 7886412192900043900}
-  - component: {fileID: 14803408516692785}
   m_Layer: 0
   m_Name: TrainingGrounds
   m_TagString: Untagged
@@ -31,7 +29,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8749787438254665327}
-  - {fileID: 6648808567168095009}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
@@ -48,65 +45,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 43, y: 32, z: 55}
   m_Center: {x: 10, y: 20, z: -10}
---- !u!114 &7886412192900043900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415432652959394490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e783d47b03077384eb2a18fa4b9c677a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTypes: 
---- !u!114 &14803408516692785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415432652959394490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a42c7e4e839ab40b6b12fbfcc59a51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infantryPrefab: {fileID: 7843086406924753338, guid: 64e3be0e5c212c440982b680e27aad3d,
-    type: 3}
-  populationCost: 1
-  scrapCost: 5
---- !u!1 &5460948670232726665
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6648808567168095009}
-  m_Layer: 0
-  m_Name: SpernPernt
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6648808567168095009
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5460948670232726665}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39, y: 7.2, z: -7.9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3996227937529607446}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6332155702351876531
 GameObject:
   m_ObjectHideFlags: 0

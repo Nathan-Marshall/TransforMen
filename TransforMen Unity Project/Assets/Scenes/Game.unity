@@ -1586,7 +1586,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &687603192
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1654,8 +1654,7 @@ MonoBehaviour:
         m_MethodName: BeginPlacing
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1415432652959394490, guid: b0b8a53b72ee43746838d720eb9c0999,
-            type: 3}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
