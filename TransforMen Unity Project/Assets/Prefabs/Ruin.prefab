@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 2147762604097678753}
   - component: {fileID: 2147762604097678759}
   - component: {fileID: 2147762604097678758}
+  - component: {fileID: 3545773772191114510}
   m_Layer: 0
   m_Name: Ruin
   m_TagString: Untagged
@@ -151,3 +152,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e5a650378727f45a52aba79b04870d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!208 &3545773772191114510
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7993765796770888463}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.126827, y: 0.9990455, z: 1.869013}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 1.78426, y: 2.757947, z: 2.363557}
+  m_TimeToStationary: 0
