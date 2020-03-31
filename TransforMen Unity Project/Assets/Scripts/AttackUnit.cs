@@ -98,10 +98,7 @@ public class AttackUnit : DynamicUnit, UnitAction
 
                 Vector3 dir = (attackTarget.transform.position - transform.position).normalized;
 
-                Quaternion orient = new Quaternion();
-                orient.SetLookRotation(new Vector3(dir.x, 0, dir.z), Vector3.up);
-                orient *= Quaternion.AngleAxis(90, Vector3.up);
-                transform.rotation = orient;
+                transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z), Vector3.up);
 
                 yield return new WaitForSeconds(1.0f / weapon.GetFiringRate());
             }
