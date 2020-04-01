@@ -14,8 +14,7 @@ public class AttackUnit : DynamicUnit, UnitAction
     protected bool canAttack; //whether or not the unit can attack 
     protected AttackTarget target = null; //the current target to attack 
 
-    private IEnumerator attackRoutine;
-    private IEnumerator defendRoutine;
+    private IEnumerator currentRoutine;
 
     protected Animator animator;
 
@@ -58,16 +57,9 @@ public class AttackUnit : DynamicUnit, UnitAction
 
     private void ChangeState(AttackUnitState toState)
     {
-        if (attackRoutine != null)
+        if (currentRoutine != null)
         {
-            StopCoroutine(attackRoutine);
-            attackRoutine = null;
-        }
-
-        if (defendRoutine != null)
-        {
-            StopCoroutine(defendRoutine);
-            defendRoutine = null;
+            StopCoroutine(currentRoutine);
         }
 
         animator.SetBool("Attacking", false);
@@ -89,27 +81,22 @@ public class AttackUnit : DynamicUnit, UnitAction
             return;
         }
 
-        if (attackRoutine != null)
-        {
-            StopCoroutine(attackRoutine);
-        }
-
         ChangeState(AttackUnitState.ATTACKING);
-        attackRoutine = SeekAndDestroy(target);
-        StartCoroutine(attackRoutine);
+        currentRoutine = SeekAndDestroy(target);
+        StartCoroutine(currentRoutine);
     }
 
     public void Defend()
     {
         IndividualMovement movement = gameObject.GetComponent<IndividualMovement>();
 
-        if (movement.moving && defendRoutine != null)
+        if (movement.moving && currentRoutine != null)
         {
             ChangeState(AttackUnitState.DEFENDING);
         }
 
         // If we are not currently running a defend routine, we should start one now
-        else if (defendRoutine == null && movement != null && movement.moving == false)
+        else if (currentRoutine == null && movement != null && movement.moving == false)
         {
             Collider[] nearbyColliders = Physics.OverlapSphere(this.transform.position, weapon.GetRange());
 
@@ -142,8 +129,8 @@ public class AttackUnit : DynamicUnit, UnitAction
 
                 if (nearestEnemy != null)
                 {
-                    defendRoutine = DefendingAttack(nearestEnemy);
-                    StartCoroutine(defendRoutine);
+                    currentRoutine = DefendingAttack(nearestEnemy);
+                    StartCoroutine(currentRoutine);
                 }
             }
         }
