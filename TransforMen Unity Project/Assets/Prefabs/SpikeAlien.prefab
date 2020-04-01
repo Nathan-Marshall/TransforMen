@@ -786,7 +786,7 @@ GameObject:
   - component: {fileID: 6447916009049625126}
   m_Layer: 0
   m_Name: SpikeAlien
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -909,6 +909,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   defense: 0
+  spikeResource: 5
+  crawlResource: 0
+  scrapResource: 0
 --- !u!195 &6447916009049625126
 NavMeshAgent:
   m_ObjectHideFlags: 0

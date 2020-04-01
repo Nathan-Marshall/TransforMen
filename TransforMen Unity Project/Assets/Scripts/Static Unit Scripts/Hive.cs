@@ -13,13 +13,40 @@ public class Hive : StaticUnit
     {
         GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.Enemy);
 
+        if (spawnedEnemy == null)
+        {
+            Debug.LogError("ERROR: Spawned enemy is null!");
+        }
+        else
+        {
+            string enemyType = spawnedEnemy.name;
+
+            if (enemyType.Equals("SpikeAlien"))
+            {
+                int spikeResource = spawnedEnemy.GetComponent<SpikeAlien>().GetComponent<AttackTarget>().GetSpikeResource(); 
+                GetComponent<AttackTarget>().SetSpikeResource(spikeResource); 
+            }
+            else if (enemyType.Equals("CrawlerAlien"))
+            {
+                int crawlResource = spawnedEnemy.GetComponent<AlienCrawlerMother>().GetComponent<AttackTarget>().GetCrawlResource();
+                GetComponent<AttackTarget>().SetCrawlResource(crawlResource);
+            }
+            else
+            {
+                Debug.LogError("ERROR: Spawned Enemy not recognized!");
+            }
+
+        }
+
+        //Debug.Log(GetComponent<AttackTarget>().); 
+
         StartCoroutine(Spawn());
     }
 
     // Update is called once per frame
     void Update()
     {
-
+       
     }
 
     IEnumerator Spawn()

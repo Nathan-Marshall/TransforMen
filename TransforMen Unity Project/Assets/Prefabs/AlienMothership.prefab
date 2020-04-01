@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5001789950459605564}
   m_Layer: 0
   m_Name: AlienMothership
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,6 +95,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1000
   defense: 10
+  spikeResource: 0
+  crawlResource: 0
+  scrapResource: 0
 --- !u!114 &8691686658407056301
 MonoBehaviour:
   m_ObjectHideFlags: 0
