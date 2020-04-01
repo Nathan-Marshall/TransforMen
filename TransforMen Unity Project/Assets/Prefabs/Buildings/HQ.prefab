@@ -41,6 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1200088463113576305}
   - component: {fileID: 7603155226631385178}
+  - component: {fileID: 3601139961194452479}
+  - component: {fileID: 5182721399855999964}
   - component: {fileID: 6552048355683140595}
   m_Layer: 0
   m_Name: HQ
@@ -77,6 +79,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 45, y: 65, z: 70}
   m_Center: {x: 0, y: 40, z: 3}
+--- !u!114 &3601139961194452479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200088463113576306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e783d47b03077384eb2a18fa4b9c677a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTypes: 
+--- !u!114 &5182721399855999964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200088463113576306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 201f9517f68426e49ac07c1690cbe985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!208 &6552048355683140595
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -226,7 +253,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e51f883ffe960de40a565c3db9a8bc89, type: 2}
+      objectReference: {fileID: 2100000, guid: 7b6e10c08b4ac1146beb11ec3af4cce8, type: 2}
     - target: {fileID: -2416733968201007103, guid: 30d9b1e49abcd6f49ac5ed53ab8da763,
         type: 3}
       propertyPath: m_Materials.Array.data[4]
