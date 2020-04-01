@@ -60,6 +60,7 @@ public class AttackUnit : DynamicUnit, UnitAction
         if (currentRoutine != null)
         {
             StopCoroutine(currentRoutine);
+            currentRoutine = null;
         }
 
         animator.SetBool("Attacking", false);
