@@ -15,7 +15,12 @@ public class AttackUnit : DynamicUnit, UnitAction
     protected AttackTarget target = null; //the current target to attack 
 
     private IEnumerator attackRoutine;
+    private IEnumerator defendRoutine;
+
     protected Animator animator;
+
+    private enum AttackUnitState { ATTACKING, DEFENDING, IDLE };
+    private AttackUnitState state;
 
     // Start is called before the first frame update
     protected override void Start() {
@@ -23,12 +28,18 @@ public class AttackUnit : DynamicUnit, UnitAction
         BehaviourMap mapping = GetComponent<BehaviourMap>();
         mapping.behaviourMap.Add(UnitController.TargetType.Enemy, GetType());
         animator = GetComponent<Animator>();
+        state = AttackUnitState.DEFENDING;
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
+
+        if (state == AttackUnitState.DEFENDING)
+        {
+            Defend();
+        }
     }
 
     //Get & Set CanAttack
@@ -45,7 +56,29 @@ public class AttackUnit : DynamicUnit, UnitAction
         weapon = newWeapon;
     }
 
+    private void ChangeState(AttackUnitState toState)
+    {
+        if (attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+            attackRoutine = null;
+        }
+
+        if (defendRoutine != null)
+        {
+            StopCoroutine(defendRoutine);
+            defendRoutine = null;
+        }
+
+        animator.SetBool("Attacking", false);
+        target = null;
+
+        state = toState;
+    }
+
+
     public AttackTarget GetAttackTarget() { return target; }
+
     protected void SetAttackTarget(AttackTarget newTarget)
     {
         target = newTarget;
@@ -61,9 +94,59 @@ public class AttackUnit : DynamicUnit, UnitAction
             StopCoroutine(attackRoutine);
         }
 
+        ChangeState(AttackUnitState.ATTACKING);
         attackRoutine = SeekAndDestroy(target);
-
         StartCoroutine(attackRoutine);
+    }
+
+    public void Defend()
+    {
+        IndividualMovement movement = gameObject.GetComponent<IndividualMovement>();
+
+        if (movement.moving && defendRoutine != null)
+        {
+            ChangeState(AttackUnitState.DEFENDING);
+        }
+
+        // If we are not currently running a defend routine, we should start one now
+        else if (defendRoutine == null && movement != null && movement.moving == false)
+        {
+            Collider[] nearbyColliders = Physics.OverlapSphere(this.transform.position, weapon.GetRange());
+
+            List<GameObject> nearbyEnemies = new List<GameObject>();
+            foreach (Collider col in nearbyColliders)
+            {
+                GameObject colObj = col.gameObject;
+                if (colObj.tag == "Enemy")
+                {
+                    nearbyEnemies.Add(colObj);
+                }
+            }
+
+            if (nearbyEnemies.Count > 0)
+            {
+                GameObject nearestEnemy = null;
+                float nearestDist = 999999;
+
+                foreach (GameObject enemy in nearbyEnemies)
+                {
+                    if (Vector3.Distance(enemy.transform.position, transform.position) < nearestDist)
+                    {
+                        if (enemy.GetComponent<AttackTarget>().GetHealth() > 0)
+                        {
+                            nearestEnemy = enemy;
+                            nearestDist = Vector3.Distance(enemy.transform.position, transform.position);
+                        }
+                    }
+                }
+
+                if (nearestEnemy != null)
+                {
+                    defendRoutine = DefendingAttack(nearestEnemy);
+                    StartCoroutine(defendRoutine);
+                }
+            }
+        }
     }
 
     IEnumerator SeekAndDestroy(GameObject attackTarget)
@@ -104,14 +187,53 @@ public class AttackUnit : DynamicUnit, UnitAction
             }
         }
         animator.SetBool("Attacking", false);
+        state = AttackUnitState.DEFENDING;
         yield return null;
     }
+
+
+    IEnumerator DefendingAttack(GameObject attackTarget)
+    {
+        target = attackTarget.GetComponent<AttackTarget>();
+
+        while (target.GetHealth() > 0)
+        {
+            Vector3 closestToTarget = GetComponent<Collider>().ClosestPoint(attackTarget.transform.position);
+            Vector3 closestToThis = attackTarget.GetComponent<Collider>().ClosestPoint(transform.position);
+
+            if (Vector3.Distance(closestToThis, closestToTarget) > weapon.GetRange())
+            {
+                //We stop the current defending corouting since the target moved out of range
+                ChangeState(AttackUnitState.DEFENDING);
+                yield return null;
+            }
+            else
+            {
+                animator.SetBool("Attacking", true);
+                target.TakeDamage(weapon.GetDamage());
+
+                Vector3 dir = (attackTarget.transform.position - transform.position).normalized;
+
+                transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z), Vector3.up);
+
+                if (target.GetHealth() <= 0)
+                {
+                    ChangeState(AttackUnitState.DEFENDING);
+                }
+
+                yield return new WaitForSeconds(1.0f / weapon.GetFiringRate());
+            }
+        }
+        ChangeState(AttackUnitState.DEFENDING);
+        yield return null;
+    }
+
 
     public System.Action GetAction(GameObject target) {
         return (() => Attack(target));
     }
     public System.Action GetStopAction()
     {
-        return (() => { StopCoroutine(attackRoutine); animator.SetBool("Attacking", false); });
+        return (() => { ChangeState(AttackUnitState.DEFENDING); });
     }
 }
