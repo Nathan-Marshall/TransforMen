@@ -52,16 +52,21 @@ public class IndividualMovement : MonoBehaviour
     }
 
     public void MoveTo(Destination dest, System.Action action, bool isAttacking = false) {
-        moving = true;
-        attackMovement = isAttacking;
-
-        MoveAnimation();
-
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        agent.destination = dest.ClosestPoint(transform.position);
-        agent.isStopped = false;
-        destination = dest;
-        actionOnArrival = action;
+        Vector3 destinationPoint = dest.ClosestPoint(transform.position);
+        // Don't do anything if there's no path to the destination
+        NavMeshPath path = new NavMeshPath();
+        if (agent.CalculatePath(destinationPoint, path) && path.status == NavMeshPathStatus.PathComplete) {
+            moving = true;
+            attackMovement = isAttacking;
+
+            MoveAnimation();
+
+            agent.destination = dest.ClosestPoint(transform.position);
+            agent.isStopped = false;
+            destination = dest;
+            actionOnArrival = action;
+        }
     }
 
     void MoveAnimation() {
