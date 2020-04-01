@@ -16,6 +16,9 @@ public class AttackTarget : MonoBehaviour
     //On damaged event 
     public int health; //the amount of health this target has 
     public int defense; //the defense of this target 
+    public int spikeResource; //how many spikes this target gives to the player 
+    public int crawlResource; //how many crawl bits this target gives to the player 
+    public int scrapResource; //how much scrap this target gives to player 
 
     // Start is called before the first frame update
     void Start() {
@@ -44,6 +47,23 @@ public class AttackTarget : MonoBehaviour
         defense = newDefense;
     }
 
+    //Get Resources
+    public int GetSpikeResource() { return spikeResource; }
+    public void SetSpikeResource(int newSpike)
+    {
+        spikeResource = newSpike; 
+    }
+    public int GetCrawlResource() { return crawlResource; }
+    public void SetCrawlResource(int newCrawl)
+    {
+        crawlResource = newCrawl;
+    }
+    public int GetScrapResource() { return scrapResource; }
+    public void SetScrapResource(int newScrap)
+    {
+        scrapResource = newScrap;
+    }
+
     public void TakeDamage(int baseDamage) {
         int finalDamage = Mathf.Max(1, (int)(baseDamage * 0.1f + Mathf.Max(0, baseDamage - defense) * 0.9f));
         health -= finalDamage;
@@ -54,8 +74,14 @@ public class AttackTarget : MonoBehaviour
 
     private void Die() {
 
-        StartCoroutine(AnimatedDeath()); 
-        //Destroy(gameObject);
+        StartCoroutine(AnimatedDeath());
+
+        GameObject controller = GameObject.Find("Game Control");
+        PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
+
+        resourceControl.AddSpikes(spikeResource); 
+        resourceControl.AddCrawlbits(crawlResource);
+        resourceControl.AddScrap(scrapResource); 
     }
 
     IEnumerator AnimatedDeath()
