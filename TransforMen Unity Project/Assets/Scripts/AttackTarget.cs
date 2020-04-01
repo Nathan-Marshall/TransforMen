@@ -24,7 +24,11 @@ public class AttackTarget : MonoBehaviour
     void Start() {
         animator = GetComponent<Animator>();
         GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.Enemy);
-        animator.SetInteger("Health", health); 
+
+        if (animator != null)
+        {
+            animator.SetInteger("Health", health);
+        }
     }
 
     // Update is called once per frame
