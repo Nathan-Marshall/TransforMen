@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5667716872614352065}
   - component: {fileID: 8691686658407056301}
   - component: {fileID: 554332217484900610}
+  - component: {fileID: 5001789950459605564}
   m_Layer: 0
   m_Name: AlienMothership
   m_TagString: Untagged
@@ -125,6 +126,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!208 &5001789950459605564
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450172808594272688}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 45, y: 45, z: 130}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -12, y: 20, z: -25}
+  m_TimeToStationary: 0
 --- !u!1 &6593478499094440998
 GameObject:
   m_ObjectHideFlags: 0
