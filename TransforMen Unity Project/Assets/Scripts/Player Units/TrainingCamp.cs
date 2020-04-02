@@ -59,16 +59,16 @@ public class TrainingCamp : StaticUnit
 
     void MakeInfantry()
     {
-        Vector3 campSize = Vector3.Scale(transform.localScale, GetComponent<Collider>().bounds.size);
+        Vector3 buildingSize = Vector3.Scale(transform.localScale, GetComponent<Collider>().bounds.size);
 
-        Vector3 offsetVec = new Vector3((campSize.x / 2) + 2, 0, (campSize.z / 2) + 2);
-        Vector3 initialPoint = transform.position + offsetVec;
+        //Y value of 150 is about as high as it goes
+        Vector3 yVec = new Vector3(0, 150, 0);
+        Vector3 xVec = new Vector3(buildingSize.x / 2, 0, 0);
+        Vector3 zVec = new Vector3(0, 0, buildingSize.z / 2);
 
         resources.SpendPopulation(populationCost);
         resources.SpendScrap(scrapCost);
 
-        Transform spawnLocation = transform.Find("SpernPernt");
-        Vector3 spawnVec = spawnLocation.position; 
-        GameObject infantry = Instantiate(infantryPrefab, initialPoint, Quaternion.identity);
+        GameObject infantry = Instantiate(infantryPrefab, transform.position - zVec, Quaternion.identity);
     }
 }

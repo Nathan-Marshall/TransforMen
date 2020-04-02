@@ -68,11 +68,22 @@ public class PlacingBuilding : MonoBehaviour
 
             Vector3 buildingSize = Vector3.Scale(transform.localScale, GetComponent<Collider>().bounds.size);
 
-            //Y value of 150 is about as high as it goes
-            Vector3 yVec = new Vector3(0, 150, 0);
-            Vector3 xVec = new Vector3(buildingSize.x / 2, 0, 0);
-            Vector3 zVec = new Vector3(0, 0, buildingSize.z / 2);
-
+            Vector3 yVec, xVec, zVec;
+            float spawnRad = 15.0f;
+            if (gameObject.tag == "TrainingCamp") 
+            {
+                //Add a bit of an extra radius around the training camp to make sure there is space for spawning
+                yVec = new Vector3(0, 150, 0);
+                xVec = new Vector3(buildingSize.x / 2 + spawnRad, 0, 0);
+                zVec = new Vector3(0, 0, buildingSize.z / 2 + spawnRad);
+            }
+            else
+            {
+                yVec = new Vector3(0, 150, 0);
+                xVec = new Vector3(buildingSize.x / 2, 0, 0);
+                zVec = new Vector3(0, 0, buildingSize.z / 2);
+            }
+            
             List<Vector3> collisionPoints = new List<Vector3>();
             collisionPoints.Add(transform.position + yVec);
             collisionPoints.Add(transform.position + yVec + xVec);
