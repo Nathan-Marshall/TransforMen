@@ -88,14 +88,18 @@ public class AttackTarget : MonoBehaviour
         resourceControl.AddScrap(scrapResource); 
     }
 
-    IEnumerator AnimatedDeath()
-    {
+    IEnumerator AnimatedDeath() {
+        IndividualMovement movement = GetComponent<IndividualMovement>();
+        if (movement != null) {
+            movement.CancelMovement();
+        }
+
         if (animator)
         {
             animator.SetInteger("Health", health);
             yield return new WaitForSeconds(1.5f);
         }
-        
+
         //Check if we have a crawler mother, we will have to spawn units upon death
         if (gameObject.GetComponent<AlienCrawlerMother>() != null)
         {
@@ -103,5 +107,6 @@ public class AttackTarget : MonoBehaviour
         }
 
         Destroy(gameObject);
+        yield return null;
     }
 }
