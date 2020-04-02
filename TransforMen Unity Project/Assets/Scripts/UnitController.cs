@@ -4,24 +4,32 @@ using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
+    public bool gameOver; 
+
     public enum TargetType
     {
         Ruin,
         Ally,
         Enemy,
         TransformStation,
-        Hive
+        Hive,
+        HQ
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameOver = false; 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (GameObject.Find("AlienMothership") == null) // || GameObject.Find("HQ") == null)
+        {
+            return;
+        }
+
         //Get the currently selected units
         List<GameObject> selectedUnits;
         UnitSelect selectScript = GameObject.Find("Game Control").GetComponent<UnitSelect>();
