@@ -13,7 +13,6 @@ public class TrainingCamp : StaticUnit
     //Collaborators: Static Unit, Attack Target 
     private string desc = "Training camp to train average people to soldiers";
     //COST: 5 scrap
-
     //Can train infantry 
     public GameObject infantryPrefab; 
     //Consumes resources 
@@ -60,11 +59,16 @@ public class TrainingCamp : StaticUnit
 
     void MakeInfantry()
     {
+        Vector3 campSize = Vector3.Scale(transform.localScale, GetComponent<Collider>().bounds.size);
+
+        Vector3 offsetVec = new Vector3((campSize.x / 2) + 2, 0, (campSize.z / 2) + 2);
+        Vector3 initialPoint = transform.position + offsetVec;
+
         resources.SpendPopulation(populationCost);
         resources.SpendScrap(scrapCost);
 
         Transform spawnLocation = transform.Find("SpernPernt");
         Vector3 spawnVec = spawnLocation.position; 
-        GameObject infantry = Instantiate(infantryPrefab, spawnVec, Quaternion.identity);
+        GameObject infantry = Instantiate(infantryPrefab, initialPoint, Quaternion.identity);
     }
 }
