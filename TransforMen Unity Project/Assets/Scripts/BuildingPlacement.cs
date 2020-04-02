@@ -13,7 +13,12 @@ public class BuildingPlacement : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        
+
+        if (GameObject.Find("AlienMothership") == null) // || GameObject.Find("HQ") == null)
+        {
+            GameObject.Find("Canvas").transform.Find("Button Blocker").gameObject.SetActive(true);
+            return;
+        }
     }
 
     public void BeginPlacing(GameObject model) {

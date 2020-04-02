@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TransformStation : StaticUnit
 {
+    private string desc = "Station where the most dedicated soldiers are evolved into something greater";
+
     public enum Upgrades
     {
         Spike,
@@ -15,6 +17,9 @@ public class TransformStation : StaticUnit
     // Start is called before the first frame update
     void Start()
     {
+        SetToPlayerTeam();
+        SetSelectable(true);
+        SetDescription(desc);
         GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.TransformStation);
     }
 
