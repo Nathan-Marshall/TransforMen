@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class PlacingBuilding : MonoBehaviour
 {
@@ -63,6 +64,12 @@ public class PlacingBuilding : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
+
+        if (GameObject.Find("AlienMothership") == null) // || GameObject.Find("HQ") == null)
+        {
+            return;
+        }
+
         // Position the ghost of the model
         if (cam.pixelRect.Contains(Input.mousePosition)) {
 

@@ -41,7 +41,12 @@ public class UnitSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        checkSelecting();
+        if (GameObject.Find("AlienMothership") == null) // || GameObject.Find("HQ") == null)
+        {
+            return; 
+        }
+
+            checkSelecting();
         
         if (selecting)
         {
