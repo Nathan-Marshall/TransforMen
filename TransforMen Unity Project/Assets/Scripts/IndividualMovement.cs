@@ -24,8 +24,6 @@ public class IndividualMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        Rigidbody unitRB = GetComponent<Rigidbody>();
-        
         if (moving) {
             if (destination == null || !destination.Exists()) {
                 ReachedDestination();
@@ -46,22 +44,18 @@ public class IndividualMovement : MonoBehaviour
                     ReachedDestination();
                 }
             }
-        } else {
-            unitRB.velocity *= 0.99f;
         }
     }
 
     public void MoveTo(Destination dest, System.Action action, bool isAttacking = false) {
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        Vector3 destinationPoint = dest.ClosestPoint(transform.position);
         // Don't do anything if there's no path to the destination
-        NavMeshPath path = new NavMeshPath();
-        if (agent.CalculatePath(destinationPoint, path) && path.status == NavMeshPathStatus.PathComplete) {
+        if (DestinationReachable(dest)) {
             moving = true;
             attackMovement = isAttacking;
 
             MoveAnimation();
 
+            NavMeshAgent agent = GetComponent<NavMeshAgent>();
             agent.destination = dest.ClosestPoint(transform.position);
             agent.isStopped = false;
             destination = dest;
@@ -77,17 +71,24 @@ public class IndividualMovement : MonoBehaviour
         animator.SetFloat("Speed", 0f);
     }
 
+    public bool DestinationReachable(Destination dest) {
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        Vector3 destinationPoint = dest.ClosestPoint(transform.position);
+        NavMeshPath path = new NavMeshPath();
+        return agent.CalculatePath(destinationPoint, path) && path.status == NavMeshPathStatus.PathComplete;
+    }
+
     private void ReachedDestination() {
+        System.Action tempAction = actionOnArrival;
+        CancelMovement();
+        tempAction?.Invoke();
+    }
+
+    public void CancelMovement() {
         destination = null;
         moving = false;
         GetComponent<NavMeshAgent>().isStopped = true;
-        GetComponent<Rigidbody>().velocity *= 0.1f;
-
-        if (actionOnArrival != null) {
-            actionOnArrival();
-            actionOnArrival = null;
-        }
-
         StopAnimation();
+        actionOnArrival = null;
     }
 }

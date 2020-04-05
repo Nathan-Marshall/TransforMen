@@ -68,8 +68,6 @@ public class Hive : StaticUnit
 
             GameObject newSpawn = Instantiate(spawnedEnemy, spawnPos, Quaternion.identity);
 
-            newSpawn.GetComponent<Rigidbody>().AddForce((spawnPos - transform.position).normalized * 10000, ForceMode.Impulse);
-
             yield return new WaitForSeconds(spawnRate);
         }
     }

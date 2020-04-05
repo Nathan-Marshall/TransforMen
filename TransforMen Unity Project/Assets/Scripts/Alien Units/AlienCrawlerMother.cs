@@ -14,9 +14,6 @@ public class AlienCrawlerMother : AttackUnit
 
     //AI-Controlled
 
-    float steerVelocity;
-    bool moves;
-
     public GameObject childPrefab;
 
     // Start is called before the first frame update
@@ -32,27 +29,12 @@ public class AlienCrawlerMother : AttackUnit
         SetCanAttack(true);
         SetWeapon(new Melee());
         SetAttackTarget(null);
-
-        steerVelocity = Random.value * 0.5f - 0.25f;
-        transform.Rotate(0, Random.value * 360, 0);
-        moves = Random.value > 0.3f;
-
-        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (moves)
-        {
-            animator.SetFloat("Speed", 1.0f);
-        }
 
-        if (moves && GetComponent<AttackTarget>().GetHealth() > 0) {
-            Rigidbody rb = GetComponent<Rigidbody>();
-            transform.Rotate(0, steerVelocity, 0);
-            rb.velocity = transform.rotation * new Vector3(0, 0, moveSpeed);
-        }
     }
 
     public void SpawnChildren()
