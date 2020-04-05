@@ -55,6 +55,5 @@ public class AlienMothership : StaticUnit
                 child.GetComponent<AttackTarget>().TakeDamage(10000);
             }
         }
-
     }
 }

@@ -23,7 +23,6 @@ public class AttackTarget : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         animator = GetComponent<Animator>();
-        GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.Enemy);
 
         if (animator != null)
         {
