@@ -54,6 +54,11 @@ public class TrainingCamp : StaticUnit
                 //Spawn a guy
                 MakeInfantry(); 
             }
+            else if (Input.GetMouseButtonDown(0) && !Affordable)
+            {
+                GameObject panel = GameObject.Find("Canvas").transform.Find("Lower Panel").transform.Find("Resource Panel").gameObject;
+                panel.GetComponent<ResourcePanel>().showInsufficiency(populationCost, scrapCost, 0, 0);
+            }
         }
     }
 

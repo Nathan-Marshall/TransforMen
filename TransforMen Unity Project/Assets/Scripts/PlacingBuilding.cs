@@ -195,6 +195,15 @@ public class PlacingBuilding : MonoBehaviour
                 sphere.transform.position = new Vector3(0, 9999999, 0);
             }
         }
+        //See why it was not Valid 
+        else
+        {
+            if (!Affordable)
+            {
+                GameObject panel = GameObject.Find("Canvas").transform.Find("Lower Panel").transform.Find("Resource Panel").gameObject;
+                panel.GetComponent<ResourcePanel>().showInsufficiency(populationCost, scrapCost, spikesCost, crawlbitsCost);
+            }
+        }
     }
 
     public void Cancel() {
