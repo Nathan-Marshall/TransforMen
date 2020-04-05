@@ -99,7 +99,7 @@ public class AttackUnit : DynamicUnit, UnitAction
         // If we are not currently running a defend routine, we should start one now
         else if (currentRoutine == null && movement != null && movement.moving == false)
         {
-            Collider[] nearbyColliders = Physics.OverlapSphere(this.transform.position, weapon.GetRange());
+            Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, weapon.GetRange());
 
             List<GameObject> nearbyEnemies = new List<GameObject>();
             foreach (Collider col in nearbyColliders)
@@ -164,7 +164,7 @@ public class AttackUnit : DynamicUnit, UnitAction
 
                 if (target.GetHealth() <= 0)
                 {
-                    animator.SetBool("Attacking", false);
+                    ChangeState(AttackUnitState.DEFENDING);
                 }
 
                 Vector3 dir = (attackTarget.transform.position - transform.position).normalized;
@@ -174,8 +174,7 @@ public class AttackUnit : DynamicUnit, UnitAction
                 yield return new WaitForSeconds(1.0f / weapon.GetFiringRate());
             }
         }
-        animator.SetBool("Attacking", false);
-        state = AttackUnitState.DEFENDING;
+        ChangeState(AttackUnitState.DEFENDING);
         yield return null;
     }
 

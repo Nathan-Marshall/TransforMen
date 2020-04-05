@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ally
   - Enemy
+  - TrainingCamp
   layers:
   - Default
   - TransparentFX
