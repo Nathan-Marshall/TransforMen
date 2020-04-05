@@ -27,6 +27,8 @@ public class AlienCrawlerSpawn : AttackUnit
         SetCanAttack(true);
         SetWeapon(new Melee());
         SetAttackTarget(null);
+
+        GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.Enemy);
     }
 
     // Update is called once per frame

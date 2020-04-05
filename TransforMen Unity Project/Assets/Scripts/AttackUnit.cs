@@ -113,10 +113,34 @@ public class AttackUnit : DynamicUnit, UnitAction
 
             if (nearbyEnemies.Count > 0)
             {
-                GameObject nearestEnemy = null;
-                float nearestDist = 999999;
+                List<GameObject> enemyUnits = new List<GameObject>();
+                List<GameObject> spawners = new List<GameObject>();
 
                 foreach (GameObject enemy in nearbyEnemies)
+                {
+                    if (enemy.GetComponent<Hive>() != null)
+                    {
+                        spawners.Add(enemy);
+                    }
+                    else
+                    {
+                        enemyUnits.Add(enemy);
+                    }
+                }
+
+                List<GameObject> priorityEnemies;
+                if(spawners.Count > 0)
+                {
+                    priorityEnemies = spawners;
+                }
+                else
+                {
+                    priorityEnemies = enemyUnits;
+                }
+
+                GameObject nearestEnemy = null;
+                float nearestDist = 999999;
+                foreach (GameObject enemy in priorityEnemies)
                 {
                     if (Vector3.Distance(enemy.transform.position, transform.position) < nearestDist)
                     {

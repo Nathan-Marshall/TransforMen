@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7410594443489857016}
   - component: {fileID: 7886412192900043900}
   - component: {fileID: 14803408516692785}
+  - component: {fileID: 4532245636771114986}
   - component: {fileID: 8496420108011769817}
   m_Layer: 0
   m_Name: TrainingGrounds
@@ -77,6 +78,23 @@ MonoBehaviour:
     type: 3}
   populationCost: 1
   scrapCost: 5
+--- !u!114 &4532245636771114986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415432652959394490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45231ee50ab2ff54c90a36e0ce62e57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 300
+  defense: 10
+  spikeResource: 0
+  crawlResource: 0
+  scrapResource: 0
 --- !u!208 &8496420108011769817
 NavMeshObstacle:
   m_ObjectHideFlags: 0
