@@ -35,6 +35,11 @@ public class SpikeTransformBehaviour : MonoBehaviour, UnitAction
 
             target.GetComponent<TransformStation>().Upgrade(gameObject, upgradeToType);
         }
+        else
+        {
+            GameObject panel = GameObject.Find("Canvas").transform.Find("Lower Panel").transform.Find("Resource Panel").gameObject;
+            panel.GetComponent<ResourcePanel>().showInsufficiency(0, 0, 5, 0);
+        }
     }
 
     public System.Action GetAction(GameObject target)
