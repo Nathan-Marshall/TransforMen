@@ -6,6 +6,9 @@ public class Hive : StaticUnit
 {
     public GameObject spawnedEnemy;
     public float spawnRate;
+    public EnemyAI.EnemyState initialState;
+    public int maxSpawnNum;
+
     private float spawnDist = 10.0f;
 
     // Start is called before the first frame update
@@ -66,7 +69,34 @@ public class Hive : StaticUnit
 
             Vector3 spawnPos = transform.position + (forceDir * 5) + (forceModifier * modifierStrength);
 
-            GameObject newSpawn = Instantiate(spawnedEnemy, spawnPos, Quaternion.identity);
+
+            bool canSpawn = true;
+            if (initialState == EnemyAI.EnemyState.DEFENDING)
+            {
+                GameObject[] aliens = GameObject.FindGameObjectsWithTag("Enemy");
+                List<GameObject> defendingAliens = new List<GameObject>();
+
+                for (int i = 0; i < aliens.Length; i++)
+                {
+                    if (Vector3.Distance(aliens[i].transform.position, transform.position) <= EnemyAI.DEFEND_RADIUS && aliens[i] != this.gameObject)
+                    {
+                        defendingAliens.Add(aliens[i]);
+                    }
+                }
+
+                if (defendingAliens.Count >= maxSpawnNum)
+                {
+                    canSpawn = false;
+                }
+            }
+
+            if (canSpawn)
+            {
+                GameObject newSpawn = Instantiate(spawnedEnemy, spawnPos, Quaternion.identity);
+
+                yield return new WaitForSeconds(0.05f);
+                newSpawn.GetComponent<EnemyAI>().ChangeEnemyState(initialState);
+            } 
 
             yield return new WaitForSeconds(spawnRate);
         }

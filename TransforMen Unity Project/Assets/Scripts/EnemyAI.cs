@@ -9,18 +9,19 @@ public class EnemyAI : MonoBehaviour
     private List<GameObject> nearbyAlienUnits;
     private List<GameObject> nearbyAlienBuildings;
 
-    const float SENSE_RANGE = 100.0f;
-
+    public const float SENSE_RANGE = 100.0f;
+    public const float DEFEND_RADIUS = 50.0f;
+    
     public float attackRange;
     public int attackDamage;
     public float attackRate;
 
     private Animator animator;
 
-    private enum EnemyState { RANDOM_MOVING, ATTACKING, FLEEING};
+    public enum EnemyState { RANDOM_MOVING, ATTACKING, FLEEING, DEFENDING, IDLE };
     private EnemyState state;
 
-    private IEnumerator attackRoutine = null;
+    private IEnumerator currentRoutine = null;
 
     void Start()
     {
@@ -33,9 +34,6 @@ public class EnemyAI : MonoBehaviour
 
         //Constantly update the list of things near this enemy
         InvokeRepeating("DetectArea", 0.0f, 2.0f);
-
-        MoveToRandomDestination();
-        state = EnemyState.RANDOM_MOVING;
     }
 
     void Update()
@@ -66,7 +64,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        else
+        else if (state != EnemyState.DEFENDING)
         {
             ChangeEnemyState(EnemyState.RANDOM_MOVING);
         }
@@ -94,39 +92,46 @@ public class EnemyAI : MonoBehaviour
         return nearestObj;
     }
 
-    void ChangeEnemyState(EnemyState newState, GameObject target = null)
+    public void ChangeEnemyState(EnemyState newState, GameObject target = null)
     {
-        if (newState != state)
+        if (newState != state || currentRoutine == null)
         {
+            if (currentRoutine != null)
+            {
+                StopCoroutine(currentRoutine);
+                currentRoutine = null;
+            }
+
             if (state == EnemyState.RANDOM_MOVING)
             {
                 IndividualMovement movement = GetComponent<IndividualMovement>();
-                movement.CancelMovement();
+
+                if (movement.moving)
+                {
+                    movement.CancelMovement();
+                }
             }
             else if (state == EnemyState.ATTACKING)
             {
                 animator.SetBool("Attacking", false);
-
-                if (attackRoutine != null)
-                {
-                    StopCoroutine(attackRoutine);
-                    attackRoutine = null;
-                }
             }
             else if (state == EnemyState.FLEEING)
             {
                 return;
             }
 
+            state = newState;
+
             switch (newState)
             {
                 case EnemyState.RANDOM_MOVING:
-                    MoveToRandomDestination();
+                    currentRoutine = MoveToRandomDestination();
+                    StartCoroutine(currentRoutine);
                     break;
 
                 case EnemyState.ATTACKING:
-                    attackRoutine = EnemyAttack(target);
-                    StartCoroutine(attackRoutine);
+                    currentRoutine = EnemyAttack(target);
+                    StartCoroutine(currentRoutine);
                     break;
 
                 case EnemyState.FLEEING:
@@ -135,8 +140,6 @@ public class EnemyAI : MonoBehaviour
                 default:
                     break;
             }
-
-            state = newState;
         }
     }
 
@@ -182,16 +185,24 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void MoveToRandomDestination()
+    IEnumerator MoveToRandomDestination()
     {
-        Destination destination = null;
-        IndividualMovement movement = GetComponent<IndividualMovement>();
-        while (destination == null || !movement.DestinationReachable(destination))
+        while (state == EnemyState.RANDOM_MOVING)
         {
-            destination = new Destination(new Vector3(Random.Range(-500, 500), 0, Random.Range(-500, 500)));
-        }
+            Destination destination = null;
+            IndividualMovement movement = gameObject.GetComponent<IndividualMovement>();
+            while (destination == null || !movement.DestinationReachable(destination))
+            {
+                destination = new Destination(new Vector3(Random.Range(-500, 500), 0, Random.Range(-500, 500)));
+            }
 
-        movement.MoveTo(destination, MoveToRandomDestination);
+            movement.MoveTo(destination, null);
+
+            while (movement.moving)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
     }
 
     IEnumerator EnemyAttack(GameObject attackTarget)

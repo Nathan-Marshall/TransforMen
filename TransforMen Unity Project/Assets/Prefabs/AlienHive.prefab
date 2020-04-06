@@ -161,6 +161,8 @@ MonoBehaviour:
   spawnedEnemy: {fileID: 3683726637548543286, guid: 6ac79ed83cbadb548a9e9968fb54d5cc,
     type: 3}
   spawnRate: 5
+  initialState: 0
+  maxSpawnNum: 10
 --- !u!114 &923509328
 MonoBehaviour:
   m_ObjectHideFlags: 0
