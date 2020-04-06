@@ -10,8 +10,10 @@ public class EnemyAI : MonoBehaviour
     private List<GameObject> nearbyAlienBuildings;
 
     public const float SENSE_RANGE = 100.0f;
+    public const float SENSE_FLEE_RANGE = 40.0f;
     public const float DEFEND_RADIUS = 50.0f;
-    
+    public const int FLEE_NUM_HUMANS_THRESHOLD = 5;
+
     public float attackRange;
     public int attackDamage;
     public float attackRate;
@@ -40,13 +42,23 @@ public class EnemyAI : MonoBehaviour
     {
         if (nearbyHumanUnits.Count > 0)
         {
-            GameObject nearestHuman = GetNearestObj(nearbyHumanUnits);
-
-            if (nearestHuman != null)
+            if ((DetectWithTag("Ally", SENSE_FLEE_RANGE) - DetectWithTag("Enemy", SENSE_FLEE_RANGE)) > FLEE_NUM_HUMANS_THRESHOLD)
             {
-                if (state != EnemyState.ATTACKING)
+                if (state != EnemyState.FLEEING)
                 {
-                    ChangeEnemyState(EnemyState.ATTACKING, nearestHuman);
+                    ChangeEnemyState(EnemyState.FLEEING);
+                }
+            }
+            else
+            {
+                GameObject nearestHuman = GetNearestObj(nearbyHumanUnits);
+
+                if (nearestHuman != null)
+                {
+                    if (state != EnemyState.ATTACKING && state != EnemyState.FLEEING)
+                    {
+                        ChangeEnemyState(EnemyState.ATTACKING, nearestHuman);
+                    }
                 }
             }
         }
@@ -57,14 +69,14 @@ public class EnemyAI : MonoBehaviour
 
             if (nearestHumanBuilding != null)
             {
-                if (state != EnemyState.ATTACKING)
+                if (state != EnemyState.ATTACKING && state != EnemyState.FLEEING)
                 {
                     ChangeEnemyState(EnemyState.ATTACKING, nearestHumanBuilding);
                 }
             }
         }
 
-        else if (state != EnemyState.DEFENDING)
+        else if (state != EnemyState.DEFENDING && state != EnemyState.FLEEING)
         {
             ChangeEnemyState(EnemyState.RANDOM_MOVING);
         }
@@ -102,23 +114,17 @@ public class EnemyAI : MonoBehaviour
                 currentRoutine = null;
             }
 
-            if (state == EnemyState.RANDOM_MOVING)
-            {
-                IndividualMovement movement = GetComponent<IndividualMovement>();
+            IndividualMovement movement = GetComponent<IndividualMovement>();
 
+            if (movement != null)
+            {
                 if (movement.moving)
                 {
                     movement.CancelMovement();
                 }
             }
-            else if (state == EnemyState.ATTACKING)
-            {
-                animator.SetBool("Attacking", false);
-            }
-            else if (state == EnemyState.FLEEING)
-            {
-                return;
-            }
+
+            animator.SetBool("Attacking", false);
 
             state = newState;
 
@@ -135,6 +141,8 @@ public class EnemyAI : MonoBehaviour
                     break;
 
                 case EnemyState.FLEEING:
+                    currentRoutine = MoveToNearestSpawner();
+                    StartCoroutine(currentRoutine);
                     break;
 
                 default:
@@ -181,6 +189,89 @@ public class EnemyAI : MonoBehaviour
                 {
                     nearbyHumanBuildings.Add(humans[i]);
                 }
+            }
+        }
+    }
+
+    int DetectWithTag(string tag, float range = SENSE_RANGE)
+    {
+        return DetectWithTag(tag, transform.position, range);
+    }
+
+    int DetectWithTag (string tag, Vector3 sensePoint, float range = SENSE_RANGE)
+    {
+        GameObject[] units = GameObject.FindGameObjectsWithTag(tag);
+
+        int count = 0;
+        for (int i = 0; i < units.Length; i++)
+        {
+            if (Vector3.Distance(units[i].transform.position, sensePoint) <= range)
+            {
+                if (units[i].GetComponent<IndividualMovement>() != null)
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    IEnumerator MoveToNearestSpawner()
+    {
+        while (state == EnemyState.FLEEING)
+        {
+            Destination destination = null;
+            IndividualMovement movement = gameObject.GetComponent<IndividualMovement>();
+            while (destination == null || !movement.DestinationReachable(destination))
+            {
+                GameObject[] aliens = GameObject.FindGameObjectsWithTag("Enemy");
+                List<GameObject> hives = new List<GameObject>();
+
+                for (var i = 0; i < aliens.Length; i++)
+                {
+                    if (aliens[i].name.Contains("Hive"))
+                    {
+                        int nearbyHumans = DetectWithTag("Ally", aliens[i].transform.position, SENSE_RANGE);
+
+                        if (nearbyHumans < FLEE_NUM_HUMANS_THRESHOLD)
+                        {
+                            hives.Add(aliens[i]);
+                        }
+                    }
+                }
+
+                if (hives.Count > 0)
+                {
+                    List<GameObject> reachableHives = new List<GameObject>();
+
+                    foreach (GameObject hive in hives)
+                    {
+                        if (movement.DestinationReachable(new Destination(hive)))
+                        {
+                            reachableHives.Add(hive);
+                        }
+                    }
+
+                    if (reachableHives.Count > 0)
+                    {
+                        destination = new Destination(GetNearestObj(reachableHives));
+                    }
+                    else
+                    {
+                        ChangeEnemyState(EnemyState.DEFENDING);
+                    }
+                }
+                else
+                {
+                    ChangeEnemyState(EnemyState.DEFENDING);
+                }
+            }
+
+            movement.MoveTo(destination, () => ChangeEnemyState(EnemyState.DEFENDING));
+
+            while (movement.moving)
+            {
+                yield return new WaitForSeconds(0.5f);
             }
         }
     }
