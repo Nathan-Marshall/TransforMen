@@ -6893,7 +6893,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 923509327, guid: 571644bccc77eba49b262c4bd60333a4, type: 3}
       propertyPath: maxSpawnNum
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 923509327, guid: 571644bccc77eba49b262c4bd60333a4, type: 3}
       propertyPath: initialState

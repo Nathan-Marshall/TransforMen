@@ -23,8 +23,8 @@ public class PlayerResources : MonoBehaviour
     void Start()
     {
         crawlbits = 0;
-        population = 5;
-        scrap = 25;
+        population = 50;
+        scrap = 50;
         spikes = 5;
 
     }
