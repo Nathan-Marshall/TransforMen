@@ -6,6 +6,9 @@ public class TransformStation : StaticUnit
 {
     private string desc = "Station where the most dedicated soldiers are evolved into something greater";
 
+    private int queueLength = 0;
+    private float currentTrainTime = 0.0f;
+
     public enum Upgrades
     {
         Spike,
@@ -26,7 +29,18 @@ public class TransformStation : StaticUnit
     // Update is called once per frame
     void Update()
     {
-        
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        BoxCollider boxCollider = GetComponent<BoxCollider>();
+
+        if (boxCollider.Raycast(ray, out RaycastHit hit, 10000.0f) && Input.GetMouseButtonDown(0))
+        {
+            GameObject.Find("Game Control").GetComponent<PanelControl>().SetInfo(
+                "Upgrade Queue Length:", queueLength,
+                "Current Upgrade Time:", currentTrainTime,
+                "Cost:", string.Format("5 Spikes"),
+                "Upgrade infantry to spike soldiers.\nSpike soldiers do more damage than normal infantry.\nSend units to this building to upgrade them",
+                "", null);
+        }
     }
 
     //Upgrade a unit

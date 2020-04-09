@@ -19,7 +19,10 @@ public class TrainingCamp : StaticUnit
     public int populationCost;
     public int scrapCost;
     private PlayerResources resources;
-    private Collider boxCollider; 
+    private Collider boxCollider;
+
+    private int queueLength = 0;
+    private float currentTrainTime = 0.0f;
 
     public bool Affordable
     {
@@ -41,24 +44,34 @@ public class TrainingCamp : StaticUnit
         boxCollider = GetComponent<BoxCollider>();
     }
 
+    void Train()
+    {
+        //If the building is clicked and can afford, make a new unit 
+        if (Affordable)
+        {
+            //Spawn a guy
+            MakeInfantry();
+        }
+        else if (!Affordable)
+        {
+            GameObject panel = GameObject.Find("Canvas").transform.Find("Lower Panel").transform.Find("Resource Panel").gameObject;
+            panel.GetComponent<ResourcePanel>().showInsufficiency(populationCost, scrapCost, 0, 0);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
 
-        if (boxCollider.Raycast(ray, out RaycastHit hit, 10000.0f))
-        { 
-            //If the building is clicked and can afford, make a new unit 
-            if (Input.GetMouseButtonDown(0) && Affordable)
-            {
-                //Spawn a guy
-                MakeInfantry(); 
-            }
-            else if (Input.GetMouseButtonDown(0) && !Affordable)
-            {
-                GameObject panel = GameObject.Find("Canvas").transform.Find("Lower Panel").transform.Find("Resource Panel").gameObject;
-                panel.GetComponent<ResourcePanel>().showInsufficiency(populationCost, scrapCost, 0, 0);
-            }
+        if (boxCollider.Raycast(ray, out RaycastHit hit, 10000.0f) && Input.GetMouseButtonDown(0))
+        {
+            GameObject.Find("Game Control").GetComponent<PanelControl>().SetInfo(
+                "Training Queue Length:", queueLength,
+                "Current Training Time:", currentTrainTime,
+                "Cost:", string.Format("{0} Population\n{1} Scrap", populationCost, scrapCost),
+                "Train new infantry at the training camp.\n\nInfantry are basic units which can fire at enemies from range, and also have scavenging capabilities",
+                "Train New Infantry", () => Train());
         }
     }
 
