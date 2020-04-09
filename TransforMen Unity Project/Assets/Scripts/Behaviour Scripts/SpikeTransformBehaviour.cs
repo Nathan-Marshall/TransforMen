@@ -33,7 +33,7 @@ public class SpikeTransformBehaviour : MonoBehaviour, UnitAction
             TransformStation.Upgrades upgradeToType = TransformStation.Upgrades.Spike;
             resourceControl.SpendSpikes(5);
 
-            target.GetComponent<TransformStation>().Upgrade(gameObject, upgradeToType);
+            target.GetComponent<TransformStation>().QueueUpgrade(gameObject, upgradeToType);
         }
         else
         {
