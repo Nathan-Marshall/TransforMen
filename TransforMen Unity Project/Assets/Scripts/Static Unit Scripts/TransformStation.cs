@@ -35,8 +35,8 @@ public class TransformStation : StaticUnit
         if (boxCollider.Raycast(ray, out RaycastHit hit, 10000.0f) && Input.GetMouseButtonDown(0))
         {
             GameObject.Find("Game Control").GetComponent<PanelControl>().SetInfo(
-                "Upgrade Queue Length:", queueLength,
-                "Current Upgrade Time:", currentTrainTime,
+                "Upgrade Queue Length:", () => { return queueLength; },
+                "Current Upgrade Time:", () => { return currentTrainTime; },
                 "Cost:", string.Format("5 Spikes"),
                 "Upgrade infantry to spike soldiers.\nSpike soldiers do more damage than normal infantry.\nSend units to this building to upgrade them",
                 "", null);
