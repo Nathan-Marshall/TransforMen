@@ -86,7 +86,6 @@ public class TrainingCamp : StaticUnit
         }
 
 
-
         if (currentTrainTime > 0)
         {
             currentTrainTime -= Time.deltaTime;
