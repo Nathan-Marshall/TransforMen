@@ -11,7 +11,8 @@ public class UnitController : MonoBehaviour
         Ruin,
         Ally,
         Enemy,
-        TransformStation,
+        SpikeTransformStation,
+        CrawlTransformStation, 
         Hive,
         HQ
     }

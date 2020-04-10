@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpikeTransformBehaviour : MonoBehaviour, UnitAction
+public class CrawlTransformBehaviour : MonoBehaviour, UnitAction
 {
     // Start is called before the first frame update
     void Start()
     {
         BehaviourMap mapping = GetComponent<BehaviourMap>();
-        mapping.behaviourMap.Add(UnitController.TargetType.SpikeTransformStation, GetType());
+        mapping.behaviourMap.Add(UnitController.TargetType.CrawlTransformStation, GetType());
     }
 
     // Update is called once per frame
@@ -17,25 +17,24 @@ public class SpikeTransformBehaviour : MonoBehaviour, UnitAction
         
     }
 
-    //TODO: Add more logic in here for transformations
     public void Transform(GameObject target)
     {
         //Check if we have enough resources to transform
         GameObject controller = GameObject.Find("Game Control");
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
 
-        if (resourceControl.GetSpikeResource() >= 5)
+        if (resourceControl.GetCrawlbitResource() >= 5)
         {
-            //Upgrade to spike 
-            SpikeTransformStation.Upgrades upgradeToType = SpikeTransformStation.Upgrades.Spike; 
-            resourceControl.SpendSpikes(5);
+            //Upgrade to crawler
+            CrawlTransformStation.Upgrades upgradeToType = CrawlTransformStation.Upgrades.Crawler;
+            resourceControl.SpendCrawlbits(5);
 
-            target.GetComponent<SpikeTransformStation>().QueueUpgrade(gameObject, upgradeToType); 
+            target.GetComponent<CrawlTransformStation>().QueueUpgrade(gameObject, upgradeToType);
         }
         else
         {
             GameObject panel = GameObject.Find("Canvas").transform.Find("Lower Panel").transform.Find("Resource Panel").gameObject;
-            panel.GetComponent<ResourcePanel>().showInsufficiency(0, 0, 5, 0);
+            panel.GetComponent<ResourcePanel>().showInsufficiency(0, 0, 0, 5);
         }
     }
 
