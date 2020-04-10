@@ -88,19 +88,21 @@ public class EnemyAI : MonoBehaviour
         float nearestDist = 999999;
         foreach (GameObject obj in objects)
         {
-            if (Vector3.Distance(obj.transform.position, transform.position) < nearestDist)
+            if (obj != null)
             {
-                if (obj.GetComponent<AttackTarget>() != null)
+                if (Vector3.Distance(obj.transform.position, transform.position) < nearestDist)
                 {
-                    if (obj.GetComponent<AttackTarget>().GetHealth() > 0)
+                    if (obj.GetComponent<AttackTarget>() != null)
                     {
-                        nearestObj = obj;
-                        nearestDist = Vector3.Distance(obj.transform.position, transform.position);
+                        if (obj.GetComponent<AttackTarget>().GetHealth() > 0)
+                        {
+                            nearestObj = obj;
+                            nearestDist = Vector3.Distance(obj.transform.position, transform.position);
+                        }
                     }
                 }
             }
         }
-
         return nearestObj;
     }
 

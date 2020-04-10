@@ -52,8 +52,12 @@ public class UnitController : MonoBehaviour
                     // Set the destination for the selected units
                     foreach (GameObject unit in selectedUnits)
                     {
-                        unit.GetComponent<DynamicUnit>().stopAction?.Invoke();
-                        unit.GetComponent<IndividualMovement>().MoveTo(new Destination(hit.point), null);
+                        //null check in case the unit was recently destroyed
+                        if (unit != null)
+                        {
+                            unit.GetComponent<DynamicUnit>().stopAction?.Invoke();
+                            unit.GetComponent<IndividualMovement>().MoveTo(new Destination(hit.point), null);
+                        }
                     }
                 }
                 else
