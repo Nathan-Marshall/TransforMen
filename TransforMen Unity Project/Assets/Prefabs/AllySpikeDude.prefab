@@ -782,6 +782,7 @@ GameObject:
   - component: {fileID: 5629657419673447301}
   - component: {fileID: 4659550336122073678}
   - component: {fileID: 117602472718816061}
+  - component: {fileID: 691557635608444691}
   m_Layer: 0
   m_Name: AllySpikeDude
   m_TagString: Ally
@@ -900,6 +901,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &691557635608444691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3683726637548543286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45231ee50ab2ff54c90a36e0ce62e57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  defense: 2
+  spikeResource: 0
+  crawlResource: 0
+  scrapResource: 0
 --- !u!1 &3683737300622563316
 GameObject:
   m_ObjectHideFlags: 0

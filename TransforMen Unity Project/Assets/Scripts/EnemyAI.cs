@@ -20,6 +20,8 @@ public class EnemyAI : MonoBehaviour
 
     private Animator animator;
 
+    private bool canFlee = true;
+
     public enum EnemyState { RANDOM_MOVING, ATTACKING, FLEEING, DEFENDING, IDLE };
     private EnemyState state;
 
@@ -36,13 +38,26 @@ public class EnemyAI : MonoBehaviour
 
         //Constantly update the list of things near this enemy
         InvokeRepeating("DetectArea", 0.0f, 2.0f);
+
+        string name = gameObject.name;
+        
+        if (name.Contains("Crawler"))
+        {
+            attackDamage = 3;
+            attackRate = 2.5f;
+        }
+        else if (name.Contains("Spike"))
+        {
+            attackDamage = 6;
+            attackRate = 1;
+        }
     }
 
     void Update()
     {
         if (nearbyHumanUnits.Count > 0)
         {
-            if ((DetectWithTag("Ally", SENSE_FLEE_RANGE) - DetectWithTag("Enemy", SENSE_FLEE_RANGE)) > FLEE_NUM_HUMANS_THRESHOLD)
+            if ((DetectWithTag("Ally", SENSE_FLEE_RANGE) - DetectWithTag("Enemy", SENSE_FLEE_RANGE)) > FLEE_NUM_HUMANS_THRESHOLD && canFlee)
             {
                 if (state != EnemyState.FLEEING)
                 {
@@ -76,7 +91,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        else if (state != EnemyState.DEFENDING && state != EnemyState.FLEEING)
+        else if (state != EnemyState.DEFENDING && state != EnemyState.FLEEING && state != EnemyState.IDLE)
         {
             ChangeEnemyState(EnemyState.RANDOM_MOVING);
         }
@@ -260,12 +275,16 @@ public class EnemyAI : MonoBehaviour
                     }
                     else
                     {
-                        ChangeEnemyState(EnemyState.DEFENDING);
+                        canFlee = false;
+                        ChangeEnemyState(EnemyState.RANDOM_MOVING);
+                        break;
                     }
                 }
                 else
                 {
-                    ChangeEnemyState(EnemyState.DEFENDING);
+                    canFlee = false;
+                    ChangeEnemyState(EnemyState.RANDOM_MOVING);
+                    break;
                 }
             }
 
@@ -282,11 +301,38 @@ public class EnemyAI : MonoBehaviour
     {
         while (state == EnemyState.RANDOM_MOVING)
         {
+            GameObject hq = GameObject.Find("HQ");
+
             Destination destination = null;
             IndividualMovement movement = gameObject.GetComponent<IndividualMovement>();
-            while (destination == null || !movement.DestinationReachable(destination))
+
+            int count = 0;
+
+            while (destination == null || !movement.DestinationReachable(destination) && count < 50)
             {
-                destination = new Destination(new Vector3(Random.Range(-500, 500), 0, Random.Range(-500, 500)));
+                int threat = (int)Time.fixedTime / 30;
+                int seekHqChance = Random.Range(0, 50) + threat;
+
+                if (seekHqChance > 40)
+                {
+                    destination = new Destination(hq);
+                }
+                else
+                {
+                    destination = new Destination(new Vector3(Random.Range(-500, 500), 0, Random.Range(-500, 500)));
+                }
+
+                if (Vector3.Distance(destination.Position, hq.transform.position) < 200.0f && Time.fixedTime < 120)
+                {
+                    destination = null;
+                }
+
+                count++;
+            }
+
+            if (count == 50 || destination == null)
+            {
+                ChangeEnemyState(EnemyState.IDLE);
             }
 
             movement.MoveTo(destination, null);

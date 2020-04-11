@@ -115,7 +115,7 @@ MonoBehaviour:
   buildingPrefab: {fileID: 3656664217113321577, guid: af7a59022a6fe574ba13a67d8f1e694a,
     type: 3}
   populationCost: 0
-  scrapCost: 10
+  scrapCost: 20
   spikesCost: 0
   crawlbitsCost: 0
 --- !u!54 &991295115120372002
