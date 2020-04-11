@@ -23,9 +23,9 @@ public class PlayerResources : MonoBehaviour
     void Start()
     {
         crawlbits = 0;
-        population = 50;
+        population = 10;
         scrap = 50;
-        spikes = 50;
+        spikes = 0;
 
     }
 

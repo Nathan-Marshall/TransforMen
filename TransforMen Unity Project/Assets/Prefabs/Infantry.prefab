@@ -286,8 +286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45231ee50ab2ff54c90a36e0ce62e57e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
-  defense: 5
+  health: 100
+  defense: 2
   spikeResource: 0
   crawlResource: 0
   scrapResource: 0

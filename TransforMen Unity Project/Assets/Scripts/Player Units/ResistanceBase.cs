@@ -27,10 +27,10 @@ public class ResistanceBase : StaticUnit
     void Update()
     {
         //Missing right now because HQ is not currently an attack target 
-        if (GetComponent<AttackTarget>().GetHealth() <= 0)
-        {
-            StartCoroutine(DefeatEnd());
-        }
+        //if (GetComponent<AttackTarget>().GetHealth() <= 0)
+        //{
+        //    StartCoroutine(DefeatEnd());
+        //}
     }
 
     IEnumerator DefeatEnd()

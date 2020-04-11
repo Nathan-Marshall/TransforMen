@@ -92,7 +92,7 @@ public class PlacingBuilding : MonoBehaviour
     // Update is called once per frame
     void Update() {
 
-        if (GameObject.Find("AlienMothership") == null) // || GameObject.Find("HQ") == null)
+        if (GameObject.Find("AlienMothership") == null || GameObject.Find("HQ") == null)
         {
             return;
         }
