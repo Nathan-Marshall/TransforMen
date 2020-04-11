@@ -36,6 +36,6 @@ public class ResistanceBase : StaticUnit
         yield return new WaitForSeconds(1f);
 
         GameObject.Find("Canvas").transform.Find("End Screen").gameObject.SetActive(true);
-        GameObject.Find("Canvas").transform.Find("End Screen").GetComponent<TMPro.TextMeshProUGUI>().SetText("Defeat...");
+        GameObject.Find("Canvas").transform.Find("End Screen").GetComponentInChildren<TMPro.TextMeshProUGUI>().SetText("Defeat...");
     }
 }

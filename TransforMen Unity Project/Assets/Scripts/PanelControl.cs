@@ -8,12 +8,12 @@ public class PanelControl : MonoBehaviour
     public bool displayInfoPanel = false;
 
     private GameObject infoPanel;
-    private GameObject qText, qLength, tText, tTime, cText, cValue, fText, actionButton;
+    private GameObject qText, tText, cText, fText, actionButton;
 
     private System.Action buttonAction = null;
 
-    private System.Func<int> queueFunc = null;
-    private System.Func<float> timeFunc = null;
+    private System.Func<string> queueFunc = null;
+    private System.Func<string> timeFunc = null;
 
     // Start is called before the first frame update
     void Start()
@@ -22,11 +22,8 @@ public class PanelControl : MonoBehaviour
         infoPanel.SetActive(false);
 
         qText = infoPanel.transform.Find("Queue").gameObject;
-        qLength = infoPanel.transform.Find("Queue Value").gameObject;
         tText = infoPanel.transform.Find("Time").gameObject;
-        tTime = infoPanel.transform.Find("Time Value").gameObject;
         cText = infoPanel.transform.Find("Cost").gameObject;
-        cValue = infoPanel.transform.Find("Cost Value").gameObject;
         fText = infoPanel.transform.Find("Flavour Text").gameObject;
         actionButton = infoPanel.transform.Find("Action Button").gameObject;
     }
@@ -36,15 +33,15 @@ public class PanelControl : MonoBehaviour
     {
         if (queueFunc != null)
         {
-            qLength.GetComponent<TMPro.TextMeshProUGUI>().SetText(queueFunc().ToString());
+            qText.GetComponent<TMPro.TextMeshProUGUI>().SetText(queueFunc());
         }
 
         if (timeFunc != null)
         {
-            tTime.GetComponent<TMPro.TextMeshProUGUI>().SetText(timeFunc().ToString("0.00"));
+            tText.GetComponent<TMPro.TextMeshProUGUI>().SetText(timeFunc());
         }
 
-        //If left click
+        // If left click
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -76,14 +73,11 @@ public class PanelControl : MonoBehaviour
         }
     }
 
-    public void SetInfo(string queueText, System.Func<int> queueFunc, string trainText, System.Func<float> timeFunc, string costText, string costValue, string flavourText, string buttonText, System.Action buttonAction = null)
+    public void SetInfo(System.Func<string> queueFunc, System.Func<string> timeFunc, string costText, string flavourText, string buttonText, System.Action buttonAction = null)
     {
-        qText.GetComponent<TMPro.TextMeshProUGUI>().SetText(queueText);
-        qLength.GetComponent<TMPro.TextMeshProUGUI>().SetText(queueFunc().ToString());
-        tText.GetComponent<TMPro.TextMeshProUGUI>().SetText(trainText);
-        tTime.GetComponent<TMPro.TextMeshProUGUI>().SetText(timeFunc().ToString("0.00"));
+        qText.GetComponent<TMPro.TextMeshProUGUI>().SetText(queueFunc());
+        tText.GetComponent<TMPro.TextMeshProUGUI>().SetText(timeFunc());
         cText.GetComponent<TMPro.TextMeshProUGUI>().SetText(costText);
-        cValue.GetComponent<TMPro.TextMeshProUGUI>().SetText(costValue.ToString());
         fText.GetComponent<TMPro.TextMeshProUGUI>().SetText(flavourText);
 
         this.buttonAction = buttonAction;

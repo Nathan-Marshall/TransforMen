@@ -38,7 +38,7 @@ public class AlienMothership : StaticUnit
         yield return new WaitForSeconds(1f);
 
         GameObject.Find("Canvas").transform.Find("End Screen").gameObject.SetActive(true);
-        GameObject.Find("Canvas").transform.Find("End Screen").GetComponent<TMPro.TextMeshProUGUI>().SetText("VICTORY!!");
+        GameObject.Find("Canvas").transform.Find("End Screen").GetComponentInChildren<TMPro.TextMeshProUGUI>().SetText("VICTORY!!");
 
         GameObject[] allObjs = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
