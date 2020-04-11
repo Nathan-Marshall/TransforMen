@@ -16,8 +16,35 @@ public class PlacingBuilding : MonoBehaviour
     const float MAX_HEIGHT = 11;
     const float MIN_HEIGHT = 3;
 
+    const float MAX_DISTANCE_FROM_BUILDING = 250.0f;
+
     public bool Valid {
-        get { return Affordable && activeCollisions.Count == 0 && transform.position.y < MAX_HEIGHT && transform.position.y > MIN_HEIGHT; }
+        get {
+            bool closeToOtherBuilding = false;
+
+            Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, MAX_DISTANCE_FROM_BUILDING);
+
+            List<GameObject> allies = new List<GameObject>();
+
+            foreach (Collider col in nearbyColliders)
+            {
+                if (col.gameObject.tag == "Ally")
+                {
+                    allies.Add(col.gameObject);
+                }
+            }
+
+            foreach (GameObject ally in allies)
+            {
+                if (ally.name.Contains("HQ") || ally.name.Contains("Station") || ally.name.Contains("Training"))
+                {
+                    closeToOtherBuilding = true;
+                    break;
+                }
+            }
+
+            return closeToOtherBuilding && Affordable && activeCollisions.Count == 0 && transform.position.y < MAX_HEIGHT && transform.position.y > MIN_HEIGHT; 
+        }
     }
      
     public bool Affordable {
