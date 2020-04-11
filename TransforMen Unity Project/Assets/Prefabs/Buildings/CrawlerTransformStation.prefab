@@ -89,9 +89,9 @@ GameObject:
   m_Component:
   - component: {fileID: 352491761198502522}
   - component: {fileID: 4728491181336766467}
-  - component: {fileID: 4728491181336766717}
   - component: {fileID: 4728491181336766716}
   - component: {fileID: 2429878926733081916}
+  - component: {fileID: -261892249378623859}
   m_Layer: 0
   m_Name: CrawlerTransformStation
   m_TagString: Ally
@@ -127,19 +127,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 40, y: 25, z: 50}
   m_Center: {x: 0, y: 13, z: 0}
---- !u!114 &4728491181336766717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3656664217113321577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aead729fdd588314896768e63fecddb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpikeDude: {fileID: 1919012471076396, guid: ec446c7dc131e8c4bb0e6ad65dbdce9b, type: 3}
 --- !u!114 &4728491181336766716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,3 +156,16 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 13, z: 0}
   m_TimeToStationary: 0
+--- !u!114 &-261892249378623859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3656664217113321577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181526e23e7395c4d9cdfbd5c02d3632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CrawlGuy: {fileID: 1919012471076396, guid: ec446c7dc131e8c4bb0e6ad65dbdce9b, type: 3}
