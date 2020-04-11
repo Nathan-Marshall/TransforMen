@@ -51,7 +51,7 @@ public class PanelControl : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.name != "Terrain")
             {
-                if ((hit.collider.name.Contains("Training") || hit.collider.name.Contains("Upgrade")) && !hit.collider.name.Contains("Placement"))
+                if ((hit.collider.name.Contains("Training") || hit.collider.name.Contains("Upgrade") || hit.collider.name.Contains("Crawler")) && !hit.collider.name.Contains("Placement"))
                 {
                     displayInfoPanel = true;
                 }
