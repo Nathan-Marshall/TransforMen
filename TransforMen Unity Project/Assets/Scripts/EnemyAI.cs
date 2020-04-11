@@ -282,11 +282,22 @@ public class EnemyAI : MonoBehaviour
     {
         while (state == EnemyState.RANDOM_MOVING)
         {
+            int threat = (int)Time.fixedTime / 30;
+            int seekHqChance = Random.Range(0, 50) + threat;
+
             Destination destination = null;
             IndividualMovement movement = gameObject.GetComponent<IndividualMovement>();
             while (destination == null || !movement.DestinationReachable(destination))
             {
-                destination = new Destination(new Vector3(Random.Range(-500, 500), 0, Random.Range(-500, 500)));
+                if (seekHqChance > 40)
+                {
+                    GameObject hq = GameObject.Find("HQ");
+                    destination = new Destination(hq);
+                }
+                else
+                {
+                    destination = new Destination(new Vector3(Random.Range(-500, 500), 0, Random.Range(-500, 500)));
+                }
             }
 
             movement.MoveTo(destination, null);
