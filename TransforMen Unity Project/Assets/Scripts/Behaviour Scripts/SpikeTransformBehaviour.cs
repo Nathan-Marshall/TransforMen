@@ -8,7 +8,7 @@ public class SpikeTransformBehaviour : MonoBehaviour, UnitAction
     void Start()
     {
         BehaviourMap mapping = GetComponent<BehaviourMap>();
-        mapping.behaviourMap.Add(UnitController.TargetType.SpikeTransformStation, GetType());
+        mapping.behaviourMap.Add(UnitController.TargetType.TransformStation, GetType());
     }
 
     // Update is called once per frame
@@ -24,13 +24,16 @@ public class SpikeTransformBehaviour : MonoBehaviour, UnitAction
         GameObject controller = GameObject.Find("Game Control");
         PlayerResources resourceControl = controller.GetComponent<PlayerResources>();
 
+        //REQUIREMENTS FOR AN UPGRADE ARE DIFFERENT THAN THIS, THIS IS FOR TESTING
         if (resourceControl.GetSpikeResource() >= 5)
         {
-            //Upgrade to spike 
-            SpikeTransformStation.Upgrades upgradeToType = SpikeTransformStation.Upgrades.Spike; 
+
+            //Here we need to check which type we are and what we want to upgrade to
+            //For now, default to an infantry upgrading to a spike dude
+            TransformStation.Upgrades upgradeToType = TransformStation.Upgrades.Spike;
             resourceControl.SpendSpikes(5);
 
-            target.GetComponent<SpikeTransformStation>().QueueUpgrade(gameObject, upgradeToType); 
+            target.GetComponent<TransformStation>().QueueUpgrade(gameObject, upgradeToType);
         }
         else
         {

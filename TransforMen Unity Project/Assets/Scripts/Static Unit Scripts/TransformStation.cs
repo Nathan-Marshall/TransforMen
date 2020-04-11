@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrawlTransformStation : StaticUnit
+public class TransformStation : StaticUnit
 {
     private string desc = "Station where the most dedicated soldiers are evolved into something greater";
 
@@ -17,7 +17,7 @@ public class CrawlTransformStation : StaticUnit
         Crawler
     }
 
-    public GameObject CrawlGuy;
+    public GameObject SpikeDude;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,7 @@ public class CrawlTransformStation : StaticUnit
         SetToPlayerTeam();
         SetSelectable(true);
         SetDescription(desc);
-        GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.CrawlTransformStation);
+        GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.TransformStation);
     }
 
     // Update is called once per frame
@@ -39,8 +39,8 @@ public class CrawlTransformStation : StaticUnit
             GameObject.Find("Game Control").GetComponent<PanelControl>().SetInfo(
                 "Upgrade Queue Length:", () => { return upgradeQueue.Count; },
                 "Current Upgrade Time:", () => { return currentUpgradeTime; },
-                "Cost:", string.Format("5 Crawlbits"),
-                "Upgrade infantry to crawl soldiers.\nCrawl soldiers do more damage than normal infantry, and spawn guys when they die.\nSend units to this building to upgrade them",
+                "Cost:", string.Format("5 Spikes"),
+                "Upgrade infantry to spike soldiers.\nSpike soldiers do more damage than normal infantry.\nSend units to this building to upgrade them",
                 "", null);
         }
 
@@ -88,6 +88,6 @@ public class CrawlTransformStation : StaticUnit
 
         Vector3 newPos = new Vector3(unitPos.x, 10, unitPos.z) - (new Vector3(spacingVec.x, 0, spacingVec.z) * 5);
 
-        Instantiate(CrawlGuy, newPos, Quaternion.identity);
+        Instantiate(SpikeDude, newPos, Quaternion.identity);
     }
 }
