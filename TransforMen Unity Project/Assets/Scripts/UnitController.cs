@@ -26,10 +26,30 @@ public class UnitController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameObject.Find("AlienMothership") == null || GameObject.Find("HQ") == null)
+        if (GameObject.Find("HQ") == null || GameObject.Find("AlienMothership") == null)
         {
+            string endText;
+            if (GameObject.Find("HQ") == null) {
+                endText = "Defeat...";
+            } else {
+                endText = "VICTORY!";
+            }
             GameObject.Find("Canvas").transform.Find("End Screen").gameObject.SetActive(true);
-            GameObject.Find("Canvas").transform.Find("End Screen").transform.Find("End Screen Text").GetComponent<TMPro.TextMeshProUGUI>().SetText("Defeat...");
+            GameObject.Find("Canvas").transform.Find("End Screen").transform.Find("End Screen Text").GetComponent<TMPro.TextMeshProUGUI>().SetText(endText);
+
+            GameObject[] allObjs = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+
+            foreach (GameObject child in allObjs) {
+                if (child.tag.Equals("Enemy")) {
+                    //Remove all resources so that when they die, you supply doesnt skyrocket
+                    child.GetComponent<AttackTarget>().SetSpikeResource(0);
+                    child.GetComponent<AttackTarget>().SetCrawlResource(0);
+                    child.GetComponent<AttackTarget>().SetScrapResource(0);
+
+                    //Kill all existing enemies 
+                    child.GetComponent<AttackTarget>().TakeDamage(10000);
+                }
+            }
             return;
         }
 
