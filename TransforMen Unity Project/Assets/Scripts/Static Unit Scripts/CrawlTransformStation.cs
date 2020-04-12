@@ -37,10 +37,10 @@ public class CrawlTransformStation : StaticUnit
         if (boxCollider.Raycast(ray, out RaycastHit hit, 10000.0f) && Input.GetMouseButtonDown(0))
         {
             GameObject.Find("Game Control").GetComponent<PanelControl>().SetInfo(
-                "Upgrade Queue Length:", () => { return upgradeQueue.Count; },
-                "Current Upgrade Time:", () => { return currentUpgradeTime; },
-                "Cost:", string.Format("5 Crawlbits"),
-                "Upgrade infantry to crawl soldiers.\nCrawl soldiers do more damage than normal infantry, and spawn guys when they die.\nSend units to this building to upgrade them",
+                () => { return "Queue: " + upgradeQueue.Count; },
+                () => { return "Time Left: " + currentUpgradeTime; },
+                "5 Crawlbits",
+                "Send infantry here to transform into crawlers.\nCrawlers do more damage than infantry and spawn small crawlers upon death.",
                 "", null);
         }
 

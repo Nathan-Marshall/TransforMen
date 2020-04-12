@@ -78,11 +78,11 @@ public class TrainingCamp : StaticUnit
         if (boxCollider.Raycast(ray, out RaycastHit hit, 10000.0f) && Input.GetMouseButtonDown(0))
         {
             GameObject.Find("Game Control").GetComponent<PanelControl>().SetInfo(
-                "Training Queue Length:", () => { return queueLength; },
-                "Current Training Time:", () => { return currentTrainTime; },
-                "Cost:", string.Format("{0} Population\n{1} Scrap", populationCost, scrapCost),
-                "Train new infantry at the training camp.\n\nInfantry are basic units which can fire at enemies from range, and also have scavenging capabilities",
-                "Train New Infantry", () => Train());
+                () => { return "Queue: " + queueLength; },
+                () => { return "Time Left: " + currentTrainTime.ToString("0.00"); },
+                populationCost + " Population\n" + scrapCost + " Scrap",
+                "Trains infantry which can fire at enemies from a distance and scavenge from ruins.",
+                "Train Infantry", () => Train());
         }
 
 

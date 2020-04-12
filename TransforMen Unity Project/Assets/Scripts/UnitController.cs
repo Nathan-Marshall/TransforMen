@@ -29,7 +29,7 @@ public class UnitController : MonoBehaviour
         if (GameObject.Find("AlienMothership") == null || GameObject.Find("HQ") == null)
         {
             GameObject.Find("Canvas").transform.Find("End Screen").gameObject.SetActive(true);
-            GameObject.Find("Canvas").transform.Find("End Screen").GetComponent<TMPro.TextMeshProUGUI>().SetText("Defeat...");
+            GameObject.Find("Canvas").transform.Find("End Screen").transform.Find("End Screen Text").GetComponent<TMPro.TextMeshProUGUI>().SetText("Defeat...");
             return;
         }
 

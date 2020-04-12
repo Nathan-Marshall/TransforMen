@@ -22,22 +22,4 @@ public class ResistanceBase : StaticUnit
         SetDescription(desc);
         GetComponent<BehaviourMap>().targetTypes.Add(UnitController.TargetType.HQ);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Missing right now because HQ is not currently an attack target 
-        //if (GetComponent<AttackTarget>().GetHealth() <= 0)
-        //{
-        //    StartCoroutine(DefeatEnd());
-        //}
-    }
-
-    IEnumerator DefeatEnd()
-    {
-        yield return new WaitForSeconds(1f);
-
-        GameObject.Find("Canvas").transform.Find("End Screen").gameObject.SetActive(true);
-        GameObject.Find("Canvas").transform.Find("End Screen").GetComponent<TMPro.TextMeshProUGUI>().SetText("Defeat...");
-    }
 }
