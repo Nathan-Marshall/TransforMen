@@ -212,12 +212,23 @@ public class AttackUnit : DynamicUnit, UnitAction
             Vector3 closestToTarget = GetComponent<Collider>().ClosestPoint(attackTarget.transform.position);
             Vector3 closestToThis = attackTarget.GetComponent<Collider>().ClosestPoint(transform.position);
 
-            if (Vector3.Distance(closestToThis, closestToTarget) > weapon.GetRange())
+            if (Vector3.Distance(closestToThis, closestToTarget) < 50 && Vector3.Distance(closestToThis, closestToTarget) > weapon.GetRange())
             {
-                //We stop the current defending corouting since the target moved out of range
-                ChangeState(AttackUnitState.DEFENDING);
-                yield return null;
+                animator.SetBool("Attacking", false);
+
+                if (gameObject.GetComponent<IndividualMovement>().moving == false)
+                {
+                    GetComponent<IndividualMovement>().MoveTo(new Destination(attackTarget), null, true);
+                }
+
+                yield return new WaitForSeconds(0.05f);
             }
+
+            else if (Vector3.Distance(closestToThis, closestToTarget) > 50)
+            {
+                ChangeState(AttackUnitState.DEFENDING);
+            }
+
             else
             {
                 animator.SetBool("Attacking", true);
